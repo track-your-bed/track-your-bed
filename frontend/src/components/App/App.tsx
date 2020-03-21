@@ -1,6 +1,9 @@
 import * as React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
+//components
+import Header from "../Header/Header"
+
 // Pages
 import Dashboard from "../../pages/Dashboard/Dashboard";
 import Settings from "../../pages/Settings/Settings";
@@ -13,6 +16,7 @@ import "./App.scss";
 const App: React.FunctionComponent = () => (
   <div className="app-container">
     <Router>
+      <Header title="Title"/>{//Has to done}
       <Switch>
         <Route path="/" exact>
           <Login />
