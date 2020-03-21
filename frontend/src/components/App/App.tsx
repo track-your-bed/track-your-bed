@@ -16,7 +16,7 @@ import "./App.scss";
 const App: React.FunctionComponent = () => (
   <div className="app-container">
     <Router>
-      <Header title="Title"/>{//Has to done}
+      <Header title="Title"/>
       <Switch>
         <Route path="/" exact>
           <Login />
