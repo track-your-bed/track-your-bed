@@ -13,7 +13,7 @@ const Login: React.FunctionComponent = () => {
   function login(){
     const text = `{"username": "${username}", "password": "${password}"}`;        
     console.log(JSON.parse(text));
-  }
+  }  
   
   return (
     <div>
@@ -32,15 +32,11 @@ const Login: React.FunctionComponent = () => {
         onChange={(event: React.FormEvent<HTMLInputElement>): void =>
           setPassword(event.currentTarget.value)
         }
-      />      
-      <Button
-      id="loginButton"
-      text="Login"
-      onClick={(): void =>
-        login()
-      }
-      
-      />
+      />     
+      <div className="buttons">
+      <Button id="loginButton" text="Login" onClick={(): void =>login()}/>
+      <Button id="resetPasswordButton" text="Login"onClick={(): void =>login()} />
+      </div>
     </div>
   );
 };
