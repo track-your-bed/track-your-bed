@@ -24,7 +24,7 @@ public class StationTypeService {
   }
 
   public StationTypeDto getStationTypeByName(final String name) {
-    final StationType fetched = stationTypeRepository.getByName(name)
+    final StationType fetched = stationTypeRepository.findByName(name)
         .orElseThrow(NoSuchElementException::new);
     return stationTypeDtoMapper.entityToDto(fetched);
   }
