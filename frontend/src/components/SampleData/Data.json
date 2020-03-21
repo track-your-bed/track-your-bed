@@ -1,0 +1,311 @@
+
+[{
+"id": "569e1d2a-c6a6-4f8b-9474-9ba569d5efeb",
+"name": "Krankenhaus Berlin",
+"max_capacity": 50,
+"lat": "",
+"long": "",
+"department": [
+    {
+    "id": "dd31cf3e-1eba-4538-8a37-8520305212fe",
+    "name": "Cardio",
+    "station": [
+        {
+            "id": "d6e792cc-c187-4634-875a-e4b66c850574",
+            "name": "Station1",
+            "stationtype": {
+                "id": "c70408e5-8194-43de-a72b-c51b39b90601",
+                "name": "StationsType1"
+            },
+            "bed": [
+                {
+                "id": "2365328d-4630-4950-83b7-d07b1d191d3e",
+                "name": "Bed1",
+                "state_last_changed": "2019-09-07T15:50+00Z",
+                "bed_type": {
+                    "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                    "name": "Intensiv"
+                },    
+                "bed_state": {
+                    "id": "275770b6-0e90-432f-b551-81e437b7aee1",
+                    "name": "belegt"
+                }
+            },
+            {
+                "id": "b76f903a-f498-47b1-b991-eb1eb0c07f85",
+                "name": "Bed2",
+                "bed_type": {
+                    "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                    "name": "Intensiv"
+                },    
+                "bed_state": {
+                    "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
+                    "name": "frei"
+                }
+            }
+            ]
+        },
+        {
+            "id": "e274f648-db4d-43a9-8120-f97ed49c9356",
+            "name": "Station2",
+            "stationtype": {
+                "id": "c70408e5-8194-43de-a72b-c51b39b90601",
+                "name": "StationsType1"
+            },
+            "bed": [
+                {
+                "id": "2365328d-4630-4950-83b7-d07b1d191d3e",
+                "name": "Bed1",
+                "state_last_changed": "2019-09-07T15:50+00Z",
+                "bed_type": {
+                    "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                    "name": "Intensiv"
+                },    
+                "bed_state": {
+                    "id": "275770b6-0e90-432f-b551-81e437b7aee1",
+                    "name": "belegt"
+                }
+            },
+            {
+                "id": "b76f903a-f498-47b1-b991-eb1eb0c07f85",
+                "name": "Bed2",
+                "bed_type": {
+                    "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                    "name": "Intensiv"
+                },    
+                "bed_state": {
+                    "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
+                    "name": "frei"
+                }
+            }
+            ]
+        }]
+},
+{
+    "id": "6743f11a-e6f7-4ea8-86ab-9b49592ea25c",
+    "name": "Gastro",
+    "station": [
+        {
+            "id": "f943defa-10c2-488c-b986-d4e067d2d8c8",
+            "name": "Station1",
+            "stationtype": {
+                "id": "c70408e5-8194-43de-a72b-c51b39b90601",
+                "name": "StationsType1"
+            },
+            "bed": [
+                {
+                "id": "81aca913-6d2c-41cc-b351-c343e10b4052",
+                "name": "Bed1",
+                "state_last_changed": "2019-09-07T15:50+00Z",
+                "bed_type": {
+                    "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                    "name": "Intensiv"
+                },    
+                "bed_state": {
+                    "id": "275770b6-0e90-432f-b551-81e437b7aee1",
+                    "name": "belegt"
+                }
+            },
+            {
+                "id": "b76f903a-f498-47b1-b991-eb1eb0c07f85",
+                "name": "Bed2",
+                "bed_type": {
+                    "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                    "name": "Intensiv"
+                },    
+                "bed_state": {
+                    "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
+                    "name": "frei"
+                }
+            }
+            ]
+        },
+        {
+            "id": "9e3fc4f7-26a0-4136-983c-bf1cf22d335f",
+            "name": "Station2",
+            "stationtype": {
+                "id": "09765ffd-6632-41eb-8fe9-362fb75b6b9e",
+                "name": "StationsType2"
+            },
+            "bed": [
+                {
+                "id": "0212f599-544a-4d64-af6a-fd8653801039",
+                "name": "Bed1",
+                "state_last_changed": "2019-09-07T15:50+00Z",
+                "bed_type": {
+                    "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                    "name": "Intensiv"
+                },    
+                "bed_state": {
+                    "id": "275770b6-0e90-432f-b551-81e437b7aee1",
+                    "name": "belegt"
+                }
+            },
+            {
+                "id": "0dea0c36-6660-4586-aba4-cfd258eadc56",
+                "name": "Bed2",
+                "bed_type": {
+                    "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                    "name": "Intensiv"
+                },    
+                "bed_state": {
+                    "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
+                    "name": "frei"
+                }
+            }
+            ]
+        }]
+}]},
+{
+    "id": "1db43343-7eee-4e03-b0a8-a515942a6889",
+    "name": "Krankenhaus München",
+    "max_capacity": 50,
+    "lat": "",
+    "long": "",
+    "department": [
+        {
+        "id": "fff88c6a-c713-4ab4-844e-ab47b7d3d879",
+        "name": "Cardio",
+        "station": [
+            {
+                "id": "d3db271d-30ef-4d8d-9607-9d52b1caa2b8",
+                "name": "Station1",
+                "stationtype": {
+                    "id": "c70408e5-8194-43de-a72b-c51b39b90601",
+                    "name": "StationsType1"
+                },
+                "bed": [
+                    {
+                    "id": "21f62b90-c73b-46c7-9374-95b2c2124b96",
+                    "name": "Bed1",
+                    "state_last_changed": "2019-09-07T15:50+00Z",
+                    "bed_type": {
+                        "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                        "name": "Intensiv"
+                    },    
+                    "bed_state": {
+                        "id": "275770b6-0e90-432f-b551-81e437b7aee1",
+                        "name": "belegt"
+                    }
+                },
+                {
+                    "id": "6e5cfa16-91b8-4811-99ab-010192b362e1",
+                    "name": "Bed2",
+                    "bed_type": {
+                        "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                        "name": "Intensiv"
+                    },    
+                    "bed_state": {
+                        "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
+                        "name": "frei"
+                    }
+                }
+                ]
+            },
+            {
+                "id": "9a9d9ab5-fc1d-43c0-b969-c1d5e4bdf27f",
+                "name": "Station2",
+                "stationtype": {
+                    "id": "c70408e5-8194-43de-a72b-c51b39b90601",
+                    "name": "StationsType1"
+                },
+                "bed": [
+                    {
+                    "id": "99bad8c3-e29e-459b-93db-bc3f5aef614b",
+                    "name": "Bed1",
+                    "state_last_changed": "2019-09-07T15:50+00Z",
+                    "bed_type": {
+                        "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                        "name": "Intensiv"
+                    },    
+                    "bed_state": {
+                        "id": "275770b6-0e90-432f-b551-81e437b7aee1",
+                        "name": "belegt"
+                    }
+                },
+                {
+                    "id": "9a8e02e9-5bcf-43cc-aef1-1b3c6f8cb6a3",
+                    "name": "Bed2",
+                    "bed_type": {
+                        "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                        "name": "Intensiv"
+                    },    
+                    "bed_state": {
+                        "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
+                        "name": "frei"
+                    }
+                }
+                ]
+            }]
+    }]},
+    {
+        "id": "b56f9105-04e1-4c0c-a77a-73ef324a070d",
+        "name": "Krankenhaus Stuttgart",
+        "max_capacity": 50,
+        "lat": "",
+        "long": "",
+        "department": [
+            {
+            "id": "cb5d7608-199c-4da6-8f8e-29ae6f527a25",
+            "name": "Cardio",
+            "station": [
+                {
+                    "id": "aedf103b-b086-4f9c-bac3-04e81a6b8916",
+                    "name": "Station1",
+                    "stationtype": {
+                        "id": "c70408e5-8194-43de-a72b-c51b39b90601",
+                        "name": "StationsType1"
+                    },
+                    "bed": [
+                        {
+                        "id": "f373a778-33f1-4cc9-9595-a2f368965207",
+                        "name": "Bed1",
+                        "state_last_changed": "2019-09-07T15:50+00Z",
+                        "bed_type": {
+                            "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                            "name": "Intensiv"
+                        },    
+                        "bed_state": {
+                            "id": "275770b6-0e90-432f-b551-81e437b7aee1",
+                            "name": "belegt"
+                        }
+                    },
+                    {
+                        "id": "829aea6c-849b-47b7-a572-f371fe2524b0",
+                        "name": "Bed2",
+                        "bed_type": {
+                            "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                            "name": "Intensiv"
+                        },    
+                        "bed_state": {
+                            "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
+                            "name": "frei"
+                        }
+                    }
+                    ]
+                },
+                {
+                    "id": "264eadf9-47b7-4be6-ac5a-4ffa33d208e4",
+                    "name": "Station2",
+                    "stationtype": {
+                        "id": "c70408e5-8194-43de-a72b-c51b39b90601",
+                        "name": "StationsType1"
+                    },
+                    "bed": [
+                        {
+                        "id": "ac1fcd4b-d06b-455d-8d64-ed526596de48",
+                        "name": "Bed1",
+                        "state_last_changed": "2019-09-07T15:50+00Z",
+                        "bed_type": {
+                            "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                            "name": "Intensiv"
+                        },    
+                        "bed_state": {
+                            "id": "275770b6-0e90-432f-b551-81e437b7aee1",
+                            "name": "belegt"
+                        }
+                    }
+                    ]
+                }]
+        }]}
+]
