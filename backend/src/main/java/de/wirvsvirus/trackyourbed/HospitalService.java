@@ -2,7 +2,7 @@ package de.wirvsvirus.trackyourbed;
 
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewHospital;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateHospital;
-import de.wirvsvirus.trackyourbed.dto.request.mapper.CreateNewHospitalRequestMapper;
+import de.wirvsvirus.trackyourbed.dto.request.mapper.CreateNewHospitalMapper;
 import de.wirvsvirus.trackyourbed.dto.response.HospitalDto;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.HospitalDtoMapper;
 import de.wirvsvirus.trackyourbed.entity.Hospital;
@@ -22,25 +22,25 @@ import org.springframework.stereotype.Service;
 public class HospitalService {
 
   private final HospitalRepository hospitalRepository;
-  private final CreateNewHospitalRequestMapper createNewRequestMapper;
+  private final CreateNewHospitalMapper createNewHospitalMapper;
   private final HospitalDtoMapper hospitalDtoMapper;
 
   /**
    * Instantiates a new Hospital service.
    *
    * @param hospitalRepository
-   *     the hospital repository
-   * @param createNewRequestMapper
-   *     the create new request mapper
+   *     the hospital repository.
+   * @param createNewHospitalMapper
+   *     the create new request mapper.
    * @param hospitalDtoMapper
-   *     the hospital dto mapper
+   *     the hospital dto mapper.
    */
   @Inject
   public HospitalService(final HospitalRepository hospitalRepository,
-      final CreateNewHospitalRequestMapper createNewRequestMapper,
+      final CreateNewHospitalMapper createNewHospitalMapper,
       final HospitalDtoMapper hospitalDtoMapper) {
     this.hospitalRepository = hospitalRepository;
-    this.createNewRequestMapper = createNewRequestMapper;
+    this.createNewHospitalMapper = createNewHospitalMapper;
     this.hospitalDtoMapper = hospitalDtoMapper;
   }
 
@@ -48,12 +48,12 @@ public class HospitalService {
    * Creates and persists a new {@code Hospital} from a {@link CreateNewHospital} request.
    *
    * @param createNewHospital
-   *     the new hospital to create
+   *     the new hospital to create.
    *
    * @return a {@link HospitalDto}, representing the newly created hospital.
    */
   public HospitalDto createHospital(final CreateNewHospital createNewHospital) {
-    final Hospital toSave = createNewRequestMapper.dtoToEntity(createNewHospital);
+    final Hospital toSave = createNewHospitalMapper.dtoToEntity(createNewHospital);
     final Hospital saved = hospitalRepository.save(toSave);
     return hospitalDtoMapper.entityToDto(saved);
   }
