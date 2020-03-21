@@ -2,13 +2,16 @@ package de.wirvsvirus.trackyourbed.resource;
 
 import de.wirvsvirus.trackyourbed.HospitalService;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewHospital;
+import de.wirvsvirus.trackyourbed.dto.request.UpdateHospital;
 import de.wirvsvirus.trackyourbed.dto.response.HospitalDto;
 import java.net.URI;
+import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,8 +49,20 @@ public class HospitalResource {
     // @formatter:on
   }
 
+  @GetMapping()
+  public ResponseEntity<Collection<HospitalDto>> getAllHospitals() {
+    return ResponseEntity.ok().body(hospitalService.getAllHospitals());
+  }
+
   @GetMapping("{id}")
   public ResponseEntity<HospitalDto> getHospital(@PathVariable("id") final UUID hospitalId) {
     return ResponseEntity.ok().body(hospitalService.getHospitalById(hospitalId));
+  }
+
+  @PatchMapping("{id}")
+  public ResponseEntity<HospitalDto> patchHospital(
+      @PathVariable("id") final UUID hospitalId,
+      @RequestBody @Valid final UpdateHospital updateHospital) {
+    return ResponseEntity.ok().body(hospitalService.updateHospital(hospitalId, updateHospital));
   }
 }
