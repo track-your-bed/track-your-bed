@@ -5,16 +5,12 @@ import de.wirvsvirus.trackyourbed.dto.request.CreateNewHospital;
 import de.wirvsvirus.trackyourbed.dto.request.mapper.CreateNewRequestMapper;
 import de.wirvsvirus.trackyourbed.dto.response.HospitalDto;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.HospitalDtoMapper;
-import de.wirvsvirus.trackyourbed.entity.Hospital;
-import de.wirvsvirus.trackyourbed.persistence.HospitalRepository;
 import java.net.URI;
+import java.util.UUID;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/hospitals")
@@ -47,5 +43,11 @@ public class HospitalResource {
         .created(URI.create(createdLink))
         .body(saved);
     // @formatter:on
+  }
+
+  @GetMapping("{id}")
+  public ResponseEntity<HospitalDto> getHospital(
+          @PathVariable("id") final UUID hospitalId) {
+    return ResponseEntity.ok().body(hospitalService.getHospitalById(hospitalId));
   }
 }
