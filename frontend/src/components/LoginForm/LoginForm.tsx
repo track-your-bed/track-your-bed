@@ -23,6 +23,7 @@ const Login: React.FunctionComponent = () => {
       <InputField
         id="password"
         label="Passwort"
+        type="password"
         onChange={(event: React.FormEvent<HTMLInputElement>): void =>
           setPassword(event.currentTarget.value)
         }
