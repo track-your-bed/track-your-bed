@@ -9,13 +9,13 @@
     {
     "id": "dd31cf3e-1eba-4538-8a37-8520305212fe",
     "name": "Cardio",
-    "station": [
+    "warn": [
         {
             "id": "d6e792cc-c187-4634-875a-e4b66c850574",
-            "name": "Station1",
-            "stationtype": {
+            "name": "warn1",
+            "warn_type": {
                 "id": "c70408e5-8194-43de-a72b-c51b39b90601",
-                "name": "StationsType1"
+                "name": "warnsType1"
             },
             "bed": [
                 {
@@ -47,10 +47,10 @@
         },
         {
             "id": "e274f648-db4d-43a9-8120-f97ed49c9356",
-            "name": "Station2",
-            "stationtype": {
+            "name": "warn2",
+            "warn_type": {
                 "id": "c70408e5-8194-43de-a72b-c51b39b90601",
-                "name": "StationsType1"
+                "name": "warnsType1"
             },
             "bed": [
                 {
@@ -84,13 +84,13 @@
 {
     "id": "6743f11a-e6f7-4ea8-86ab-9b49592ea25c",
     "name": "Gastro",
-    "station": [
+    "warn": [
         {
             "id": "f943defa-10c2-488c-b986-d4e067d2d8c8",
-            "name": "Station1",
-            "stationtype": {
+            "name": "warn1",
+            "warn_type": {
                 "id": "c70408e5-8194-43de-a72b-c51b39b90601",
-                "name": "StationsType1"
+                "name": "warnsType1"
             },
             "bed": [
                 {
@@ -122,10 +122,10 @@
         },
         {
             "id": "9e3fc4f7-26a0-4136-983c-bf1cf22d335f",
-            "name": "Station2",
-            "stationtype": {
+            "name": "warn2",
+            "warn_type": {
                 "id": "09765ffd-6632-41eb-8fe9-362fb75b6b9e",
-                "name": "StationsType2"
+                "name": "warnsType2"
             },
             "bed": [
                 {
@@ -166,13 +166,13 @@
         {
         "id": "fff88c6a-c713-4ab4-844e-ab47b7d3d879",
         "name": "Cardio",
-        "station": [
+        "warn": [
             {
                 "id": "d3db271d-30ef-4d8d-9607-9d52b1caa2b8",
-                "name": "Station1",
-                "stationtype": {
+                "name": "warn1",
+                "warn_type": {
                     "id": "c70408e5-8194-43de-a72b-c51b39b90601",
-                    "name": "StationsType1"
+                    "name": "warnsType1"
                 },
                 "bed": [
                     {
@@ -204,10 +204,10 @@
             },
             {
                 "id": "9a9d9ab5-fc1d-43c0-b969-c1d5e4bdf27f",
-                "name": "Station2",
-                "stationtype": {
+                "name": "warn2",
+                "warn_type": {
                     "id": "c70408e5-8194-43de-a72b-c51b39b90601",
-                    "name": "StationsType1"
+                    "name": "warnsType1"
                 },
                 "bed": [
                     {
@@ -248,13 +248,13 @@
             {
             "id": "cb5d7608-199c-4da6-8f8e-29ae6f527a25",
             "name": "Cardio",
-            "station": [
+            "warn": [
                 {
                     "id": "aedf103b-b086-4f9c-bac3-04e81a6b8916",
-                    "name": "Station1",
-                    "stationtype": {
+                    "name": "warn1",
+                    "warn_type": {
                         "id": "c70408e5-8194-43de-a72b-c51b39b90601",
-                        "name": "StationsType1"
+                        "name": "warnsType1"
                     },
                     "bed": [
                         {
@@ -286,10 +286,10 @@
                 },
                 {
                     "id": "264eadf9-47b7-4be6-ac5a-4ffa33d208e4",
-                    "name": "Station2",
-                    "stationtype": {
+                    "name": "warn2",
+                    "warn_type": {
                         "id": "c70408e5-8194-43de-a72b-c51b39b90601",
-                        "name": "StationsType1"
+                        "name": "warnsType1"
                     },
                     "bed": [
                         {
