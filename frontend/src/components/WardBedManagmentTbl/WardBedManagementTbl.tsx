@@ -3,28 +3,30 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import {Component} from "react";
 
-export class WarnBedManagementTbl extends Component {
-    constructor() {
-        super();
-    }
+interface WardBedManagementTbl {
+    hospitalName: string;
+}
 
-    render() {
-        return (
+const WardBedManagementTbl: React.FunctionComponent = (
+    hospitalName
+) => {
+    return (
             <div>
                 <div className="content-section introduction">
                     <div className="feature-intro">
-                        <h1>{Klinik}</h1>
+                        <h1>{hospitalName}</h1>
                     </div>
                 </div>
 
                 <div className="content-section implementation">
-                    <DataTable value={}>
+                    <DataTable>
                         <Column header="Betten-ID" />
                         <Column header="Bettentyp" />
                         <Column header="" />
                     </DataTable>
                 </div>
             </div>
-        )
-    }
-}
+        );
+};
+
+export default WardBedManagementTbl;
