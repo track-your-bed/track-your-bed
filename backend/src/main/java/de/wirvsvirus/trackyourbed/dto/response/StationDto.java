@@ -8,7 +8,7 @@ public class StationDto {
 
   private String name;
 
-  private UUID hospitalId;
+  private UUID departmentId;
   private UUID stationTypeId;
 
   public UUID getId() {
@@ -27,12 +27,12 @@ public class StationDto {
     this.name = name;
   }
 
-  public UUID getHospitalId() {
-    return hospitalId;
+  public UUID getDepartmentId() {
+    return departmentId;
   }
 
-  public void setHospitalId(final UUID hospitalId) {
-    this.hospitalId = hospitalId;
+  public void setDepartmentId(final UUID departmentId) {
+    this.departmentId = departmentId;
   }
 
   public UUID getStationTypeId() {

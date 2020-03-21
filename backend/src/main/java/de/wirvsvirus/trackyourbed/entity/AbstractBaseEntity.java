@@ -25,7 +25,7 @@ public class AbstractBaseEntity implements Serializable {
   }
 
   @Override
-  public boolean equals(final Object thatObject) {
+  public final boolean equals(final Object thatObject) {
     if (this == thatObject) {
       return true;
     }
@@ -37,7 +37,7 @@ public class AbstractBaseEntity implements Serializable {
   }
 
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     return Objects.hash(getId());
   }
 }
