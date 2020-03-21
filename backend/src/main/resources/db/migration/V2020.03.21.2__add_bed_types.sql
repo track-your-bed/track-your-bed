@@ -9,3 +9,6 @@ VALUES('icu');
 
 INSERT INTO public.bed_type(name)
 VALUES('covid');
+
+INSERT INTO public.bed_type(name)
+VALUES('covid-icu');
