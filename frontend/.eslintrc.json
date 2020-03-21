@@ -30,7 +30,6 @@
     }
   },
   "rules": {
-    "prettier/prettier": "error",
     "react/jsx-filename-extension": [
       1,
       { "extensions": [".js", ".ts", "tsx"] }
