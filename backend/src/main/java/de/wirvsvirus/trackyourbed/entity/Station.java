@@ -1,41 +1,47 @@
 package de.wirvsvirus.trackyourbed.entity;
 
-import java.util.UUID;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-public class Station {
+@Entity
+@Table(name = "station")
+public class Station extends AbstractBaseEntity {
 
-  @Id
-  @GeneratedValue
-  private UUID id;
-
+  @Column(name = "name")
   private String name;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne
   @JoinColumn(name = "hospital_id")
-  private Hospital hospitalID;
+  private Hospital hospital;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "station_type_name")
+  @ManyToOne
+  @JoinColumn(name = "station_type_name", referencedColumnName = "name")
   private StationType stationType;
-
-  public UUID getId() {
-    return id;
-  }
-
-  public void setId(UUID id) {
-    this.id = id;
-  }
 
   public String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
+  }
+
+  public Hospital getHospital() {
+    return hospital;
+  }
+
+  public void setHospital(final Hospital hospitalID) {
+    this.hospital = hospitalID;
+  }
+
+  public StationType getStationType() {
+    return stationType;
+  }
+
+  public void setStationType(final StationType stationType) {
+    this.stationType = stationType;
   }
 }

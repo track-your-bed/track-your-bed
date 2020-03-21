@@ -6,5 +6,5 @@ import java.util.UUID;
 import org.springframework.data.repository.CrudRepository;
 
 public interface StationTypeRepository extends CrudRepository<StationType, UUID> {
-  Optional<StationType> getByName(String name);
+  Optional<StationType> findByName(String name);
 }
