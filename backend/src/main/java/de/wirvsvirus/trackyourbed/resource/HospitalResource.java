@@ -2,28 +2,29 @@ package de.wirvsvirus.trackyourbed.resource;
 
 import de.wirvsvirus.trackyourbed.HospitalService;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewHospital;
-import de.wirvsvirus.trackyourbed.dto.request.mapper.CreateNewRequestMapper;
 import de.wirvsvirus.trackyourbed.dto.response.HospitalDto;
-import de.wirvsvirus.trackyourbed.dto.response.mapper.HospitalDtoMapper;
 import java.net.URI;
 import java.util.UUID;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/hospitals")
 public class HospitalResource {
 
-  @Inject
   private HospitalService hospitalService;
 
   @Inject
-  private CreateNewRequestMapper createNewRequestMapper;
-
-  @Inject
-  private HospitalDtoMapper hospitalDtoMapper;
+  public HospitalResource(final HospitalService hospitalService) {
+    this.hospitalService = hospitalService;
+  }
 
   /**
    * Creates a new hospital.
@@ -46,8 +47,7 @@ public class HospitalResource {
   }
 
   @GetMapping("{id}")
-  public ResponseEntity<HospitalDto> getHospital(
-          @PathVariable("id") final UUID hospitalId) {
+  public ResponseEntity<HospitalDto> getHospital(@PathVariable("id") final UUID hospitalId) {
     return ResponseEntity.ok().body(hospitalService.getHospitalById(hospitalId));
   }
 }

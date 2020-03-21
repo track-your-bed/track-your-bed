@@ -6,11 +6,10 @@ import de.wirvsvirus.trackyourbed.dto.response.HospitalDto;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.HospitalDtoMapper;
 import de.wirvsvirus.trackyourbed.entity.Hospital;
 import de.wirvsvirus.trackyourbed.persistence.HospitalRepository;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-
-import javax.inject.Inject;
+import java.util.NoSuchElementException;
 import java.util.UUID;
+import javax.inject.Inject;
+import org.springframework.stereotype.Component;
 
 @Component
 public class HospitalService {
@@ -36,7 +35,8 @@ public class HospitalService {
   }
 
   public HospitalDto getHospitalById(final UUID hospitalId) {
-    final Hospital retrieved = hospitalRepository.findById(hospitalId).get();
+    final Hospital retrieved =
+        hospitalRepository.findById(hospitalId).orElseThrow(NoSuchElementException::new);
     return hospitalDtoMapper.entityToDto(retrieved);
   }
 }
