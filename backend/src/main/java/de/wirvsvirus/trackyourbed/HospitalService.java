@@ -6,10 +6,10 @@ import de.wirvsvirus.trackyourbed.dto.request.mapper.CreateNewHospitalMapper;
 import de.wirvsvirus.trackyourbed.dto.response.HospitalDto;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.HospitalDtoMapper;
 import de.wirvsvirus.trackyourbed.entity.Hospital;
+import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchHospitalException;
 import de.wirvsvirus.trackyourbed.persistence.HospitalRepository;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -68,7 +68,7 @@ public class HospitalService {
    */
   public HospitalDto getHospitalById(final UUID hospitalId) {
     final Hospital retrieved =
-        hospitalRepository.findById(hospitalId).orElseThrow(NoSuchElementException::new);
+        hospitalRepository.findById(hospitalId).orElseThrow(() -> new NoSuchHospitalException(hospitalId));
     return hospitalDtoMapper.entityToDto(retrieved);
   }
 
@@ -82,7 +82,7 @@ public class HospitalService {
   @Transactional
   public HospitalDto updateHospital(final UUID hospitalId, final UpdateHospital updateHospital) {
     final Hospital toBeUpdated =
-        hospitalRepository.findById(hospitalId).orElseThrow(NoSuchElementException::new);
+        hospitalRepository.findById(hospitalId).orElseThrow(() -> new NoSuchHospitalException(hospitalId));
 
     if (updateHospital.getName() != null) {
       toBeUpdated.setName(updateHospital.getName());
