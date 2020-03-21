@@ -35,8 +35,7 @@ const Login: React.FunctionComponent = () => {
         }
       />     
       <div className="buttons">
-      <Button id="loginButton" text="Login" onClick={(): void =>login()}/>
-      <Button id="resetPasswordButton" text="Login"onClick={(): void =>login()} />
+        <Button id="loginButton" text="Login" onClick={(): void =>login()}/>
       </div>
     </div>
   );
