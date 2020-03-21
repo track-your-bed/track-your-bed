@@ -6,12 +6,14 @@ interface PasswordRecovery {
 
 }
 
-const PasswordRecovery: React.FunctionComponent<PasswordRecovery> = ({
-}: PasswordRecovery) => {
+const PasswordRecovery: React.FunctionComponent<PasswordRecovery> = () => {
     const [emailAddress, setEmailAddress] = React.useState("");
 
+    const alertMessage = `E-Mail Address: ${emailAddress}`;
+
     function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        console.log("Clicked")
+        console.log("Clicked");
+        alert(alertMessage);
     }
 
     return (
