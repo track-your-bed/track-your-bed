@@ -4,13 +4,14 @@ import de.wirvsvirus.trackyourbed.dto.request.CreateNewStation;
 import de.wirvsvirus.trackyourbed.dto.request.mapper.CreateNewStationRequestMapper;
 import de.wirvsvirus.trackyourbed.dto.response.StationDto;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.StationDtoMapper;
-import de.wirvsvirus.trackyourbed.entity.Hospital;
+import de.wirvsvirus.trackyourbed.entity.Department;
 import de.wirvsvirus.trackyourbed.entity.Station;
 import de.wirvsvirus.trackyourbed.entity.StationType;
+import de.wirvsvirus.trackyourbed.excpetion.NoSuchDepartmentExcpetion;
 import de.wirvsvirus.trackyourbed.excpetion.NoSuchHospitalExcpetion;
 import de.wirvsvirus.trackyourbed.excpetion.NoSuchStationException;
 import de.wirvsvirus.trackyourbed.excpetion.NoSuchStationTypeExcpetoin;
-import de.wirvsvirus.trackyourbed.persistence.HospitalRepository;
+import de.wirvsvirus.trackyourbed.persistence.DepartmentRepository;
 import de.wirvsvirus.trackyourbed.persistence.StationRepository;
 import de.wirvsvirus.trackyourbed.persistence.StationTypeRepository;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateStation;
@@ -25,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class StationService {
 
   private final StationRepository stationRepository;
-  private final HospitalRepository hospitalRepository;
+  private final DepartmentRepository departmentRepository;
   private final StationTypeRepository stationTypeRepository;
   private final CreateNewStationRequestMapper createNewStationRequestMapper;
   private final StationDtoMapper stationDtoMapper;
@@ -33,12 +34,12 @@ public class StationService {
   @Inject
   public StationService(
       final StationRepository stationRepository,
-      final HospitalRepository hospitalRepository,
+      final DepartmentRepository departmentRepository,
       final StationTypeRepository stationTypeRepository,
       final CreateNewStationRequestMapper createNewStationRequestMapper,
       final StationDtoMapper stationDtoMapper) {
     this.stationRepository = stationRepository;
-    this.hospitalRepository = hospitalRepository;
+    this.departmentRepository = departmentRepository;
     this.stationTypeRepository = stationTypeRepository;
     this.createNewStationRequestMapper = createNewStationRequestMapper;
     this.stationDtoMapper = stationDtoMapper;
@@ -46,14 +47,14 @@ public class StationService {
 
   public StationDto createNewStation(final CreateNewStation createNewStation) {
     final Station toSave = createNewStationRequestMapper.dtoToEntity(createNewStation);
-    final Hospital hospital = hospitalRepository.findById(createNewStation.getHospitalId())
-        .orElseThrow(NoSuchHospitalExcpetion::new);
+    final Department department = departmentRepository.findById(createNewStation.getDepartmentId())
+        .orElseThrow(NoSuchDepartmentExcpetion::new);
     // formatter:off
     final StationType stationType = stationTypeRepository
         .findByName(createNewStation.getStationTypeName())
         .orElseThrow(NoSuchStationTypeExcpetoin::new);
     // formatter:on
-    toSave.setHospital(hospital);
+    toSave.setDepartment(department);
     toSave.setStationType(stationType);
     final Station saved = stationRepository.save(toSave);
     return stationDtoMapper.entityToDto(saved);
@@ -78,10 +79,10 @@ public class StationService {
     if (updateStation.getName() != null) {
       station.setName(updateStation.getName());
     }
-    if (updateStation.getHospitalId() != null) {
-      final Hospital hospital = hospitalRepository.findById(updateStation.getHospitalId())
+    if (updateStation.getDepartmentId() != null) {
+      final Department department = departmentRepository.findById(updateStation.getDepartmentId())
           .orElseThrow(NoSuchHospitalExcpetion::new);
-      station.setHospital(hospital);
+      station.setDepartment(department);
     }
     if (updateStation.getStationTypeName() != null) {
       final StationType stationType =

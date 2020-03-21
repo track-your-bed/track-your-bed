@@ -14,8 +14,8 @@ public class Station extends AbstractBaseEntity {
   private String name;
 
   @ManyToOne
-  @JoinColumn(name = "hospital_id")
-  private Hospital hospital;
+  @JoinColumn(name = "department_id")
+  private Department department;
 
   @ManyToOne
   @JoinColumn(name = "station_type_name", referencedColumnName = "name")
@@ -29,12 +29,12 @@ public class Station extends AbstractBaseEntity {
     this.name = name;
   }
 
-  public Hospital getHospital() {
-    return hospital;
+  public Department getDepartment() {
+    return department;
   }
 
-  public void setHospital(final Hospital hospitalID) {
-    this.hospital = hospitalID;
+  public void setDepartment(final Department department) {
+    this.department = department;
   }
 
   public StationType getStationType() {

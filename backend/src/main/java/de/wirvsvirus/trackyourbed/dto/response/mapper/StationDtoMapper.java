@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface StationDtoMapper {
 
-  @Mapping(source = "hospital.id", target = "hospitalId")
+  @Mapping(source = "department.id", target = "departmentId")
   @Mapping(source = "stationType.id", target = "stationTypeId")
   StationDto entityToDto(final Station station);
 }

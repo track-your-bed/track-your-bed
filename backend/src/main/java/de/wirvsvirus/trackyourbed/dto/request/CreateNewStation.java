@@ -8,8 +8,8 @@ public class CreateNewStation {
   @NotNull(message = "attribute \"name\" must be set.")
   private String name;
 
-  @NotNull(message = "attribute \"hospitalId\" must be set.")
-  private UUID hospitalId;
+  @NotNull(message = "attribute \"departmentId\" must be set.")
+  private UUID departmentId;
 
   @NotNull(message = "attribute \"stationTypeName\" must be set.")
   private String stationTypeName;
@@ -22,12 +22,12 @@ public class CreateNewStation {
     this.name = name;
   }
 
-  public UUID getHospitalId() {
-    return hospitalId;
+  public UUID getDepartmentId() {
+    return departmentId;
   }
 
-  public void setHospitalId(final UUID hospitalId) {
-    this.hospitalId = hospitalId;
+  public void setDepartmentId(final UUID departmentId) {
+    this.departmentId = departmentId;
   }
 
   public String getStationTypeName() {

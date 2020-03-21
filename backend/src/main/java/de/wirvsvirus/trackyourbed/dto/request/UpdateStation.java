@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class UpdateStation {
   private String name;
-  private UUID hospitalId;
+  private UUID departmentId;
   private String stationTypeName;
 
   public String getName() {
@@ -15,12 +15,12 @@ public class UpdateStation {
     this.name = name;
   }
 
-  public UUID getHospitalId() {
-    return hospitalId;
+  public UUID getDepartmentId() {
+    return departmentId;
   }
 
-  public void setHospitalId(final UUID hospitalId) {
-    this.hospitalId = hospitalId;
+  public void setDepartmentId(final UUID departmentId) {
+    this.departmentId = departmentId;
   }
 
   public String getStationTypeName() {

@@ -6,6 +6,14 @@ CREATE TABLE public.hospital (
     long VARCHAR (255)
 );
 
+CREATE TABLE public.department (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR (255) NOT NULL,
+    hospital_id UUID REFERENCES hospital(id) NOT NULL
+);
+
+CREATE INDEX department_idx_hospital_id ON public.department USING btree(hospital_id);
+
 CREATE TABLE public.station_type (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR (255) NOT NULL
@@ -17,11 +25,11 @@ ALTER TABLE ONLY public.station_type
 CREATE TABLE public.station (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR (255) NOT NULL,
-    hospital_id UUID REFERENCES hospital(id) NOT NULL,
+    department_id UUID REFERENCES department(id) NOT NULL,
     station_type_name VARCHAR (255) REFERENCES station_type(name) NOT NULL
 );
 
-CREATE INDEX station_idx_hospital_id ON public.station USING btree(hospital_id);
+CREATE INDEX station_idx_department_id ON public.station USING btree(department_id);
 CREATE INDEX station_idx_station_type_name ON public.station USING btree(station_type_name);
 
 CREATE TABLE public.bed_type (
