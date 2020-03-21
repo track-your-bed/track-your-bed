@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 /**
@@ -77,6 +78,7 @@ public class HospitalService {
     return allHospitals;
   }
 
+  @Transactional
   public HospitalDto updateHospital(final UUID hospitalId, final UpdateHospital updateHospital) {
     final Hospital toBeUpdated =
         hospitalRepository.findById(hospitalId).orElseThrow(NoSuchElementException::new);
@@ -94,9 +96,7 @@ public class HospitalService {
       toBeUpdated.setLat(updateHospital.getLat());
     }
 
-    final Hospital saved = hospitalRepository.save(toBeUpdated);
-
-    return hospitalDtoMapper.entityToDto(saved);
+    return hospitalDtoMapper.entityToDto(toBeUpdated);
   }
 }
 
