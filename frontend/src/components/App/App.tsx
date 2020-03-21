@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Dashboard from "../../pages/Dashboard/Dashboard";
 import Settings from "../../pages/Settings/Settings";
 import Login from "../../pages/Login/Login";
+import HospitalList from "../../pages/HospitalList/HospitalList";
 
 // Styles
 import "./App.scss";
@@ -18,6 +19,9 @@ const App: React.FunctionComponent = () => (
         </Route>
         <Route path="/dashboard" exact>
           <Dashboard />
+        </Route>
+        <Route path="/list" exact>
+          <HospitalList />
         </Route>
         <Route path="/settings" exact>
           <Settings />
