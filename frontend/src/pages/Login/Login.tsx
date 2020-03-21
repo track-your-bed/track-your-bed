@@ -5,22 +5,30 @@ import PasswordRecovery from "../../components/PasswordRecovery/PasswordRecovery
 import Button from "../../components/Button/Button";
 
 const Login: React.FunctionComponent = () => {
-    const [recoveryMode, setRecoveryMode] = React.useState(false);
+  const [recoveryMode, setRecoveryMode] = React.useState(false);
 
-    function login() {
-        setRecoveryMode(true);
-    }
+  function login() {
+    setRecoveryMode(true);
+  }
 
-    function abort(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        setRecoveryMode(false)
-    }
+  function abort(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    setRecoveryMode(false);
+  }
 
-    return (
-        <div>
-            {recoveryMode ? <PasswordRecovery abortFuntion={abort}/> : <LoginForm />}
-            <Button id="resetPasswordButton" text="Login" onClick={(): void =>login()} />
-        </div>
-    );
+  return (
+    <div>
+      {recoveryMode ? (
+        <PasswordRecovery abortFunction={abort} />
+      ) : (
+        <LoginForm />
+      )}
+      <Button
+        id="resetPasswordButton"
+        text="Reset Password"
+        onClick={(): void => login()}
+      />
+    </div>
+  );
 };
 
 export default Login;
