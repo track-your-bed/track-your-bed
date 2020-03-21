@@ -4,9 +4,9 @@ import * as React from "react";
 import InputField from "../InputField/InputField";
 
 // Style
-import "./Login.scss";
+import "./LoginForm.scss";
 
-const Login = (): React.ReactElement => {
+const Login: React.FunctionComponent = () => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
 
@@ -27,6 +27,7 @@ const Login = (): React.ReactElement => {
           setPassword(event.currentTarget.value)
         }
       />
+      <button type="button">Login</button>
       <p>
         Current Username: <span>{username}</span>
       </p>
