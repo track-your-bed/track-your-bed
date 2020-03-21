@@ -1,34 +1,24 @@
 package de.wirvsvirus.trackyourbed.entity;
 
-import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "hospital")
-public class Hospital {
+public class Hospital extends AbstractBaseEntity{
 
-  @Id
-  @GeneratedValue
-  private UUID id;
-
+  @Column(name = "name")
   private String name;
+
+  @Column(name = "max_capacity")
   private int maxCapacity;
+
+  @Column(name = "lat")
   private String lat;
 
   @Column(name = "long")
   private String lon;
-
-  public UUID getId() {
-    return id;
-  }
-
-  public void setId(final UUID uuid) {
-    this.id = uuid;
-  }
 
   public String getName() {
     return name;
