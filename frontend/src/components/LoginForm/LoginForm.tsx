@@ -35,9 +35,10 @@ const Login: React.FunctionComponent = () => {
         }
       />     
       <div className="buttons">
-      <Button id="loginButton" text="Login" onClick={(): void =>login()}/>
-      <Button id="resetPasswordButton" text="Login"onClick={(): void =>login()} />
+      <Button id="loginButton" className="button" text="Login" onClick={(): void =>login()}/>
+      <Button id="resetPasswordButton" className="button" text="Passwort vergessen"onClick={(): void =>login()} />
       </div>
+      <br/>
     </div>
   );
 };
