@@ -73,8 +73,9 @@ public class HospitalService {
   }
 
   public Collection<HospitalDto> getAllHospitals() {
-    final Collection<HospitalDto> allHospitals = new ArrayList<>();
-    hospitalRepository.findAll().forEach(entity -> allHospitals.add(hospitalDtoMapper.entityToDto(entity)));
+    final ArrayList<HospitalDto> allHospitals = new ArrayList<>();
+    hospitalRepository.findAll()
+        .forEach(entity -> allHospitals.add(hospitalDtoMapper.entityToDto(entity)));
     return allHospitals;
   }
 

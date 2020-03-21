@@ -1,21 +1,21 @@
 package de.wirvsvirus.trackyourbed.dto.response;
 
 import java.util.UUID;
-import javax.persistence.ForeignKey;
 
 public class StationDto {
 
   private UUID id;
+
   private String name;
 
-  private UUID hospitalID;
-  private UUID stationTypeID;
+  private UUID hospitalId;
+  private UUID stationTypeId;
 
   public UUID getId() {
     return id;
   }
 
-  public void setId(UUID id) {
+  public void setId(final UUID id) {
     this.id = id;
   }
 
@@ -23,23 +23,23 @@ public class StationDto {
     return name;
   }
 
-  public void setName(String name) {
+  public void setName(final String name) {
     this.name = name;
   }
 
-  public UUID getHospitalID() {
-    return hospitalID;
+  public UUID getHospitalId() {
+    return hospitalId;
   }
 
-  public void setHospitalID(UUID hospitalID) {
-    this.hospitalID = hospitalID;
+  public void setHospitalId(final UUID hospitalId) {
+    this.hospitalId = hospitalId;
   }
 
-  public UUID getStationTypeID() {
-    return stationTypeID;
+  public UUID getStationTypeId() {
+    return stationTypeId;
   }
 
-  public void setStationTypeID(UUID stationTypeID) {
-    this.stationTypeID = stationTypeID;
+  public void setStationTypeId(final UUID stationTypeId) {
+    this.stationTypeId = stationTypeId;
   }
 }

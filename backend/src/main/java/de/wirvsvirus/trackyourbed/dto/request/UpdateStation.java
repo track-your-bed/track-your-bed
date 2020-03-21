@@ -1,17 +1,10 @@
 package de.wirvsvirus.trackyourbed.dto.request;
 
 import java.util.UUID;
-import javax.validation.constraints.NotNull;
 
-public class CreateNewStation {
-
-  @NotNull(message = "attribute \"name\" must be set.")
+public class UpdateStation {
   private String name;
-
-  @NotNull(message = "attribute \"hospitalId\" must be set.")
   private UUID hospitalId;
-
-  @NotNull(message = "attribute \"stationTypeName\" must be set.")
   private String stationTypeName;
 
   public String getName() {
