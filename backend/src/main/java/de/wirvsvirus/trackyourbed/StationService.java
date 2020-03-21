@@ -8,9 +8,9 @@ import de.wirvsvirus.trackyourbed.entity.Department;
 import de.wirvsvirus.trackyourbed.entity.Station;
 import de.wirvsvirus.trackyourbed.entity.StationType;
 import de.wirvsvirus.trackyourbed.excpetion.NoSuchDepartmentExcpetion;
-import de.wirvsvirus.trackyourbed.excpetion.NoSuchHospitalExcpetion;
+import de.wirvsvirus.trackyourbed.excpetion.NoSuchHospitalException;
 import de.wirvsvirus.trackyourbed.excpetion.NoSuchStationException;
-import de.wirvsvirus.trackyourbed.excpetion.NoSuchStationTypeExcpetoin;
+import de.wirvsvirus.trackyourbed.excpetion.NoSuchStationTypeException;
 import de.wirvsvirus.trackyourbed.persistence.DepartmentRepository;
 import de.wirvsvirus.trackyourbed.persistence.StationRepository;
 import de.wirvsvirus.trackyourbed.persistence.StationTypeRepository;
@@ -52,7 +52,7 @@ public class StationService {
     // formatter:off
     final StationType stationType = stationTypeRepository
         .findByName(createNewStation.getStationTypeName())
-        .orElseThrow(NoSuchStationTypeExcpetoin::new);
+        .orElseThrow(() -> new NoSuchStationTypeException(createNewStation.getStationTypeName()));
     // formatter:on
     toSave.setDepartment(department);
     toSave.setStationType(stationType);
@@ -63,31 +63,31 @@ public class StationService {
   public Collection<StationDto> getAllStations() {
     final ArrayList<StationDto> result = new ArrayList<>();
     stationRepository.findAll()
-        .forEach(statino -> result.add(stationDtoMapper.entityToDto(statino)));
+        .forEach(station -> result.add(stationDtoMapper.entityToDto(station)));
     return result;
   }
 
   public StationDto getStationById(final UUID id) {
     final Station fetched = stationRepository.findById(id)
-        .orElseThrow(NoSuchStationException::new);
+        .orElseThrow(() -> new NoSuchStationException(id));
     return stationDtoMapper.entityToDto(fetched);
   }
 
   @Transactional
   public StationDto updateStation(final UUID id, final UpdateStation updateStation) {
-    final Station station = stationRepository.findById(id).orElseThrow(NoSuchStationException::new);
+    final Station station = stationRepository.findById(id).orElseThrow(() -> new NoSuchStationException(id));
     if (updateStation.getName() != null) {
       station.setName(updateStation.getName());
     }
     if (updateStation.getDepartmentId() != null) {
       final Department department = departmentRepository.findById(updateStation.getDepartmentId())
-          .orElseThrow(NoSuchHospitalExcpetion::new);
+          .orElseThrow(NoSuchDepartmentExcpetion::new);
       station.setDepartment(department);
     }
     if (updateStation.getStationTypeName() != null) {
       final StationType stationType =
           stationTypeRepository.findByName(updateStation.getStationTypeName())
-              .orElseThrow(NoSuchStationTypeExcpetoin::new);
+              .orElseThrow(() -> new NoSuchStationTypeException(updateStation.getStationTypeName()));
       station.setStationType(stationType);
     }
     return stationDtoMapper.entityToDto(station);
