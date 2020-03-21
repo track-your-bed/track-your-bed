@@ -5,6 +5,6 @@ import de.wirvsvirus.trackyourbed.entity.Hospital;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface CreateNewRequestMapper {
+public interface CreateNewHospitalRequestMapper {
   Hospital dtoToEntity(final CreateNewHospital createNewHospital);
 }
