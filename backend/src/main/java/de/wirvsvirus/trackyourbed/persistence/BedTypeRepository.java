@@ -6,5 +6,5 @@ import java.util.UUID;
 import org.springframework.data.repository.CrudRepository;
 
 public interface BedTypeRepository extends CrudRepository<BedType, UUID> {
-  Optional<BedType> getByName(String name);
+  Optional<BedType> findByName(String name);
 }

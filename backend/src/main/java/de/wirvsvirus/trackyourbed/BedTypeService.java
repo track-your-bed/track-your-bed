@@ -24,7 +24,7 @@ public class BedTypeService {
   }
 
   public BedTypeDto getBedTypeByName(final String name) {
-    final BedType fetched = bedTypeRepository.getByName(name)
+    final BedType fetched = bedTypeRepository.findByName(name)
         .orElseThrow(NoSuchElementException::new);
     return bedTypeDtoMapper.entityToDto(fetched);
   }
