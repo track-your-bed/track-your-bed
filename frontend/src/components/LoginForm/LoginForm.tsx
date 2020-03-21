@@ -2,6 +2,7 @@ import * as React from "react";
 
 // Components
 import InputField from "../InputField/InputField";
+import Button from "../Button/Button";
 
 // Style
 import "./LoginForm.scss";
@@ -9,7 +10,11 @@ import "./LoginForm.scss";
 const Login: React.FunctionComponent = () => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
-
+  function login(){
+    const text = `{"username": "${username}", "password": "${password}"}`;        
+    console.log(JSON.parse(text));
+  }
+  
   return (
     <div>
       <p>Login</p>
@@ -27,14 +32,15 @@ const Login: React.FunctionComponent = () => {
         onChange={(event: React.FormEvent<HTMLInputElement>): void =>
           setPassword(event.currentTarget.value)
         }
+      />      
+      <Button
+      id="loginButton"
+      text="Login"
+      onClick={(): void =>
+        login()
+      }
+      
       />
-      <button type="button">Login</button>
-      <p>
-        Current Username: <span>{username}</span>
-      </p>
-      <p>
-        Current Password: <span>{password}</span>
-      </p>
     </div>
   );
 };
