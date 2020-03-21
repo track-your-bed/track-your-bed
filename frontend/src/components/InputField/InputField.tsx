@@ -1,4 +1,5 @@
 import * as React from "react";
+import Label from "../Label/Label";
 
 interface InputField {
   id: string;
@@ -15,10 +16,8 @@ const InputField: React.FunctionComponent<InputField> = ({
 }: InputField) => {
   return (
     <div>
-      <label htmlFor={id}>
-        {label}
+        <Label id={id} label={label} />
         <input type={type} id={id} onChange={onChange} />
-      </label>
     </div>
   );
 };
