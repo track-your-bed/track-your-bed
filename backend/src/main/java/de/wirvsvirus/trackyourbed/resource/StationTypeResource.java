@@ -2,6 +2,7 @@ package de.wirvsvirus.trackyourbed.resource;
 
 import de.wirvsvirus.trackyourbed.StationTypeService;
 import de.wirvsvirus.trackyourbed.dto.response.StationTypeDto;
+import java.util.Collection;
 import javax.inject.Inject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,11 @@ public class StationTypeResource {
   @Inject
   public StationTypeResource(final StationTypeService stationTypeService) {
     this.stationTypeService = stationTypeService;
+  }
+
+  @GetMapping
+  public ResponseEntity<Collection<StationTypeDto>> getAllStationTypes() {
+    return ResponseEntity.ok(stationTypeService.getAllStationTypes());
   }
 
   @GetMapping("{name}")
