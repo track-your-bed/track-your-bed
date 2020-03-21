@@ -6,6 +6,7 @@ import Button from "../Button/Button";
 
 // Style
 import "./LoginForm.scss";
+import PasswordRecovery from "../PasswordRecovery/PasswordRecovery";
 
 const Login: React.FunctionComponent = () => {
   const [username, setUsername] = React.useState("");
