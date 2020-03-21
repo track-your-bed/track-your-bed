@@ -6,11 +6,13 @@ import javax.validation.Constraint;
 public class BedStateDto {
 
   private UUID id;
-
-  //@Constraint(name = "OCCUPIED")
   private String name;
 
-  //|| name = "FREE" || name = "MAYBE"
-   //   || name = "OUT_OF_ORDER" || name = "UNKNOWN")
+  public String getName() {
+    return name;
+  }
 
+  public void setName(String name) {
+    this.name = name;
+  }
 }
