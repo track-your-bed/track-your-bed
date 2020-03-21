@@ -10,12 +10,11 @@ const Button: React.FunctionComponent<Button> = ({
   id,
   text,
   onClick
-}: Button) => {
-  return (
+}: Button) => (
     <div>
       <button type="button" id={id} onClick={onClick}>{text}</button>
     </div>
   );
-};
+
 
 export default Button;
