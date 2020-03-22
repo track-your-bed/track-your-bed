@@ -24,7 +24,7 @@ public class BedStateService {
   }
 
   public BedStateDto getBedStateByName(final String name) {
-      final BedState fetched = bedStateRepository.getByName(name)
+      final BedState fetched = bedStateRepository.findByName(name)
           .orElseThrow(() -> new NoSuchBedStateException(name));
       return bedStateDtoMapper.entityToDto(fetched);
   }
