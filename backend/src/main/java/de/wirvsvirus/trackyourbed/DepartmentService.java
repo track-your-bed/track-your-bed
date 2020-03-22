@@ -79,4 +79,8 @@ public class DepartmentService {
     return departmentDtoMapper.entityToDto(department);
   }
 
+  public void deleteDepartmentById(final UUID departmentId) {
+    departmentRepository.deleteById(departmentId);
+  }
+
 }

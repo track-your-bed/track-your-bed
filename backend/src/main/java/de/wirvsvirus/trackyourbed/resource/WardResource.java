@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.UUID;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,6 +55,12 @@ public class WardResource {
       @PathVariable(name = "id") final UUID id,
       @RequestBody @Valid final UpdateWard updateWard) {
     return ResponseEntity.ok(wardService.updateWard(id, updateWard));
+  }
+
+  @DeleteMapping("{id}")
+  public ResponseEntity<Void> deleteWard(@PathVariable("id") final UUID wardId) {
+    wardService.deleteWardById(wardId);
+    return ResponseEntity.ok().build();
   }
 
 }
