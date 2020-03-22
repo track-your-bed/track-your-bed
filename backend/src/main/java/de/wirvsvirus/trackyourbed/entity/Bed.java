@@ -3,6 +3,7 @@ package de.wirvsvirus.trackyourbed.entity;
 import java.time.Instant;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -27,6 +28,7 @@ public class Bed extends AbstractBaseEntity {
   private BedState bedState;
 
   @Column(name = "state_last_changed")
+  @GeneratedValue
   private Instant stateLastChanged;
 
   public String getName() {
