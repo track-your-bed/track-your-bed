@@ -5,7 +5,7 @@ import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import { useParams, useHistory  } from "react-router-dom";
 import { Wardtypes } from "../../datatypes/enums"
-
+import { fetchWard, updateBedStateOnServer } from "../../Services/WardBedManagementService"
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
