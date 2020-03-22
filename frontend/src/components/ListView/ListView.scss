@@ -1,4 +1,8 @@
 .list-view {
+  &__search {
+    margin: 15px 0;
+  }
+
   &__station-table {
     thead {
       text-align: left;
