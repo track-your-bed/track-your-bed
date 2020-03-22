@@ -2,14 +2,14 @@ import React from "react";
 import {Button} from "primereact/button";
 
 interface OccupiedButton {
-    onClick:any;
+    onClick?:any;
 }
 
 const OccupiedButton: React.FunctionComponent<OccupiedButton> = ({
   onClick
   }:OccupiedButton) => (
     <div>
-        <Button id="setToOccupied" type="button" className="p-button-danger" label="Blockieren" onClick={onClick}/>
+        <Button id="setToOccupied" type="button" className="p-button-danger p-button-rounded" label="Blockieren" onClick={onClick}/>
     </div>
 );
 export default OccupiedButton;
