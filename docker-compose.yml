@@ -16,6 +16,14 @@ services:
     image: adminer
     restart: always
     ports:
+      - 8081:8080
+    depends_on:
+      - db
+  
+  backend:
+    build: ./backend
+    restart: always
+    ports:
       - 8080:8080
     depends_on:
       - db
