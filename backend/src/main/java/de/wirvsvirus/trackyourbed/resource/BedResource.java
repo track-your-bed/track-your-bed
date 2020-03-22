@@ -80,4 +80,5 @@ public class BedResource {
       @RequestBody final BedTypeDto bedType) {
     return ResponseEntity.ok(bedService.updateType(id, bedType.getName()));
   }
+
 }
