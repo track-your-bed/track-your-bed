@@ -4,6 +4,16 @@ public class Capacity {
   private int maxCapacity;
   private int freeCapacity;
 
+  public Capacity() {
+    maxCapacity = 0;
+    freeCapacity = 0;
+  }
+
+  public Capacity(Bed bed) {
+    maxCapacity = 1;
+    freeCapacity = "free".equals(bed.getBedState().getName()) ? 1 : 0;
+  }
+
   public int getMaxCapacity() {
     return maxCapacity;
   }
