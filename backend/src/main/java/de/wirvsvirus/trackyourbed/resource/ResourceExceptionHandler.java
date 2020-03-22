@@ -5,11 +5,13 @@ import de.wirvsvirus.trackyourbed.excpetion.dependency.HospitalMissingException;
 import de.wirvsvirus.trackyourbed.excpetion.dependency.InvalidBedStateException;
 import de.wirvsvirus.trackyourbed.excpetion.dependency.InvalidBedTypeException;
 import de.wirvsvirus.trackyourbed.excpetion.dependency.InvalidWardTypeException;
+import de.wirvsvirus.trackyourbed.excpetion.dependency.InvalidDepartmentTypeException;
 import de.wirvsvirus.trackyourbed.excpetion.dependency.WardMissingException;
 import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchBedException;
 import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchBedStateException;
 import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchBedTypeException;
 import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchDepartmentException;
+import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchDepartmentTypeException;
 import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchHospitalException;
 import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchWardException;
 import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchWardTypeException;
@@ -50,6 +52,13 @@ public class ResourceExceptionHandler {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(httpError);
   }
 
+  @ExceptionHandler(NoSuchDepartmentTypeException.class)
+  public ResponseEntity<HTTPError> mapNoSuchDepartmentTypeExceptionToNotFoundResponse(
+      final NoSuchDepartmentTypeException e) {
+    final HTTPError httpError = new HTTPError(ErrorCode.DEPARTMENT_TYPE_NOT_FOUND, e.getMessage());
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(httpError);
+  }
+
   @ExceptionHandler(NoSuchHospitalException.class)
   public ResponseEntity<HTTPError> mapNoSuchHospitalExceptionToNotFoundResponse(
       final NoSuchHospitalException e) {
@@ -75,6 +84,13 @@ public class ResourceExceptionHandler {
   public ResponseEntity<HTTPError> mapDepartmentMissingExceptionToBadRequestResponse(
       final DepartmentMissingException e) {
     final HTTPError httpError = new HTTPError(ErrorCode.DEPARTMENT_NOT_FOUND, e.getMessage());
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(httpError);
+  }
+
+  @ExceptionHandler(InvalidDepartmentTypeException.class)
+  public ResponseEntity<HTTPError> mapInvalidDepartmentTypeExceptionToBadRequestResponse(
+      final InvalidDepartmentTypeException e) {
+    final HTTPError httpError = new HTTPError(ErrorCode.DEPARTMENT_TYPE_NOT_FOUND, e.getMessage());
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(httpError);
   }
 
