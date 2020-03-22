@@ -1,4 +1,5 @@
 import * as React from "react";
+import classNames from "classnames";
 
 // Types
 import { Ward, Bed } from "../ListView/ListView.types";
@@ -26,9 +27,7 @@ const StationRow: React.FunctionComponent<StationRow> = ({
       }).length;
 
       const bedsMax = stationData.bed.length;
-      const bedsPercentage = parseFloat(
-        ((bedsVacant / bedsMax) * 100).toFixed(2)
-      );
+      const bedsPercentage = Math.round((bedsVacant / bedsMax) * 100);
 
       setVacant(bedsVacant);
       setMax(bedsMax);
@@ -36,19 +35,16 @@ const StationRow: React.FunctionComponent<StationRow> = ({
     }
   }, [stationData]);
 
-  const getColorFromPercentage = (
-    percent: number,
-    start: number,
-    end: number
-  ): string => {
-    let a = percent / 150;
-    if (a <= 0.33) {
-      a = 0;
+  const getColorFromPercentage = (percent: number): string => {
+    if (percent > 60) {
+      return "#6ab04c";
     }
-    const b = (end - start) * a;
-    const c = Math.floor(b + start);
 
-    return `hsl(${c}, 100%, 50%)`;
+    if (percent > 40) {
+      return "#f9ca24";
+    }
+
+    return "#eb4d4b";
   };
 
   const toggleRow = () => {
@@ -57,18 +53,41 @@ const StationRow: React.FunctionComponent<StationRow> = ({
 
   return (
     <>
-      <tr className="station-row" onClick={toggleRow}>
+      <tr
+        className={classNames("station-row", {
+          "--expanded": toggled
+        })}
+        onClick={toggleRow}
+      >
         <td>
           <div
             className="station-row__status"
             style={{
-              backgroundColor: getColorFromPercentage(percentage, 0, 170)
+              backgroundColor: getColorFromPercentage(percentage)
             }}
           />
         </td>
         <td>
-          <p className="station-row__title">
-            {stationData.name} <span>({stationData.ward_type.name})</span>
+          <p className="station-row__title">{stationData.name}</p>
+        </td>
+        <td>
+          <p className="station-row__vacancy">
+            {vacant} / {max}
+          </p>
+        </td>
+        <td>
+          <p className="station-row__vacancy">
+            {vacant} / {max}
+          </p>
+        </td>
+        <td>
+          <p className="station-row__vacancy">
+            {vacant} / {max}
+          </p>
+        </td>
+        <td>
+          <p className="station-row__vacancy">
+            {vacant} / {max}
           </p>
         </td>
         <td>
@@ -84,8 +103,13 @@ const StationRow: React.FunctionComponent<StationRow> = ({
       </tr>
       {toggled &&
         stationData.bed.map((bed: Bed) => {
+          const bedClass = classNames("station-row__bed", {
+            "--occupied": bed.bed_state.name === "belegt",
+            "--free": bed.bed_state.name === "frei"
+          });
+
           return (
-            <tr key={bed.id}>
+            <tr key={bed.id} className={bedClass}>
               <td />
               <td>{bed.name}</td>
               <td>{bed.bed_type.name}</td>

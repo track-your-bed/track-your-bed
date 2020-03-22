@@ -16,8 +16,12 @@ const StationTable: React.FunctionComponent<StationTable> = ({
         <tr>
           <th>-</th>
           <th>Station</th>
-          <th>Betten</th>
+          <th>Freie Betten</th>
+          <th>Standard</th>
+          <th>IMC</th>
           <th>ICU</th>
+          <th>Covid Normal</th>
+          <th>Covid Intensiv</th>
         </tr>
       </thead>
       <tbody>
