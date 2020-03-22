@@ -12,7 +12,7 @@ public class CreateNewWard {
   private UUID departmentId;
 
   @NotNull(message = "attribute \"wardTypeName\" must be set.")
-  private String wardTypeName;
+  private String wardType;
 
   public String getName() {
     return name;
@@ -31,10 +31,10 @@ public class CreateNewWard {
   }
 
   public String getWardType() {
-    return wardTypeName;
+    return wardType;
   }
 
   public void setWardType(final String wardTypeName) {
-    this.wardTypeName = wardTypeName;
+    this.wardType = wardTypeName;
   }
 }

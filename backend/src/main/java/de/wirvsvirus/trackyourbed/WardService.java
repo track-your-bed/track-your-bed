@@ -82,15 +82,19 @@ public class WardService {
     if (updateWard.getName() != null) {
       ward.setName(updateWard.getName());
     }
-    if (updateWard.getDepartmentId() != null) {
-      final Department department = departmentRepository.findById(updateWard.getDepartmentId())
-          .orElseThrow(() -> new DepartmentMissingException(updateWard.getDepartmentId()));
+
+    final UUID departmentId = updateWard.getDepartmentId();
+    if (departmentId != null) {
+      final Department department = departmentRepository.findById(departmentId)
+          .orElseThrow(() -> new DepartmentMissingException(departmentId));
       ward.setDepartment(department);
     }
-    if (updateWard.getWardType() != null) {
+
+    final String wardTypeName = updateWard.getWardType();
+    if (wardTypeName != null) {
       final WardType wardType =
-          wardTypeRepository.findByName(updateWard.getWardType())
-              .orElseThrow(() -> new InvalidWardTypeException(updateWard.getWardType()));
+          wardTypeRepository.findByName(wardTypeName)
+              .orElseThrow(() -> new InvalidWardTypeException(wardTypeName));
       ward.setWardType(wardType);
     }
     return wardDtoMapper.entityToDto(ward);
