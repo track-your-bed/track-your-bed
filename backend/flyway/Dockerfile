@@ -1,4 +1,4 @@
 FROM flyway/flyway
 
-COPY migration/ /flyway/sql/
+COPY migration_tmp/ /flyway/sql/
 ENTRYPOINT flyway migrate
