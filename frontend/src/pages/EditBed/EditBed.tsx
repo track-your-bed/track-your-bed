@@ -7,7 +7,7 @@ import {Button} from 'primereact/button';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { Bedtypes } from "../../datatypes/enums"
 
 const divStyle = {
@@ -42,6 +42,9 @@ const EditBed: React.FunctionComponent= () => {
   const [bed, setBed] = React.useState(
     null
   )
+
+  const history = useHistory()
+
   const {hospitalId, departmentId, wardId, bedId}=useParams();
   return (
     <div style={divStyle}>
@@ -56,7 +59,7 @@ const EditBed: React.FunctionComponent= () => {
           </span>
           <div>
             <Button label="Hinzufügen" />
-            <Button style={btnStyle} label="Abbrechen" />
+            <Button style={btnStyle} label="Abbrechen" onClick={() => {history.goBack()}}/>
           </div>
         </form>
     </div>
