@@ -17,3 +17,5 @@ create extension "uuid-ossp"
 ### Executing flyway
 Flyway can be executed by running the flyway docker container defined in the `backend/flyway` directory. To build the docker image called *trackyourbed-flyway*, first
  adapt `flyway.conf` to represent your database, then run `build_flyway_image.sh`.
+ 
+ Pass your database password as envvar `FLYWAY_PASSWORD`.
