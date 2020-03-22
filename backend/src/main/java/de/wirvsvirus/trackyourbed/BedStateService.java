@@ -1,13 +1,12 @@
 package de.wirvsvirus.trackyourbed;
 
-import de.wirvsvirus.trackyourbed.entity.BedState;
 import de.wirvsvirus.trackyourbed.dto.response.BedStateDto;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.BedStateDtoMapper;
+import de.wirvsvirus.trackyourbed.entity.BedState;
 import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchBedStateException;
 import de.wirvsvirus.trackyourbed.persistence.BedStateRepository;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 

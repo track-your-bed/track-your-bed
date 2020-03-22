@@ -14,23 +14,23 @@ CREATE TABLE public.department (
 
 CREATE INDEX department_idx_hospital_id ON public.department USING btree(hospital_id);
 
-CREATE TABLE public.station_type (
+CREATE TABLE public.ward_type (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR (255) NOT NULL
 );
 
-ALTER TABLE ONLY public.station_type
-    ADD CONSTRAINT station_type_unique_name UNIQUE(name);
+ALTER TABLE ONLY public.ward_type
+    ADD CONSTRAINT ward_type_unique_name UNIQUE(name);
 
-CREATE TABLE public.station (
+CREATE TABLE public.ward (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR (255) NOT NULL,
     department_id UUID REFERENCES department(id) NOT NULL,
-    station_type_name VARCHAR (255) REFERENCES station_type(name) NOT NULL
+    ward_type_name VARCHAR (255) REFERENCES ward_type(name) NOT NULL
 );
 
-CREATE INDEX station_idx_department_id ON public.station USING btree(department_id);
-CREATE INDEX station_idx_station_type_name ON public.station USING btree(station_type_name);
+CREATE INDEX ward_idx_department_id ON public.ward USING btree(department_id);
+CREATE INDEX ward_idx_ward_type_name ON public.ward USING btree(ward_type_name);
 
 CREATE TABLE public.bed_type (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -56,12 +56,12 @@ CREATE TABLE public.bed (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(255) NOT NULL,
     state_last_changed BIGINT NOT NULL DEFAULT EXTRACT(EPOCH FROM now()) *  1000,
-    station_id UUID REFERENCES station(id) NOT NULL,
+    ward_id UUID REFERENCES ward(id) NOT NULL,
     bed_type_name VARCHAR (255) REFERENCES bed_type(name) NOT NULL,
     bed_state_name VARCHAR (255) REFERENCES bed_state(name) NOT NULL
 );
 
-CREATE INDEX bed_idx_station_id ON bed USING btree(station_id);
+CREATE INDEX bed_idx_ward_id ON bed USING btree(ward_id);
 CREATE INDEX bed_idx_bed_type_name ON bed USING btree(bed_type_name);
 CREATE INDEX bed_idx_bed_state_name ON bed USING btree(bed_state_name);
 

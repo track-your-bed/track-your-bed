@@ -19,7 +19,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <checkstyle.version>8.25</checkstyle.version>
     </properties>
@@ -30,22 +29,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
-                <configuration>
-                    <release>11</release>
-
-                    <!-- NOTE: "false" in this context means "cache results". This is a bug.-->
-                    <!-- See: https://issues.apache.org/jira/browse/MCOMPILER-209-->
-                    <useIncrementalCompilation>false</useIncrementalCompilation>
-
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${org.mapstruct.version}</version>
-                        </path>
-                        <!-- other annotation processors -->
-                    </annotationProcessorPaths>
-                </configuration>
             </plugin>
         </plugins>
     </build>
