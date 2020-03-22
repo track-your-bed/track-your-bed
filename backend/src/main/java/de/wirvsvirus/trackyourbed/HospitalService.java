@@ -3,7 +3,9 @@ package de.wirvsvirus.trackyourbed;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewHospital;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateHospital;
 import de.wirvsvirus.trackyourbed.dto.request.mapper.CreateNewHospitalMapper;
+import de.wirvsvirus.trackyourbed.dto.response.HospitalCapacityDto;
 import de.wirvsvirus.trackyourbed.dto.response.HospitalDto;
+import de.wirvsvirus.trackyourbed.dto.response.mapper.HospitalCapacityDtoMapper;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.HospitalDtoMapper;
 import de.wirvsvirus.trackyourbed.entity.Hospital;
 import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchHospitalException;
@@ -24,6 +26,8 @@ public class HospitalService {
   private final HospitalRepository hospitalRepository;
   private final CreateNewHospitalMapper createNewHospitalMapper;
   private final HospitalDtoMapper hospitalDtoMapper;
+  private final HospitalCapacityDtoMapper hospitalCapacityDtoMapper;
+  private final CapacityService capacityService;
 
   /**
    * Instantiates a new Hospital service.
@@ -34,14 +38,20 @@ public class HospitalService {
    *     the create new request mapper.
    * @param hospitalDtoMapper
    *     the hospital dto mapper.
+   * @param hospitalCapacityDtoMapper
+   *     the capacity dto mapper
    */
   @Inject
   public HospitalService(final HospitalRepository hospitalRepository,
       final CreateNewHospitalMapper createNewHospitalMapper,
-      final HospitalDtoMapper hospitalDtoMapper) {
+      final HospitalDtoMapper hospitalDtoMapper,
+      final CapacityService capacityService,
+      final HospitalCapacityDtoMapper hospitalCapacityDtoMapper) {
     this.hospitalRepository = hospitalRepository;
     this.createNewHospitalMapper = createNewHospitalMapper;
     this.hospitalDtoMapper = hospitalDtoMapper;
+    this.capacityService = capacityService;
+    this.hospitalCapacityDtoMapper = hospitalCapacityDtoMapper;
   }
 
   /**
@@ -106,8 +116,15 @@ public class HospitalService {
     return hospitalDtoMapper.entityToDto(toBeUpdated);
   }
 
-  public void deleteHospitalById(final UUID hospitalId) {
-    hospitalRepository.deleteById(hospitalId);
+  public void deleteHospitalById(final UUID id) {
+    hospitalRepository.deleteById(id);
+  }
+
+  @Transactional
+  public HospitalCapacityDto calculateCapacity(final UUID id) {
+    final Hospital hospital = hospitalRepository.findById(id)
+        .orElseThrow(() -> new NoSuchHospitalException(id));
+    return hospitalCapacityDtoMapper.entityToDto(capacityService.calculateCapacity(hospital));
   }
 
 }

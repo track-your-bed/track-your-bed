@@ -3,6 +3,7 @@ package de.wirvsvirus.trackyourbed.resource;
 import de.wirvsvirus.trackyourbed.WardService;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewWard;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateWard;
+import de.wirvsvirus.trackyourbed.dto.response.FlatCapacityDto;
 import de.wirvsvirus.trackyourbed.dto.response.WardDto;
 import java.net.URI;
 import java.util.Collection;
@@ -61,6 +62,11 @@ public class WardResource {
   public ResponseEntity<Void> deleteWard(@PathVariable("id") final UUID wardId) {
     wardService.deleteWardById(wardId);
     return ResponseEntity.ok().build();
+  }
+
+  @GetMapping("{id}/capacity")
+  public ResponseEntity<FlatCapacityDto> getCapacity(@PathVariable("id") final UUID id) {
+    return ResponseEntity.ok(wardService.calculateCapacity(id));
   }
 
 }

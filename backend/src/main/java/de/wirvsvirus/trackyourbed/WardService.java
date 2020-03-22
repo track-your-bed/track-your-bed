@@ -3,7 +3,9 @@ package de.wirvsvirus.trackyourbed;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewWard;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateWard;
 import de.wirvsvirus.trackyourbed.dto.request.mapper.CreateNewWardMapper;
+import de.wirvsvirus.trackyourbed.dto.response.FlatCapacityDto;
 import de.wirvsvirus.trackyourbed.dto.response.WardDto;
+import de.wirvsvirus.trackyourbed.dto.response.mapper.FlatCapacityDtoMapper;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.WardDtoMapper;
 import de.wirvsvirus.trackyourbed.entity.Department;
 import de.wirvsvirus.trackyourbed.entity.Ward;
@@ -27,21 +29,27 @@ public class WardService {
   private final WardRepository wardRepository;
   private final DepartmentRepository departmentRepository;
   private final WardTypeRepository wardTypeRepository;
+  private final CapacityService capacityService;
   private final CreateNewWardMapper createNewWardMapper;
   private final WardDtoMapper wardDtoMapper;
+  private final FlatCapacityDtoMapper flatCapacityDtoMapper;
 
   @Inject
   public WardService(
       final WardRepository wardRepository,
       final DepartmentRepository departmentRepository,
       final WardTypeRepository wardTypeRepository,
+      final CapacityService capacityService,
       final CreateNewWardMapper createNewWardMapper,
-      final WardDtoMapper wardDtoMapper) {
+      final WardDtoMapper wardDtoMapper,
+      final FlatCapacityDtoMapper flatCapacityDtoMapper) {
     this.wardRepository = wardRepository;
     this.departmentRepository = departmentRepository;
     this.wardTypeRepository = wardTypeRepository;
+    this.capacityService = capacityService;
     this.createNewWardMapper = createNewWardMapper;
     this.wardDtoMapper = wardDtoMapper;
+    this.flatCapacityDtoMapper = flatCapacityDtoMapper;
   }
 
   @Transactional
@@ -107,4 +115,10 @@ public class WardService {
     wardRepository.deleteById(wardId);
   }
 
+  @Transactional
+  public FlatCapacityDto calculateCapacity(final UUID id) {
+    final Ward ward = wardRepository.findById(id)
+        .orElseThrow(() -> new NoSuchWardException(id));
+    return flatCapacityDtoMapper.entityToDto(capacityService.calculateCapacity(ward));
+  }
 }

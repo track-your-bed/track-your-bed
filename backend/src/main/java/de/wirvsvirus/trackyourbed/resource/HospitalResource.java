@@ -3,6 +3,7 @@ package de.wirvsvirus.trackyourbed.resource;
 import de.wirvsvirus.trackyourbed.HospitalService;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewHospital;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateHospital;
+import de.wirvsvirus.trackyourbed.dto.response.HospitalCapacityDto;
 import de.wirvsvirus.trackyourbed.dto.response.HospitalDto;
 import java.net.URI;
 import java.util.Collection;
@@ -68,9 +69,13 @@ public class HospitalResource {
   }
 
   @DeleteMapping("{id}")
-  public ResponseEntity<Void> deleteHospital(@PathVariable("id") final UUID hospitalId) {
-    hospitalService.deleteHospitalById(hospitalId);
+  public ResponseEntity<Void> deleteHospital(@PathVariable("id") final UUID id) {
+    hospitalService.deleteHospitalById(id);
     return ResponseEntity.ok().build();
   }
 
+  @GetMapping("{id}/capacity")
+  public ResponseEntity<HospitalCapacityDto> getCapacity(@PathVariable("id") final UUID id) {
+    return ResponseEntity.ok(hospitalService.calculateCapacity(id));
+  }
 }
