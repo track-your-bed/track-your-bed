@@ -12,6 +12,7 @@ import HospitalList from "../../pages/HospitalList/HospitalList";
 
 // Styles
 import "./App.scss";
+import WardBedManagementPage from "../../pages/WardBedManagementPage/WardBedManagementPage";
 
 const App: React.FunctionComponent = () => (
   <div className="app-container">
@@ -30,9 +31,14 @@ const App: React.FunctionComponent = () => (
         <Route path="/settings" exact>
           <Settings />
         </Route>
+        <Route path="/wardBedManagement" exact>
+          <WardBedManagementPage hospitalName="Berlin Charité"/>
+        </Route>
       </Switch>
     </Router>
   </div>
 );
+
+//TODO hospitalName is a fixed string
 
 export default App;
