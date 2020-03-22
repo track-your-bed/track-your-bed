@@ -30,8 +30,6 @@ const beds = [
     {label: 'Covid Standardbett', value: Bedtypes.covid},
     {label: 'Covid Intensivbett', value: Bedtypes.covidIcu}
 ];
-
-
 interface IEditBed {
   hospitalId: string,
   departmendId: string,

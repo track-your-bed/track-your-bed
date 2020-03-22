@@ -23,13 +23,26 @@ const fieldStyle = {
 }
 
 
+const wards = [
+  {label: 'Normalstation', value: 'normal'},
+  {label: 'IMC', value: 'imc'},
+  {label: 'ICU', value: 'icu'},
+  {label: 'Covid-Station', value: 'covid'}
+];
+
 const EditWard: React.FunctionComponent = () => {
+  const [ward, setWard] = React.useState(
+    null
+  )
   const {hospitalId, departmentId, wardId}=useParams();
   return (
     <div>
      <div style={divStyle}>
       <h1>Station hinzufügen</h1>
         <form>
+          <Dropdown style={fieldStyle} options={wards}  placeholder="Wählen Sie einen Stationstyp" value={ward} onChange={event => setWard(event.target.value)}/>
+          <br/>
+          <br/>
           <span className="p-float-label">
             <InputText id="in" style={fieldStyle}/>
             <label htmlFor="in">Name der Station</label>
