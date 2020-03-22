@@ -4,6 +4,7 @@ import * as React from "react";
 import {Dropdown} from 'primereact/dropdown';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
+import { useParams } from "react-router-dom";
 
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -29,6 +30,7 @@ const departments = [
 ];
 
 const EditDepartment: React.FunctionComponent = () => {
+  const {hospitalId, departmentId}=useParams();
   return (
     <div style={divStyle}>
       <h1>Fachabteilung hinzufügen</h1>

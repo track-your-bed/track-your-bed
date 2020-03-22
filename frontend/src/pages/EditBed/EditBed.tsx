@@ -7,6 +7,7 @@ import {Button} from 'primereact/button';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+import { useParams } from "react-router-dom";
 
 const divStyle = {
   margin: '50px'
@@ -26,7 +27,15 @@ const beds = [
     {label: 'Normalbett', value: 'Normalbett'}
 ];
 
-const EditBed: React.FunctionComponent = () => {
+interface IEditBed {
+  hospitalId: string,
+  departmendId: string,
+  wardId: string
+  bedId: string
+}
+
+const EditBed: React.FunctionComponent= () => {
+  const {hospitalId, departmentId, wardId, bedId}=useParams();
   return (
     <div style={divStyle}>
       <h1>Bett hinzufügen</h1>
