@@ -3,19 +3,25 @@ import * as React from "react";
 // Components
 import InputField from "../InputField/InputField";
 import Button from "../Button/Button";
-import { InputText } from "primereact/inputtext";
 
 // Style
 import "./LoginForm.scss";
 import PasswordRecovery from "../PasswordRecovery/PasswordRecovery";
 
+import AjaxHelper from "../../components/WardBedManagmentTbl/WardBedManagmentService";
+
 const Login: React.FunctionComponent = () => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
+
   function login() {
     const text = `{"username": "${username}", "password": "${password}"}`;
     console.log(JSON.parse(text));
   }
+  async function getData(){
+    const test = await AjaxHelper('https://jsonplaceholder.typicode.com/todos/1');    
+    console.log(test);
+      }
 
   return (
     <div>
@@ -40,7 +46,7 @@ const Login: React.FunctionComponent = () => {
           id="loginButton"
           className="button"
           text="Login"
-          onClick={(): void => login()}
+          onClick={(): Promise<void> => getData()}
         />
       </div>
       <br />
