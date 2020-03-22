@@ -3,10 +3,10 @@ package de.wirvsvirus.trackyourbed;
 import de.wirvsvirus.trackyourbed.dto.response.StationTypeDto;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.StationTypeDtoMapper;
 import de.wirvsvirus.trackyourbed.entity.StationType;
+import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchStationTypeException;
 import de.wirvsvirus.trackyourbed.persistence.StationTypeRepository;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.NoSuchElementException;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
@@ -26,12 +26,12 @@ public class StationTypeService {
 
   public StationTypeDto getStationTypeByName(final String name) {
     final StationType fetched = stationTypeRepository.findByName(name)
-        .orElseThrow(NoSuchElementException::new);
+        .orElseThrow(() -> new NoSuchStationTypeException(name));
     return stationTypeDtoMapper.entityToDto(fetched);
   }
 
   public Collection<StationTypeDto> getAllStationTypes() {
-    final Collection<StationTypeDto> allStationTypes = new ArrayList<>();
+    final ArrayList<StationTypeDto> allStationTypes = new ArrayList<>();
     stationTypeRepository.findAll().forEach(entity -> allStationTypes.add(stationTypeDtoMapper.entityToDto(entity)));
     return allStationTypes;
   }

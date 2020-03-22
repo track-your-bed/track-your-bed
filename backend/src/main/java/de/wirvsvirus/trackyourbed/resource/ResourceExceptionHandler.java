@@ -14,4 +14,10 @@ public class ResourceExceptionHandler {
     return ResponseEntity.notFound().build();
   }
 
+  @ExceptionHandler(IllegalStateException.class)
+  public ResponseEntity<String> mapIllegalStateExceptionToBadRequestResponse(
+      final IllegalStateException e) {
+    return ResponseEntity.badRequest().body(e.getMessage());
+  }
+
 }

@@ -2,6 +2,7 @@ package de.wirvsvirus.trackyourbed.resource;
 
 import de.wirvsvirus.trackyourbed.BedStateService;
 import de.wirvsvirus.trackyourbed.dto.response.BedStateDto;
+import java.util.Collection;
 import javax.inject.Inject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,11 @@ public class BedStateResource {
   @Inject
   public BedStateResource(final BedStateService bedStateService){
     this.bedStateService = bedStateService;
+  }
+
+  @GetMapping()
+  public ResponseEntity<Collection<BedStateDto>> getAllBedStates() {
+    return ResponseEntity.ok(bedStateService.getAllBedStates());
   }
 
   @GetMapping("{name}")
