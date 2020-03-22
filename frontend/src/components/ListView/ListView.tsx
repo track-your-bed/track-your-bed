@@ -1,44 +1,96 @@
 import * as React from "react";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
-interface ListData {
-  name: string;
-  id: number;
-}
+// Types
+import { ListData } from "./ListView.types";
 
-interface ListView {
-  listData?: ListData[];
-}
+// Styles
+import "primereact/resources/themes/nova-light/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
-const dummyData = [
-  { name: "Paracelsus-Klinik Adorf", id: 1, hospitalId: "123" },
-  { name: "Paracelsus-Klinik Reichenbach", id: 2, hospitalId: "123" },
-  { name: "Paracelsus-Klinik Schäneck", id: 3, hospitalId: "123" },
-  { name: "Klinikum Obergötlzsch Rodewisch", id: 4, hospitalId: "123" },
-  { name: "Helios Vogtland Klinikum Plauen", id: 5, hospitalId: "123" }
-];
+import SampleData from "../SampleData/Data.json";
 
-const ListView: React.FunctionComponent<ListView> = ({
-  listData = dummyData
-}: ListView) => {
+const ListView: React.FunctionComponent = () => {
+  const [data, setData] = React.useState<null | ListData>(null);
+  const [expandedRow, setExpandedRow] = React.useState<null | any>(null);
+  const cols = [{ field: "name", header: "Vin" }];
+
+  React.useEffect(() => {
+    console.log(SampleData[0]);
+    setData(SampleData[0] as ListData);
+  }, []);
+
+  const handleRowToggle = (event: any) => {
+    console.log(event);
+    setExpandedRow(event.data);
+  };
+
+  const rowExpansionTemplate = (data: any) => {
+    console.log(data);
+
+    return (
+      <div>
+        {data.ward.map((ward: any) => (
+          <div key={ward.id}>
+            <p>{ward.name}</p>
+            <p>Betten: {ward.bed.length}</p>
+            <hr />
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const actionTemplate = (rowData: any, column: any) => {
+    console.log({ rowData, column });
+    const occupation = {
+      free: 0,
+      occupied: 0
+    };
+
+    const total = rowData.ward.reduce(
+      (a: any, b: any) => a.bed.length + b.bed.length
+    );
+
+    console.log(total);
+
+    // rowData.ward.map((ward: any) => {
+    //   console.log(ward);
+    // });
+
+    return (
+      <div>
+        <p>{total}</p>
+      </div>
+    );
+  };
+
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>ID</th>
-        </tr>
-      </thead>
-      <tbody>
-        {listData.map(item => {
-          return (
-            <tr key={item.id}>
-              <td>{item.name}</td>
-              <td>{item.id}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <div className="list-view">
+      {data && (
+        <div>
+          <h1>{data.name}</h1>
+          <DataTable
+            value={data.department}
+            expandedRows={expandedRow}
+            onRowToggle={handleRowToggle}
+            rowExpansionTemplate={rowExpansionTemplate}
+            rowGroupMode="rowspan"
+            groupField="name"
+          >
+            <Column expander style={{ width: "50px" }} />
+            <Column header="Fachabteilung" field="name" />
+            <Column header="Betten" body={actionTemplate} />
+            {/* {data.department.map(department => {
+              console.log(department);
+              return <Column key={department.id} header="name" field="name" />;
+            })} */}
+          </DataTable>
+        </div>
+      )}
+    </div>
   );
 };
 

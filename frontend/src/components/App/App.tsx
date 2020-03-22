@@ -1,14 +1,14 @@
 import * as React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-//components
-import Header from "../Header/Header"
+// Components
+import Header from "../Header/Header";
 
 // Pages
 import Dashboard from "../../pages/Dashboard/Dashboard";
 import Settings from "../../pages/Settings/Settings";
 import Login from "../../pages/Login/Login";
-import HospitalList from "../../pages/HospitalList/HospitalList";
+import ListView from "../../components/ListView/ListView";
 
 // Styles
 import "./App.scss";
@@ -16,7 +16,7 @@ import "./App.scss";
 const App: React.FunctionComponent = () => (
   <div className="app-container">
     <Router>
-      <Header title="Title"/>
+      <Header title="Title" />
       <Switch>
         <Route path="/" exact>
           <Login />
@@ -25,7 +25,7 @@ const App: React.FunctionComponent = () => (
           <Dashboard />
         </Route>
         <Route path="/list" exact>
-          <HospitalList />
+          <ListView />
         </Route>
         <Route path="/settings" exact>
           <Settings />
