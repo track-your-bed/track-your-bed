@@ -1,3 +1,5 @@
+#Flyway migration files for idempotent schema update
+
 Naming convention for flyway migration files:
 
     V[date]__[description].sql
