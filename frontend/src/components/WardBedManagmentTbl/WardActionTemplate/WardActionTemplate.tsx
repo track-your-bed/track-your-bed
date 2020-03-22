@@ -4,7 +4,8 @@ import FreeButton from "./FreeButton/FreeButton";
 import OccupiedButton from "./OccupiedButton/OccupiedButton";
 
 interface WardActionTemplate {
-    isOccupied: boolean
+    isOccupied: boolean;
+    onClick?: any;
 }
 
 function handleClickTrigger(event: any) {
@@ -13,11 +14,15 @@ function handleClickTrigger(event: any) {
 
 const WardActionTemplate: React.FunctionComponent<WardActionTemplate> = ({
     isOccupied,
+    onClick
 }) => {
-    return (
-        <div>
 
-        </div>
-    );
+    const handleClick = (newBedState: string) => () => onClick(newBedState);
+
+    if (isOccupied) {
+        return <FreeButton onClick={handleClick('free')} />;
+    } else {
+        return <OccupiedButton onClick={handleClick('occupied')} />;
+    }
 };
 export default WardActionTemplate;

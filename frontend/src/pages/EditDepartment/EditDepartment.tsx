@@ -24,7 +24,7 @@ const fieldStyle = {
 
 
 
-const departments = [
+const departmentTypes = [
 //  {label: 'Kardiologie', value: 'Kardiologie'},
 //  {label: 'Urologie', value: 'Urologie'},
 //  {label: 'Radiologie', value: 'Radiologie'}
@@ -77,25 +77,46 @@ const departments = [
 
 const EditDepartment: React.FunctionComponent = () => {
   
-  const [department, setDepartment] = React.useState(
+  const [departmentType, setDepartmentType] = React.useState(
     null
+  )
+  const [departmentName, setDepartmentName] = React.useState(
+    ""
   )
   const {hospitalId, departmentId}=useParams();
 
+<<<<<<< HEAD
+=======
+  function handleClickSubmit(event: any){
+    let json = {name: departmentName ,departmentTypeId: departmentType, hospitalID: hospitalId }
+    console.log("JSON: name:" + json.name + " TypeID: " + json.departmentTypeId + " HospitalID: " + json.hospitalID)
+  }
+
+  function handleClickCancle(event:any)
+  {
+
+  } 
+
+>>>>>>> be61e02429d510c389d4a90e75fa384fde72af38
   return (
     <div style={divStyle}>
       <h1>Fachabteilung hinzufügen</h1>
         <form>
-          <Dropdown style={fieldStyle} options={departments}  placeholder="Wählen Sie eine Fachabteilung" value={department} onChange={event => setDepartment(event.target.value)}/>
+          <Dropdown style={fieldStyle} options={departmentTypes}  placeholder="Wählen Sie eine Fachabteilung" value={departmentType} onChange={event => setDepartmentType(event.target.value)}/>
           <br/>
           <br/>
           <span className="p-float-label">
-            <InputText id="in" style={fieldStyle}/>
+            <InputText id="in" style={fieldStyle} name="departmentName" value={departmentName} onChange={event => setDepartmentName(event.currentTarget.value)} />
             <label htmlFor="in">Name der Abteilung</label>
           </span>
           <div>
+<<<<<<< HEAD
             <Button label="Hinzufügen" type="submit"/>
             <Button style={btnStyle} label="Abbrechen"/>
+=======
+            <Button label="Hinzufügen" onClick={handleClickSubmit}/>
+            <Button style={btnStyle} label="Abbrechen" onClick={handleClickCancle} />
+>>>>>>> be61e02429d510c389d4a90e75fa384fde72af38
           </div>
         </form>
     </div>

@@ -1,8 +1,8 @@
 import * as React from "react";
-import classNames from "classnames";
+import { Link } from "react-router-dom";
 
 // Types
-import { Ward, Bed } from "../ListView/ListView.types";
+import { Ward } from "../../datatypes/ListView.types";
 
 // Styles
 import "./StationRow.scss";
@@ -17,11 +17,9 @@ const StationRow: React.FunctionComponent<StationRow> = ({
   const [vacant, setVacant] = React.useState(0);
   const [max, setMax] = React.useState(0);
   const [percentage, setPercentage] = React.useState(100);
-  const [toggled, setToggled] = React.useState(false);
 
   React.useEffect(() => {
     if (stationData) {
-      console.log(stationData);
       const bedsVacant = stationData.bed.filter(bed => {
         return bed.bed_state.name === "frei";
       }).length;
@@ -36,29 +34,20 @@ const StationRow: React.FunctionComponent<StationRow> = ({
   }, [stationData]);
 
   const getColorFromPercentage = (percent: number): string => {
-    if (percent > 60) {
+    if (percent >= 25) {
       return "#6ab04c";
     }
 
-    if (percent > 40) {
+    if (percent > 0) {
       return "#f9ca24";
     }
 
     return "#eb4d4b";
   };
 
-  const toggleRow = () => {
-    setToggled(!toggled);
-  };
-
   return (
     <>
-      <tr
-        className={classNames("station-row", {
-          "--expanded": toggled
-        })}
-        onClick={toggleRow}
-      >
+      <tr className="station-row">
         <td>
           <div
             className="station-row__status"
@@ -69,6 +58,7 @@ const StationRow: React.FunctionComponent<StationRow> = ({
         </td>
         <td>
           <p className="station-row__title">{stationData.name}</p>
+          <Link to={`/wardBedManagement/${stationData.id}`}>Vacancy</Link>
         </td>
         <td>
           <p className="station-row__vacancy">
@@ -101,22 +91,6 @@ const StationRow: React.FunctionComponent<StationRow> = ({
           </p>
         </td>
       </tr>
-      {toggled &&
-        stationData.bed.map((bed: Bed) => {
-          const bedClass = classNames("station-row__bed", {
-            "--occupied": bed.bed_state.name === "belegt",
-            "--free": bed.bed_state.name === "frei"
-          });
-
-          return (
-            <tr key={bed.id} className={bedClass}>
-              <td />
-              <td>{bed.name}</td>
-              <td>{bed.bed_type.name}</td>
-              <td>{bed.bed_state.name}</td>
-            </tr>
-          );
-        })}
     </>
   );
 };
