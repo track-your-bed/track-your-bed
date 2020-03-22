@@ -3,6 +3,7 @@ package de.wirvsvirus.trackyourbed.resource;
 import de.wirvsvirus.trackyourbed.DepartmentService;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewDepartment;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateDepartment;
+import de.wirvsvirus.trackyourbed.dto.response.DepartmentCapacityDto;
 import de.wirvsvirus.trackyourbed.dto.response.DepartmentDto;
 import java.net.URI;
 import java.util.Collection;
@@ -57,6 +58,11 @@ public class DepartmentResource {
   public ResponseEntity<Void> deleteDepartment(@PathVariable("id") final UUID departmentId) {
     departmentService.deleteDepartmentById(departmentId);
     return ResponseEntity.ok().build();
+  }
+
+  @GetMapping("{id}/capacity")
+  public ResponseEntity<DepartmentCapacityDto> getCapacity(@PathVariable("id") final UUID id) {
+    return ResponseEntity.ok(departmentService.calculateCapacity(id));
   }
 
 }
