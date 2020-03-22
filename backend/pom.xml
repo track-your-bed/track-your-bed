@@ -67,6 +67,18 @@
             <version>${postgres.driver.version}</version>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- Spring Doc -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-core</artifactId>
+            <version>${spring.doc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${spring.doc.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
