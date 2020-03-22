@@ -1,0 +1,11 @@
+.list-view {
+  &__station-table {
+    thead {
+      text-align: left;
+    }
+
+    th:first-of-type {
+      width: 50px;
+    }
+  }
+}

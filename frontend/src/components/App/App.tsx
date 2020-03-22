@@ -1,17 +1,17 @@
 import * as React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-//components
-import Header from "../Header/Header"
+// Components
+import Header from "../Header/Header";
 
 // Pages
 import Dashboard from "../../pages/Dashboard/Dashboard";
 import Settings from "../../pages/Settings/Settings";
 import Login from "../../pages/Login/Login";
-import HospitalList from "../../pages/HospitalList/HospitalList";
 import EditBed from "../../pages/EditBed/EditBed";
-import EditWard from "../../pages/EditWard/EditWard"
-import EditDepartment from "../../pages/EditDepartment/EditDepartment"
+import EditWard from "../../pages/EditWard/EditWard";
+import EditDepartment from "../../pages/EditDepartment/EditDepartment";
+import ListView from "../../components/ListView/ListView";
 
 // Styles
 import "./App.scss";
@@ -20,7 +20,7 @@ import WardBedManagementPage from "../../pages/WardBedManagementPage/WardBedMana
 const App: React.FunctionComponent = () => (
   <div className="app-container">
     <Router>
-      <Header title="Title"/>
+      <Header title="Title" />
       <Switch>
         <Route path="/" exact>
           <Login />
@@ -29,22 +29,22 @@ const App: React.FunctionComponent = () => (
           <Dashboard />
         </Route>
         <Route path="/list" exact>
-          <HospitalList />
+          <ListView />
         </Route>
         <Route path="/settings" exact>
           <Settings />
         </Route>
         <Route path="/hospital/:hospitalId/:departmentID/:wardId/:bedId/edit">
-          <EditBed/>
+          <EditBed />
         </Route>
         <Route path="/hospital/:hospitalId/:departmendID/:wardId/edit">
-          <EditWard/>
+          <EditWard />
         </Route>
         <Route path="/hospital/:hospitalId/:departmentID/edit">
-          <EditDepartment/>
+          <EditDepartment />
         </Route>
         <Route path="/wardBedManagement" exact>
-          <WardBedManagementPage hospitalName="Berlin Charité"/>
+          <WardBedManagementPage hospitalName="Berlin Charité" />
         </Route>
       </Switch>
     </Router>
