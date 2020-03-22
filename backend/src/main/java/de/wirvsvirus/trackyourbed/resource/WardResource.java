@@ -51,7 +51,7 @@ public class WardResource {
   }
 
   @PatchMapping("{id}")
-  public ResponseEntity<WardDto> patchWardDto(
+  public ResponseEntity<WardDto> patchWard (
       @PathVariable(name = "id") final UUID id,
       @RequestBody @Valid final UpdateWard updateWard) {
     return ResponseEntity.ok(wardService.updateWard(id, updateWard));
@@ -59,7 +59,7 @@ public class WardResource {
 
   @DeleteMapping("{id}")
   public ResponseEntity<Void> deleteWard(@PathVariable("id") final UUID wardId) {
-    wardService.deleteWard(wardId);
+    wardService.deleteWardById(wardId);
     return ResponseEntity.ok().build();
   }
 

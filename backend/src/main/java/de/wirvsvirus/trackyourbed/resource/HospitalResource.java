@@ -69,7 +69,7 @@ public class HospitalResource {
 
   @DeleteMapping("{id}")
   public ResponseEntity<Void> deleteHospital(@PathVariable("id") final UUID hospitalId) {
-    hospitalService.deleteHospital(hospitalId);
+    hospitalService.deleteHospitalById(hospitalId);
     return ResponseEntity.ok().build();
   }
 

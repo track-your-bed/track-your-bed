@@ -96,4 +96,8 @@ public class WardService {
     return wardDtoMapper.entityToDto(ward);
   }
 
+  public void deleteWardById(final UUID wardId) {
+    wardRepository.deleteById(wardId);
+  }
+
 }

@@ -104,5 +104,9 @@ public class HospitalService {
     return hospitalDtoMapper.entityToDto(toBeUpdated);
   }
 
+  public void deleteHospitalById(final UUID hospitalId) {
+    hospitalRepository.deleteById(hospitalId);
+  }
+
 }
 
