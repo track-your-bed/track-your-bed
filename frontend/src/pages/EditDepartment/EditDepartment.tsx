@@ -85,8 +85,6 @@ const EditDepartment: React.FunctionComponent = () => {
   )
   const {hospitalId, departmentId}=useParams();
 
-<<<<<<< HEAD
-=======
   function handleClickSubmit(event: any){
     let json = {name: departmentName ,departmentTypeId: departmentType, hospitalID: hospitalId }
     console.log("JSON: name:" + json.name + " TypeID: " + json.departmentTypeId + " HospitalID: " + json.hospitalID)
@@ -97,7 +95,6 @@ const EditDepartment: React.FunctionComponent = () => {
 
   } 
 
->>>>>>> be61e02429d510c389d4a90e75fa384fde72af38
   return (
     <div style={divStyle}>
       <h1>Fachabteilung hinzufügen</h1>
@@ -110,13 +107,8 @@ const EditDepartment: React.FunctionComponent = () => {
             <label htmlFor="in">Name der Abteilung</label>
           </span>
           <div>
-<<<<<<< HEAD
-            <Button label="Hinzufügen" type="submit"/>
-            <Button style={btnStyle} label="Abbrechen"/>
-=======
             <Button label="Hinzufügen" onClick={handleClickSubmit}/>
             <Button style={btnStyle} label="Abbrechen" onClick={handleClickCancle} />
->>>>>>> be61e02429d510c389d4a90e75fa384fde72af38
           </div>
         </form>
     </div>
