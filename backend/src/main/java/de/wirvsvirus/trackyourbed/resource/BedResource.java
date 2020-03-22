@@ -3,6 +3,8 @@ package de.wirvsvirus.trackyourbed.resource;
 import de.wirvsvirus.trackyourbed.BedService;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewBed;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateBed;
+import de.wirvsvirus.trackyourbed.dto.request.UpdateBedBedStateDto;
+import de.wirvsvirus.trackyourbed.dto.request.UpdateBedBedTypeDto;
 import de.wirvsvirus.trackyourbed.dto.response.BedDto;
 import java.net.URI;
 import java.util.Collection;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -62,5 +65,19 @@ public class BedResource {
   public ResponseEntity<Void> deleteBed(@PathVariable("id") final UUID id) {
     bedService.deleteBedById(id);
     return ResponseEntity.ok().build();
+  }
+
+  @PutMapping("{id}")
+  public ResponseEntity<BedDto> updateBedState(
+      @PathVariable("id") final UUID id,
+      @RequestBody final UpdateBedBedStateDto updateBedBedStateDto) {
+    return ResponseEntity.ok(bedService.updateState(id, updateBedBedStateDto.getBedState()));
+  }
+
+  @PutMapping("{id}")
+  public ResponseEntity<BedDto> updateBedType(
+      @PathVariable("id") final UUID id,
+      @RequestBody final UpdateBedBedTypeDto updateBedBedTypeDto) {
+    return ResponseEntity.ok(bedService.updateType(id, updateBedBedTypeDto.getBedType()));
   }
 }

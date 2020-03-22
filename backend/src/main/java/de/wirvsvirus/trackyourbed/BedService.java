@@ -119,4 +119,28 @@ public class BedService {
   public void deleteBedById(final UUID id) {
     bedRepository.deleteById(id);
   }
+
+  @Transactional
+  public BedDto updateState(final UUID id, final String bedStateName) {
+    final Bed toUpdate = bedRepository.findById(id).orElseThrow(() -> new NoSuchBedException(id));
+
+    final BedState bedState = bedStateRepository.findByName(bedStateName)
+        .orElseThrow(() -> new InvalidBedStateException(bedStateName));
+
+    toUpdate.setBedState(bedState);
+    final Bed updated = bedRepository.save(toUpdate);
+    return bedDtoMapper.entityToDto(updated);
+  }
+
+  @Transactional
+  public BedDto updateType(final UUID id, final String bedTypeName) {
+    final Bed toUpdate = bedRepository.findById(id).orElseThrow(() -> new NoSuchBedException(id));
+
+    final BedType bedType = bedTypeRepository.findByName(bedTypeName)
+        .orElseThrow(() -> new InvalidBedTypeException(bedTypeName));
+
+    toUpdate.setBedType(bedType);
+    final Bed updated = bedRepository.save(toUpdate);
+    return bedDtoMapper.entityToDto(updated);
+  }
 }
