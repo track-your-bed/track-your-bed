@@ -4,7 +4,6 @@ import de.wirvsvirus.trackyourbed.DepartmentService;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewDepartment;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateDepartment;
 import de.wirvsvirus.trackyourbed.dto.response.DepartmentDto;
-import de.wirvsvirus.trackyourbed.dto.response.HospitalDto;
 import java.net.URI;
 import java.util.Collection;
 import java.util.UUID;
@@ -52,4 +51,5 @@ public class DepartmentResource {
       @RequestBody final UpdateDepartment updateDepartment) {
     return ResponseEntity.ok(departmentService.updateDepartment(id, updateDepartment));
   }
+
 }

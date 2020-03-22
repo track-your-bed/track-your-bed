@@ -3,6 +3,7 @@ package de.wirvsvirus.trackyourbed.dto.response;
 import java.util.UUID;
 
 public class DepartmentDto {
+
   private UUID id;
   private String name;
   private UUID hospitalId;
@@ -30,4 +31,5 @@ public class DepartmentDto {
   public void setHospitalId(final UUID hospitalId) {
     this.hospitalId = hospitalId;
   }
+
 }

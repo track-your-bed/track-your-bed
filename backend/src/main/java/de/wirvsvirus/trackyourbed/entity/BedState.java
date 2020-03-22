@@ -5,18 +5,14 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "bed_type")
-public class BedType extends AbstractBaseEntity {
+@Table(name = "bed_state")
+public class BedState extends AbstractBaseEntity {
 
   @Column(name = "name")
   private String name;
 
   public String getName() {
     return name;
-  }
-
-  public void setName(final String name) {
-    this.name = name;
   }
 
 }

@@ -31,4 +31,5 @@ public class BedTypeResource {
       @PathVariable("name") final String name) {
     return ResponseEntity.ok(bedTypeService.getBedTypeByName(name));
   }
+
 }

@@ -13,4 +13,5 @@ public class ResourceExceptionHandler {
       final NoSuchElementException e) {
     return ResponseEntity.notFound().build();
   }
+
 }

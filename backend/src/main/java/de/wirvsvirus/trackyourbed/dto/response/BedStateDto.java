@@ -1,6 +1,6 @@
 package de.wirvsvirus.trackyourbed.dto.response;
 
-public class BedTypeDto {
+public class BedStateDto {
 
   private String name;
 

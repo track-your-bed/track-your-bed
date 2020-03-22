@@ -52,4 +52,5 @@ public class HospitalDto {
   public void setLon(final String lon) {
     this.lon = lon;
   }
+
 }

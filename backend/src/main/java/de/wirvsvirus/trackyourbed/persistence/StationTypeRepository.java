@@ -11,5 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(scopeName = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public interface StationTypeRepository extends CrudRepository<StationType, UUID> {
+
   Optional<StationType> findByName(String name);
+
 }
