@@ -58,6 +58,10 @@ public class HospitalService {
     return hospitalDtoMapper.entityToDto(saved);
   }
 
+  public void deleteHospital(final UUID hospitalId) {
+    hospitalRepository.deleteById(hospitalId);
+  }
+
   /**
    * Retrieves a {@link Hospital} by id from the persistence layer.
    *
