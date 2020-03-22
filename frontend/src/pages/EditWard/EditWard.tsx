@@ -24,10 +24,10 @@ const fieldStyle = {
 
 
 const wards = [
-  {label: 'Normalstation', value: 'normal'},
-  {label: 'IMC', value: 'imc'},
-  {label: 'ICU', value: 'icu'},
-  {label: 'Covid-Station', value: 'covid'}
+  {label: 'Normalstation', value: Wardtypes.normal},
+  {label: 'IMC', value: Wardtypes.imc},
+  {label: 'ICU', value: Wardtypes.icu},
+  {label: 'Covid-Station', value: Wardtypes.covid}
 ];
 
 const EditWard: React.FunctionComponent = () => {
