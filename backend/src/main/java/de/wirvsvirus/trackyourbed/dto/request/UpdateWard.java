@@ -23,11 +23,11 @@ public class UpdateWard {
     this.departmentId = departmentId;
   }
 
-  public String getWardTypeName() {
+  public String getWardType() {
     return wardTypeName;
   }
 
-  public void setWardTypeName(final String wardTypeName) {
+  public void setWardType(final String wardTypeName) {
     this.wardTypeName = wardTypeName;
   }
 }

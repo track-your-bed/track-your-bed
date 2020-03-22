@@ -48,10 +48,6 @@ public class DepartmentService {
     return departmentDtoMapper.entityToDto(saved);
   }
 
-  public void deleteDepartment(final UUID departmentId) {
-    departmentRepository.deleteById(departmentId);
-  }
-
   public Collection<DepartmentDto> getAllDepartments() {
     final ArrayList<DepartmentDto> result = new ArrayList<>();
     departmentRepository.findAll()

@@ -9,6 +9,6 @@ import org.mapstruct.Mapping;
 public interface WardDtoMapper {
 
   @Mapping(source = "department.id", target = "departmentId")
-  @Mapping(source = "wardType.id", target = "wardTypeId")
+  @Mapping(source = "wardType.name", target = "wardType")
   WardDto entityToDto(final Ward ward);
 }
