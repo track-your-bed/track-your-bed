@@ -1,0 +1,29 @@
+version: '3.2'
+
+services:
+  db:
+    build: ./postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+  service:
+    image: trackyourbed
+    restart: always
+    network_mode: host
+    environment:
+      DB_HOST: 127.0.0.1
+    ports:
+      - 8080:8080
+  flyway:
+    restart: on-failure
+    image: trackyourbed-flyway
+    network_mode: host
+    depends_on:
+      - db
+    environment:
+      FLYWAY_USER: betten
+      FLYWAY_PASSWORD: betten
+      FLYWAY_URL: jdbc:postgresql://127.0.0.1:5432/betten
+
