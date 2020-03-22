@@ -3,6 +3,7 @@ import * as React from "react";
 import {Dropdown} from 'primereact/dropdown';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
+import { useParams } from "react-router-dom";
 
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -22,6 +23,7 @@ const fieldStyle = {
 
 
 const EditWard: React.FunctionComponent = () => {
+  const {hospitalId, departmentId, wardId}=useParams();
   return (
     <div>
      <div style={divStyle}>
