@@ -12,14 +12,6 @@ const StationTable: React.FunctionComponent<StationTable> = ({
 }: StationTable) => {
   return (
     <table className="list-view__station-table">
-      <thead>
-        <tr>
-          <th>-</th>
-          <th>Station</th>
-          <th>Betten</th>
-          <th>ICU</th>
-        </tr>
-      </thead>
       <tbody>
         {data.ward.map((ward: any) => (
           <StationRow key={ward.id} stationData={ward} />

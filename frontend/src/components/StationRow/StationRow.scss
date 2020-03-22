@@ -1,18 +1,19 @@
 .station-row {
   padding: 20px 0 20px 40px;
-  cursor: pointer;
+  background: #f9f9f9;
 
-  &:nth-child(even) {
-    background: #f9f9f9;
+  &:last-of-type td {
+    border-bottom: 0;
   }
 
-  &:hover {
-    background: #eaeaea;
+  td {
+    padding: 0.429em 0.857em;
+    &:first-of-type {
+      width: 49px;
+    }
   }
 
   &__title {
-    margin: 0 20px;
-
     span {
       font-size: 0.8em;
     }
@@ -22,5 +23,6 @@
     width: 15px;
     height: 15px;
     border-radius: 50%;
+    margin: 0 auto;
   }
 }

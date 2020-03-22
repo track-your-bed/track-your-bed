@@ -2,11 +2,13 @@ import * as React from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 
-// Types
-import { ListData } from "./ListView.types";
-
 // Components
+import { InputText } from "primereact/inputtext";
 import StationTable from "../StationTable/StationTable";
+import InputField from "../InputField/InputField";
+
+// Types
+import { ListData } from "../../datatypes/ListView.types";
 
 // Styles
 import "primereact/resources/themes/nova-light/theme.css";
@@ -18,10 +20,10 @@ import SampleData from "../SampleData/Data.json";
 
 const ListView: React.FunctionComponent = () => {
   const [data, setData] = React.useState<null | ListData>(null);
+  const [dataFilter, setDataFilter] = React.useState("");
   const [expandedRow, setExpandedRow] = React.useState<null | any>(null);
 
   React.useEffect(() => {
-    console.log(SampleData[0]);
     setData(SampleData[0] as ListData);
   }, []);
 
@@ -34,22 +36,13 @@ const ListView: React.FunctionComponent = () => {
   };
 
   const actionTemplate = (rowData: any, column: any) => {
-    const occupation = {
-      free: 0,
-      occupied: 0
-    };
-
     const total = rowData.ward.reduce(
       (a: any, b: any) => a.bed.length + b.bed.length
     );
 
-    // rowData.ward.map((ward: any) => {
-    //   console.log(ward);
-    // });
-
     return (
       <div>
-        <p>{total}</p>
+        <p>{total} / 20</p>
       </div>
     );
   };
@@ -59,20 +52,32 @@ const ListView: React.FunctionComponent = () => {
       {data && (
         <div>
           <h1>{data.name}</h1>
+          <div className="list-view__search">
+            <span className="p-float-label">
+              <InputText
+                id="in"
+                value={dataFilter}
+                onChange={e => setDataFilter(e.currentTarget.value)}
+              />
+              <label htmlFor="in">Fachabteilung Suche</label>
+            </span>
+          </div>
           <DataTable
             value={data.department}
             expandedRows={expandedRow}
             onRowToggle={handleRowToggle}
             rowExpansionTemplate={rowExpansionTemplate}
+            tableClassName="list-view__table"
+            globalFilter={dataFilter}
           >
-            <Column expander style={{ width: "40px" }} />
+            <Column expander style={{ width: "50px" }} />
             <Column header="Fachabteilung" field="name" />
             <Column header="Freie Betten" body={actionTemplate} />
+            <Column header="Standard" field="icu" />
+            <Column header="IMC" field="icu" />
             <Column header="ICU" field="icu" />
-            {/* {data.department.map(department => {
-              console.log(department);
-              return <Column key={department.id} header="name" field="name" />;
-            })} */}
+            <Column header="Covid Normal" field="icu" />
+            <Column header="Covid Intensiv" field="icu" />
           </DataTable>
         </div>
       )}

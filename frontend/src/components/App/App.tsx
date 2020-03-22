@@ -6,7 +6,7 @@ import Header from "../Header/Header";
 
 // Pages
 import Dashboard from "../../pages/Dashboard/Dashboard";
-import Settings from "../../pages/Settings/Settings";
+import UserSettings from "../../pages/UserSettings/UserSettings";
 import Login from "../../pages/Login/Login";
 import EditBed from "../../pages/EditBed/EditBed";
 import EditWard from "../../pages/EditWard/EditWard";
@@ -32,25 +32,23 @@ const App: React.FunctionComponent = () => (
           <ListView />
         </Route>
         <Route path="/settings" exact>
-          <Settings />
+          <UserSettings />
         </Route>
-        <Route path="/hospital/:hospitalId/:departmentID/:wardId/:bedId/edit">
+        <Route path="/hospital/:hospitalId/:departmentId/:wardId/:bedId/edit">
           <EditBed />
         </Route>
-        <Route path="/hospital/:hospitalId/:departmendID/:wardId/edit">
+        <Route path="/hospital/:hospitalId/:departmendId/:wardId/edit">
           <EditWard />
         </Route>
-        <Route path="/hospital/:hospitalId/:departmentID/edit">
+        <Route path="/hospital/:hospitalId/:departmentId/edit">
           <EditDepartment />
         </Route>
-        <Route path="/wardBedManagement" exact>
+        <Route path="/wardBedManagement">
           <WardBedManagementPage hospitalName="Berlin Charité" />
         </Route>
       </Switch>
     </Router>
   </div>
 );
-
-//TODO hospitalName is a fixed string
 
 export default App;

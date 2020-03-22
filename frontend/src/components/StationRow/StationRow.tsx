@@ -1,7 +1,8 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 
 // Types
-import { Ward, Bed } from "../ListView/ListView.types";
+import { Ward } from "../../datatypes/ListView.types";
 
 // Styles
 import "./StationRow.scss";
@@ -16,19 +17,15 @@ const StationRow: React.FunctionComponent<StationRow> = ({
   const [vacant, setVacant] = React.useState(0);
   const [max, setMax] = React.useState(0);
   const [percentage, setPercentage] = React.useState(100);
-  const [toggled, setToggled] = React.useState(false);
 
   React.useEffect(() => {
     if (stationData) {
-      console.log(stationData);
       const bedsVacant = stationData.bed.filter(bed => {
         return bed.bed_state.name === "frei";
       }).length;
 
       const bedsMax = stationData.bed.length;
-      const bedsPercentage = parseFloat(
-        ((bedsVacant / bedsMax) * 100).toFixed(2)
-      );
+      const bedsPercentage = Math.round((bedsVacant / bedsMax) * 100);
 
       setVacant(bedsVacant);
       setMax(bedsMax);
@@ -36,39 +33,51 @@ const StationRow: React.FunctionComponent<StationRow> = ({
     }
   }, [stationData]);
 
-  const getColorFromPercentage = (
-    percent: number,
-    start: number,
-    end: number
-  ): string => {
-    let a = percent / 150;
-    if (a <= 0.33) {
-      a = 0;
+  const getColorFromPercentage = (percent: number): string => {
+    if (percent >= 25) {
+      return "#6ab04c";
     }
-    const b = (end - start) * a;
-    const c = Math.floor(b + start);
 
-    return `hsl(${c}, 100%, 50%)`;
-  };
+    if (percent > 0) {
+      return "#f9ca24";
+    }
 
-  const toggleRow = () => {
-    setToggled(!toggled);
+    return "#eb4d4b";
   };
 
   return (
     <>
-      <tr className="station-row" onClick={toggleRow}>
+      <tr className="station-row">
         <td>
           <div
             className="station-row__status"
             style={{
-              backgroundColor: getColorFromPercentage(percentage, 0, 170)
+              backgroundColor: getColorFromPercentage(percentage)
             }}
           />
         </td>
         <td>
-          <p className="station-row__title">
-            {stationData.name} <span>({stationData.ward_type.name})</span>
+          <p className="station-row__title">{stationData.name}</p>
+          <Link to={`/wardBedManagement/${stationData.id}`}>Vacancy</Link>
+        </td>
+        <td>
+          <p className="station-row__vacancy">
+            {vacant} / {max}
+          </p>
+        </td>
+        <td>
+          <p className="station-row__vacancy">
+            {vacant} / {max}
+          </p>
+        </td>
+        <td>
+          <p className="station-row__vacancy">
+            {vacant} / {max}
+          </p>
+        </td>
+        <td>
+          <p className="station-row__vacancy">
+            {vacant} / {max}
           </p>
         </td>
         <td>
@@ -82,17 +91,6 @@ const StationRow: React.FunctionComponent<StationRow> = ({
           </p>
         </td>
       </tr>
-      {toggled &&
-        stationData.bed.map((bed: Bed) => {
-          return (
-            <tr key={bed.id}>
-              <td />
-              <td>{bed.name}</td>
-              <td>{bed.bed_type.name}</td>
-              <td>{bed.bed_state.name}</td>
-            </tr>
-          );
-        })}
     </>
   );
 };

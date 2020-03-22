@@ -3,6 +3,7 @@ import * as React from "react";
 // Components
 import {Button} from "primereact/button";
 import {InputText} from "primereact/inputtext";
+import {Dialog} from 'primereact/dialog';
 import Label from "../Label/Label";
 
 // Style
