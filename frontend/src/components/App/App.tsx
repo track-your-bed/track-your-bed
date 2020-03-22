@@ -11,7 +11,7 @@ import Login from "../../pages/Login/Login";
 import HospitalList from "../../pages/HospitalList/HospitalList";
 import EditBed from "../../pages/EditBed/EditBed";
 import EditWard from "../../pages/EditWard/EditWard"
-import EditDepartmend from "../../pages/EditDepartment/EditDepartment"
+import EditDepartment from "../../pages/EditDepartment/EditDepartment"
 
 // Styles
 import "./App.scss";
@@ -41,7 +41,7 @@ const App: React.FunctionComponent = () => (
           <EditWard/>
         </Route>
         <Route path="/hospital/:hospitalId/:departmentID/edit">
-          <EditDepartmend/>
+          <EditDepartment/>
         </Route>
         <Route path="/wardBedManagement" exact>
           <WardBedManagementPage hospitalName="Berlin Charité"/>

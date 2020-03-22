@@ -29,11 +29,17 @@ const departments = [
 ];
 
 const EditDepartment: React.FunctionComponent = () => {
+  
+  const [department, setDepartment] = React.useState(
+    null
+  )
+
+  
   return (
     <div style={divStyle}>
       <h1>Fachabteilung hinzufügen</h1>
         <form>
-          <Dropdown style={fieldStyle} options={departments}  placeholder="Wählen Sie eine Fachabteilung"/>
+          <Dropdown style={fieldStyle} options={departments}  placeholder="Wählen Sie eine Fachabteilung" value={department} onChange={event => setDepartment(event.target.value)}/>
           <br/>
           <br/>
           <span className="p-float-label">

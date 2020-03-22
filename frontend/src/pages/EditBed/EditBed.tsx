@@ -27,11 +27,17 @@ const beds = [
 ];
 
 const EditBed: React.FunctionComponent = () => {
+
+  const [bed, setBed] = React.useState(
+    null
+  )
+  
+
   return (
     <div style={divStyle}>
       <h1>Bett hinzufügen</h1>
         <form>
-          <Dropdown style={fieldStyle} options={beds}  placeholder="Bettart"/>
+          <Dropdown style={fieldStyle} options={beds}  placeholder="Bettart" value={bed} onChange={event => setBed(event.target.value)}/>
           <br/>
           <br/>
           <span className="p-float-label">
