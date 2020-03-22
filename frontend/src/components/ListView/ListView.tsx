@@ -5,17 +5,20 @@ import { Column } from "primereact/column";
 // Types
 import { ListData } from "./ListView.types";
 
+// Components
+import StationTable from "../StationTable/StationTable";
+
 // Styles
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import "./ListView.scss";
 
 import SampleData from "../SampleData/Data.json";
 
 const ListView: React.FunctionComponent = () => {
   const [data, setData] = React.useState<null | ListData>(null);
   const [expandedRow, setExpandedRow] = React.useState<null | any>(null);
-  const cols = [{ field: "name", header: "Vin" }];
 
   React.useEffect(() => {
     console.log(SampleData[0]);
@@ -23,28 +26,14 @@ const ListView: React.FunctionComponent = () => {
   }, []);
 
   const handleRowToggle = (event: any) => {
-    console.log(event);
     setExpandedRow(event.data);
   };
 
   const rowExpansionTemplate = (data: any) => {
-    console.log(data);
-
-    return (
-      <div>
-        {data.ward.map((ward: any) => (
-          <div key={ward.id}>
-            <p>{ward.name}</p>
-            <p>Betten: {ward.bed.length}</p>
-            <hr />
-          </div>
-        ))}
-      </div>
-    );
+    return <StationTable data={data} />;
   };
 
   const actionTemplate = (rowData: any, column: any) => {
-    console.log({ rowData, column });
     const occupation = {
       free: 0,
       occupied: 0
@@ -53,8 +42,6 @@ const ListView: React.FunctionComponent = () => {
     const total = rowData.ward.reduce(
       (a: any, b: any) => a.bed.length + b.bed.length
     );
-
-    console.log(total);
 
     // rowData.ward.map((ward: any) => {
     //   console.log(ward);
@@ -77,12 +64,11 @@ const ListView: React.FunctionComponent = () => {
             expandedRows={expandedRow}
             onRowToggle={handleRowToggle}
             rowExpansionTemplate={rowExpansionTemplate}
-            rowGroupMode="rowspan"
-            groupField="name"
           >
-            <Column expander style={{ width: "50px" }} />
+            <Column expander style={{ width: "40px" }} />
             <Column header="Fachabteilung" field="name" />
-            <Column header="Betten" body={actionTemplate} />
+            <Column header="Freie Betten" body={actionTemplate} />
+            <Column header="ICU" field="icu" />
             {/* {data.department.map(department => {
               console.log(department);
               return <Column key={department.id} header="name" field="name" />;

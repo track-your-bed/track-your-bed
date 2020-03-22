@@ -42,6 +42,18 @@
                   "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
                   "name": "frei"
                 }
+              },
+              {
+                "id": "b76f903a-f498-47b1-b991-eb1eb0c010d1",
+                "name": "Bed3",
+                "bed_type": {
+                  "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                  "name": "Intensiv"
+                },
+                "bed_state": {
+                  "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
+                  "name": "frei"
+                }
               }
             ]
           },
@@ -117,6 +129,30 @@
                 "bed_state": {
                   "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
                   "name": "frei"
+                }
+              },
+              {
+                "id": "b76f123a-f498-47b1-b991-eb1eb0c07f85",
+                "name": "Bed3",
+                "bed_type": {
+                  "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                  "name": "Intensiv"
+                },
+                "bed_state": {
+                  "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
+                  "name": "belegt"
+                }
+              },
+              {
+                "id": "b76f903a-f498-47b1-b991-eb1eb0c071234",
+                "name": "Bed2",
+                "bed_type": {
+                  "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
+                  "name": "Intensiv"
+                },
+                "bed_state": {
+                  "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
+                  "name": "belegt"
                 }
               }
             ]

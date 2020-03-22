@@ -1,0 +1,26 @@
+.station-row {
+  padding: 20px 0 20px 40px;
+  cursor: pointer;
+
+  &:nth-child(even) {
+    background: #f9f9f9;
+  }
+
+  &:hover {
+    background: #eaeaea;
+  }
+
+  &__title {
+    margin: 0 20px;
+
+    span {
+      font-size: 0.8em;
+    }
+  }
+
+  &__status {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+  }
+}

@@ -14,7 +14,7 @@ export interface Bed {
 export interface Ward {
   id: string;
   name: string;
-  warntype: InfoItem;
+  stationtype: InfoItem;
   bed: Bed[];
 }
 
