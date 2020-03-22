@@ -9,7 +9,8 @@ public class WardDto {
   private String name;
 
   private UUID departmentId;
-  private UUID wardTypeId;
+
+  private String wardType;
 
   public UUID getId() {
     return id;
@@ -35,12 +36,12 @@ public class WardDto {
     this.departmentId = departmentId;
   }
 
-  public UUID getWardTypeId() {
-    return wardTypeId;
+  public String getWardType() {
+    return wardType;
   }
 
-  public void setWardTypeId(final UUID wardTypeId) {
-    this.wardTypeId = wardTypeId;
+  public void setWardType(final String wardType) {
+    this.wardType = wardType;
   }
 
 }
