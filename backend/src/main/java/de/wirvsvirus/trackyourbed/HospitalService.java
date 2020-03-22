@@ -52,6 +52,7 @@ public class HospitalService {
    *
    * @return a {@link HospitalDto}, representing the newly created hospital.
    */
+  @Transactional
   public HospitalDto createHospital(final CreateNewHospital createNewHospital) {
     final Hospital toSave = createNewHospitalMapper.dtoToEntity(createNewHospital);
     final Hospital saved = hospitalRepository.save(toSave);
@@ -76,6 +77,7 @@ public class HospitalService {
     return hospitalDtoMapper.entityToDto(retrieved);
   }
 
+  @Transactional
   public Collection<HospitalDto> getAllHospitals() {
     final ArrayList<HospitalDto> allHospitals = new ArrayList<>();
     hospitalRepository.findAll()
