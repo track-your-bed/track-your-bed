@@ -4,7 +4,11 @@ import de.wirvsvirus.trackyourbed.dto.request.CreateNewBed;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateBed;
 import de.wirvsvirus.trackyourbed.dto.request.mapper.CreateNewBedMapper;
 import de.wirvsvirus.trackyourbed.dto.response.BedDto;
+import de.wirvsvirus.trackyourbed.dto.response.BedStateDto;
+import de.wirvsvirus.trackyourbed.dto.response.BedTypeDto;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.BedDtoMapper;
+import de.wirvsvirus.trackyourbed.dto.response.mapper.BedStateDtoMapper;
+import de.wirvsvirus.trackyourbed.dto.response.mapper.BedTypeDtoMapper;
 import de.wirvsvirus.trackyourbed.entity.Bed;
 import de.wirvsvirus.trackyourbed.entity.BedState;
 import de.wirvsvirus.trackyourbed.entity.BedType;
@@ -34,6 +38,8 @@ public class BedService {
   private final BedStateRepository bedStateRepository;
   private final CreateNewBedMapper createNewBedMapper;
   private final BedDtoMapper bedDtoMapper;
+  private final BedStateDtoMapper bedStateDtoMapper;
+  private final BedTypeDtoMapper bedTypeDtoMapper;
 
   @Inject
   public BedService(
@@ -42,13 +48,17 @@ public class BedService {
       final BedTypeRepository bedTypeRepository,
       final BedStateRepository bedStateRepository,
       final CreateNewBedMapper createNewBedMapper,
-      final BedDtoMapper bedDtoMapper) {
+      final BedDtoMapper bedDtoMapper,
+      final BedStateDtoMapper bedStateDtoMapper,
+      final BedTypeDtoMapper bedTypeDtoMapper) {
     this.bedRepository = bedRepository;
     this.wardRepository = wardRepository;
     this.bedTypeRepository = bedTypeRepository;
     this.bedStateRepository = bedStateRepository;
     this.createNewBedMapper = createNewBedMapper;
     this.bedDtoMapper = bedDtoMapper;
+    this.bedStateDtoMapper = bedStateDtoMapper;
+    this.bedTypeDtoMapper = bedTypeDtoMapper;
   }
 
   public BedDto createNewBed(final CreateNewBed createNewBed) {
@@ -121,7 +131,7 @@ public class BedService {
   }
 
   @Transactional
-  public BedDto updateState(final UUID id, final String bedStateName) {
+  public BedStateDto updateState(final UUID id, final String bedStateName) {
     final Bed toUpdate = bedRepository.findById(id).orElseThrow(() -> new NoSuchBedException(id));
 
     final BedState bedState = bedStateRepository.findByName(bedStateName)
@@ -129,11 +139,11 @@ public class BedService {
 
     toUpdate.setBedState(bedState);
     final Bed updated = bedRepository.save(toUpdate);
-    return bedDtoMapper.entityToDto(updated);
+    return bedStateDtoMapper.entityToDto(updated.getBedState());
   }
 
   @Transactional
-  public BedDto updateType(final UUID id, final String bedTypeName) {
+  public BedTypeDto updateType(final UUID id, final String bedTypeName) {
     final Bed toUpdate = bedRepository.findById(id).orElseThrow(() -> new NoSuchBedException(id));
 
     final BedType bedType = bedTypeRepository.findByName(bedTypeName)
@@ -141,6 +151,6 @@ public class BedService {
 
     toUpdate.setBedType(bedType);
     final Bed updated = bedRepository.save(toUpdate);
-    return bedDtoMapper.entityToDto(updated);
+    return bedTypeDtoMapper.entityToDto(updated.getBedType());
   }
 }

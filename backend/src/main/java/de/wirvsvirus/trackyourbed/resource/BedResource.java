@@ -3,9 +3,9 @@ package de.wirvsvirus.trackyourbed.resource;
 import de.wirvsvirus.trackyourbed.BedService;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewBed;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateBed;
-import de.wirvsvirus.trackyourbed.dto.request.UpdateBedBedStateDto;
-import de.wirvsvirus.trackyourbed.dto.request.UpdateBedBedTypeDto;
 import de.wirvsvirus.trackyourbed.dto.response.BedDto;
+import de.wirvsvirus.trackyourbed.dto.response.BedStateDto;
+import de.wirvsvirus.trackyourbed.dto.response.BedTypeDto;
 import java.net.URI;
 import java.util.Collection;
 import java.util.UUID;
@@ -68,16 +68,16 @@ public class BedResource {
   }
 
   @PutMapping("{id}/bedState")
-  public ResponseEntity<BedDto> updateBedState(
+  public ResponseEntity<BedStateDto> updateBedState(
       @PathVariable("id") final UUID id,
-      @RequestBody final UpdateBedBedStateDto updateBedBedStateDto) {
-    return ResponseEntity.ok(bedService.updateState(id, updateBedBedStateDto.getBedState()));
+      @RequestBody final BedStateDto bedState) {
+    return ResponseEntity.ok(bedService.updateState(id, bedState.getName()));
   }
 
   @PutMapping("{id}/bedType")
-  public ResponseEntity<BedDto> updateBedType(
+  public ResponseEntity<BedTypeDto> updateBedType(
       @PathVariable("id") final UUID id,
-      @RequestBody final UpdateBedBedTypeDto updateBedBedTypeDto) {
-    return ResponseEntity.ok(bedService.updateType(id, updateBedBedTypeDto.getBedType()));
+      @RequestBody final BedTypeDto bedType) {
+    return ResponseEntity.ok(bedService.updateType(id, bedType.getName()));
   }
 }
