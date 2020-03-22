@@ -5,8 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "station_type")
-public class StationType extends AbstractBaseEntity {
+@Table(name = "ward_type")
+public class WardType extends AbstractBaseEntity {
 
   @Column(name = "name")
   private String name;

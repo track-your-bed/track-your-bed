@@ -1,6 +1,6 @@
 package de.wirvsvirus.trackyourbed.dto.response;
 
-public class StationTypeDto {
+public class WardTypeDto {
   private String name;
 
   public String getName() {

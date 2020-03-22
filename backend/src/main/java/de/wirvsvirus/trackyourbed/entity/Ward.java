@@ -7,8 +7,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "station")
-public class Station extends AbstractBaseEntity {
+@Table(name = "ward")
+public class Ward extends AbstractBaseEntity {
 
   @Column(name = "name")
   private String name;
@@ -18,8 +18,8 @@ public class Station extends AbstractBaseEntity {
   private Department department;
 
   @ManyToOne
-  @JoinColumn(name = "station_type_name", referencedColumnName = "name")
-  private StationType stationType;
+  @JoinColumn(name = "ward_type_name", referencedColumnName = "name")
+  private WardType wardType;
 
   public String getName() {
     return name;
@@ -37,12 +37,12 @@ public class Station extends AbstractBaseEntity {
     this.department = department;
   }
 
-  public StationType getStationType() {
-    return stationType;
+  public WardType getWardType() {
+    return wardType;
   }
 
-  public void setStationType(final StationType stationType) {
-    this.stationType = stationType;
+  public void setWardType(final WardType wardType) {
+    this.wardType = wardType;
   }
 
 }
