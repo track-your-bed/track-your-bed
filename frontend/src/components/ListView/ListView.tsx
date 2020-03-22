@@ -1,6 +1,7 @@
 import * as React from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { Link } from "react-router-dom";
 
 // Components
 import { InputText } from "primereact/inputtext";
@@ -17,13 +18,17 @@ import "primeicons/primeicons.css";
 import "./ListView.scss";
 
 import SampleData from "../SampleData/Data.json";
+import CapacityData from "../SampleData/ListView.json";
 
 const ListView: React.FunctionComponent = () => {
   const [data, setData] = React.useState<null | ListData>(null);
+  const [listData, setListData] = React.useState<any>(null);
   const [dataFilter, setDataFilter] = React.useState("");
   const [expandedRow, setExpandedRow] = React.useState<null | any>(null);
 
   React.useEffect(() => {
+    console.log(CapacityData);
+    setListData(CapacityData);
     setData(SampleData[0] as ListData);
   }, []);
 
@@ -35,23 +40,20 @@ const ListView: React.FunctionComponent = () => {
     return <StationTable data={data} />;
   };
 
-  const actionTemplate = (rowData: any, column: any) => {
-    const total = rowData.ward.reduce(
-      (a: any, b: any) => a.bed.length + b.bed.length
-    );
-
-    return (
-      <div>
-        <p>{total} / 20</p>
-      </div>
-    );
-  };
+  const actionTemplate = (rowData: any, column: any) => (
+    <div>
+      <p>
+        {console.log({ rowData, column })}
+        {rowData.all.freeCapacity} / {rowData.all.maxCapacity}
+      </p>
+    </div>
+  );
 
   return (
     <div className="list-view">
       {data && (
         <div>
-          <h1>{data.name}</h1>
+          <h1>{listData.name}</h1>
           <div className="list-view__search">
             <span className="p-float-label">
               <InputText
@@ -62,8 +64,13 @@ const ListView: React.FunctionComponent = () => {
               <label htmlFor="in">Fachabteilung Suche</label>
             </span>
           </div>
+          <div className="list-view__edit">
+            <Link to="/hospital/:hospitalId/:departmentId/edit">
+              Fachabteilung hinzufügen
+            </Link>
+          </div>
           <DataTable
-            value={data.department}
+            value={listData.departmentCapacities}
             expandedRows={expandedRow}
             onRowToggle={handleRowToggle}
             rowExpansionTemplate={rowExpansionTemplate}
@@ -73,11 +80,11 @@ const ListView: React.FunctionComponent = () => {
             <Column expander style={{ width: "50px" }} />
             <Column header="Fachabteilung" field="name" />
             <Column header="Freie Betten" body={actionTemplate} />
-            <Column header="Standard" field="icu" />
-            <Column header="IMC" field="icu" />
-            <Column header="ICU" field="icu" />
-            <Column header="Covid Normal" field="icu" />
-            <Column header="Covid Intensiv" field="icu" />
+            <Column header="Standard" field="normal.maxCapacity" />
+            <Column header="IMC" field="imc.maxCapacity" />
+            <Column header="ICU" field="icu.maxCapacity" />
+            <Column header="Covid Normal" field="covid.maxCapacity" />
+            <Column header="Covid Intensiv" field="covidIcu.maxCapacity" />
           </DataTable>
         </div>
       )}
