@@ -44,4 +44,5 @@ public class Station extends AbstractBaseEntity {
   public void setStationType(final StationType stationType) {
     this.stationType = stationType;
   }
+
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class BedTypeService {
+
   private final BedTypeRepository bedTypeRepository;
   private final BedTypeDtoMapper bedTypeDtoMapper;
 

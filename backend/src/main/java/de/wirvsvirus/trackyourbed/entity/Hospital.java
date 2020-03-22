@@ -51,4 +51,5 @@ public class Hospital extends AbstractBaseEntity{
   public void setLon(final String lng) {
     this.lon = lng;
   }
+
 }

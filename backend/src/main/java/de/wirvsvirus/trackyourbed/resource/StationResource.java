@@ -56,5 +56,4 @@ public class StationResource {
     return ResponseEntity.ok(stationService.updateStation(id, updateStation));
   }
 
-
 }

@@ -99,5 +99,6 @@ public class HospitalService {
 
     return hospitalDtoMapper.entityToDto(toBeUpdated);
   }
+
 }
 

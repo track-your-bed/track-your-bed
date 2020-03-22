@@ -31,4 +31,5 @@ public class StationTypeResource {
       @PathVariable("name") final String name) {
     return ResponseEntity.ok(stationTypeService.getStationTypeByName(name));
   }
+
 }

@@ -14,8 +14,9 @@ public class BedStateService {
   private final BedStateDtoMapper bedStateDtoMapper;
 
   @Inject
-  public BedStateService(final BedStateRepository bedStateRepository,
-                         final BedStateDtoMapper bedStateDtoMapper){
+  public BedStateService(
+      final BedStateRepository bedStateRepository,
+      final BedStateDtoMapper bedStateDtoMapper){
     this.bedStateRepository = bedStateRepository;
     this.bedStateDtoMapper = bedStateDtoMapper;
   }
