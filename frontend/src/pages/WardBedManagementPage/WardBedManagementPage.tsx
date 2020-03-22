@@ -1,11 +1,17 @@
 import * as React from "react"
+import WardBedManagementTbl from "../../components/WardBedManagmentTbl/WardBedManagementTbl";
 
-import WardBedManagementTbl from "../../components/WardBedManagmentTbl/WardBedManagementTbl"
-const WardBedManagementPage: React.FunctionComponent = () => {
+interface WardBedManagementPage {
+    hospitalName: string
+}
 
+const WardBedManagementPage: React.FunctionComponent<WardBedManagementPage> = ({
+hospitalName,}
+) => {
     return (
         <div>
-            <WardBedManagementTbl />
+            <WardBedManagementTbl hospitalName={hospitalName}/>
         </div>
     )
 };
+export default WardBedManagementPage;
