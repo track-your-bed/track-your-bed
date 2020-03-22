@@ -4,7 +4,7 @@ import * as React from "react";
 import {Dropdown} from 'primereact/dropdown';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
-import { useParams} from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -83,6 +83,9 @@ const EditDepartment: React.FunctionComponent = () => {
   const [departmentName, setDepartmentName] = React.useState(
     ""
   )
+
+  const history = useHistory()
+
   const {hospitalId, departmentId}=useParams();
 
   function handleClickSubmit(event: any){
@@ -108,7 +111,7 @@ const EditDepartment: React.FunctionComponent = () => {
           </span>
           <div>
             <Button label="Hinzufügen" onClick={handleClickSubmit}/>
-            <Button style={btnStyle} label="Abbrechen" onClick={handleClickCancle} />
+            <Button style={btnStyle} label="Abbrechen" onClick={() => {history.goBack()}} />
           </div>
         </form>
     </div>
