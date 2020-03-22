@@ -1,8 +1,8 @@
 import * as React from "react";
-import classNames from "classnames";
+import { Link } from "react-router-dom";
 
 // Types
-import { Ward, Bed } from "../ListView/ListView.types";
+import { Ward } from "../../datatypes/ListView.types";
 
 // Styles
 import "./StationRow.scss";
@@ -20,7 +20,6 @@ const StationRow: React.FunctionComponent<StationRow> = ({
 
   React.useEffect(() => {
     if (stationData) {
-      console.log(stationData);
       const bedsVacant = stationData.bed.filter(bed => {
         return bed.bed_state.name === "frei";
       }).length;
@@ -35,11 +34,11 @@ const StationRow: React.FunctionComponent<StationRow> = ({
   }, [stationData]);
 
   const getColorFromPercentage = (percent: number): string => {
-    if (percent > 60) {
+    if (percent >= 25) {
       return "#6ab04c";
     }
 
-    if (percent > 40) {
+    if (percent > 0) {
       return "#f9ca24";
     }
 
@@ -59,6 +58,7 @@ const StationRow: React.FunctionComponent<StationRow> = ({
         </td>
         <td>
           <p className="station-row__title">{stationData.name}</p>
+          <Link to={`/wardBedManagement/${stationData.id}`}>Vacancy</Link>
         </td>
         <td>
           <p className="station-row__vacancy">
