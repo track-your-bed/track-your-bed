@@ -1,7 +1,9 @@
 package de.wirvsvirus.trackyourbed.entity;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,6 +21,9 @@ public class Hospital extends AbstractBaseEntity{
 
   @Column(name = "long")
   private String lon;
+
+  @OneToMany(mappedBy = "hospital")
+  private List<Department> departments;
 
   public String getName() {
     return name;
@@ -52,4 +57,11 @@ public class Hospital extends AbstractBaseEntity{
     this.lon = lng;
   }
 
+  public List<Department> getDepartments() {
+    return departments;
+  }
+
+  public void setDepartments(final List<Department> departments) {
+    this.departments = departments;
+  }
 }

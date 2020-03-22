@@ -1,6 +1,7 @@
 package de.wirvsvirus.trackyourbed.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Collection;
 import java.util.UUID;
 
 public class HospitalDto {
@@ -12,6 +13,8 @@ public class HospitalDto {
 
   @JsonProperty("long")
   private String lon;
+
+  private Collection<DepartmentDto> departments;
 
   public UUID getId() {
     return id;
@@ -53,4 +56,11 @@ public class HospitalDto {
     this.lon = lon;
   }
 
+  public Collection<DepartmentDto> getDepartments() {
+    return departments;
+  }
+
+  public void setDepartments(final Collection<DepartmentDto> departments) {
+    this.departments = departments;
+  }
 }

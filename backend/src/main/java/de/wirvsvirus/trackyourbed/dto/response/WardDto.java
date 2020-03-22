@@ -1,16 +1,15 @@
 package de.wirvsvirus.trackyourbed.dto.response;
 
+import java.util.Collection;
 import java.util.UUID;
 
 public class WardDto {
 
   private UUID id;
-
   private String name;
-
   private UUID departmentId;
-
   private String wardType;
+  private Collection<BedDto> beds;
 
   public UUID getId() {
     return id;
@@ -44,4 +43,11 @@ public class WardDto {
     this.wardType = wardType;
   }
 
+  public Collection<BedDto> getBeds() {
+    return beds;
+  }
+
+  public void setBeds(final Collection<BedDto> beds) {
+    this.beds = beds;
+  }
 }
