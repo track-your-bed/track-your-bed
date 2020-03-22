@@ -50,8 +50,8 @@ public class WardService {
         .orElseThrow(() -> new DepartmentMissingException(createNewWard.getDepartmentId()));
     // formatter:off
     final WardType wardType = wardTypeRepository
-        .findByName(createNewWard.getWardTypeName())
-        .orElseThrow(() -> new InvalidWardTypeException(createNewWard.getWardTypeName()));
+        .findByName(createNewWard.getWardType())
+        .orElseThrow(() -> new InvalidWardTypeException(createNewWard.getWardType()));
     // formatter:on
     toSave.setDepartment(department);
     toSave.setWardType(wardType);
@@ -82,15 +82,19 @@ public class WardService {
     if (updateWard.getName() != null) {
       ward.setName(updateWard.getName());
     }
-    if (updateWard.getDepartmentId() != null) {
-      final Department department = departmentRepository.findById(updateWard.getDepartmentId())
-          .orElseThrow(() -> new DepartmentMissingException(updateWard.getDepartmentId()));
+
+    final UUID departmentId = updateWard.getDepartmentId();
+    if (departmentId != null) {
+      final Department department = departmentRepository.findById(departmentId)
+          .orElseThrow(() -> new DepartmentMissingException(departmentId));
       ward.setDepartment(department);
     }
-    if (updateWard.getWardTypeName() != null) {
+
+    final String wardTypeName = updateWard.getWardType();
+    if (wardTypeName != null) {
       final WardType wardType =
-          wardTypeRepository.findByName(updateWard.getWardTypeName())
-              .orElseThrow(() -> new InvalidWardTypeException(updateWard.getWardTypeName()));
+          wardTypeRepository.findByName(wardTypeName)
+              .orElseThrow(() -> new InvalidWardTypeException(wardTypeName));
       ward.setWardType(wardType);
     }
     return wardDtoMapper.entityToDto(ward);

@@ -5,7 +5,7 @@ import java.util.UUID;
 public class UpdateWard {
   private String name;
   private UUID departmentId;
-  private String wardTypeName;
+  private String wardType;
 
   public String getName() {
     return name;
@@ -23,11 +23,11 @@ public class UpdateWard {
     this.departmentId = departmentId;
   }
 
-  public String getWardTypeName() {
-    return wardTypeName;
+  public String getWardType() {
+    return wardType;
   }
 
-  public void setWardTypeName(final String wardTypeName) {
-    this.wardTypeName = wardTypeName;
+  public void setWardType(final String wardTypeName) {
+    this.wardType = wardTypeName;
   }
 }
