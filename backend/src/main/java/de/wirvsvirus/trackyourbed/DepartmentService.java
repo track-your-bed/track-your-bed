@@ -76,4 +76,5 @@ public class DepartmentService {
     }
     return departmentDtoMapper.entityToDto(department);
   }
+
 }

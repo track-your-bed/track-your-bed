@@ -65,4 +65,5 @@ public class HospitalResource {
       @RequestBody @Valid final UpdateHospital updateHospital) {
     return ResponseEntity.ok().body(hospitalService.updateHospital(hospitalId, updateHospital));
   }
+
 }

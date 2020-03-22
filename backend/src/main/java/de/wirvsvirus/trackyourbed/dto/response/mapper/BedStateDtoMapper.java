@@ -1,9 +1,7 @@
 package de.wirvsvirus.trackyourbed.dto.response.mapper;
 
-
 import de.wirvsvirus.trackyourbed.dto.response.BedStateDto;
 import de.wirvsvirus.trackyourbed.entity.BedState;
-import de.wirvsvirus.trackyourbed.entity.BedType;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

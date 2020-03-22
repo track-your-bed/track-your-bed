@@ -11,5 +11,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope(scopeName = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public interface BedTypeRepository extends CrudRepository<BedType, UUID> {
+
   Optional<BedType> findByName(String name);
+
 }

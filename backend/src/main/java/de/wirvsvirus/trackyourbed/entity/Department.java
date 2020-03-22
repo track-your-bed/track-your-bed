@@ -32,4 +32,5 @@ public class Department extends AbstractBaseEntity {
   public void setHospital(final Hospital hospital) {
     this.hospital = hospital;
   }
+
 }

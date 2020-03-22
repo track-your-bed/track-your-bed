@@ -1,6 +1,7 @@
 package de.wirvsvirus.trackyourbed.dto.response;
 
 public class BedTypeDto {
+
   private String name;
 
   public String getName() {
@@ -10,4 +11,5 @@ public class BedTypeDto {
   public void setName(final String name) {
     this.name = name;
   }
+
 }

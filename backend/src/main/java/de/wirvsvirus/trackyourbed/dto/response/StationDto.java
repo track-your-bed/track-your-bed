@@ -42,4 +42,5 @@ public class StationDto {
   public void setStationTypeId(final UUID stationTypeId) {
     this.stationTypeId = stationTypeId;
   }
+
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class StationTypeService {
+
   private final StationTypeRepository stationTypeRepository;
   private final StationTypeDtoMapper stationTypeDtoMapper;
 

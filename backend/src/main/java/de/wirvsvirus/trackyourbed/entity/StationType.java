@@ -18,4 +18,5 @@ public class StationType extends AbstractBaseEntity {
   public void setName(final String name) {
     this.name = name;
   }
+
 }

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path="/api/bedStates")
+@RequestMapping(path = "/api/bedStates")
 public class BedStateResource {
 
   private final BedStateService bedStateService;
