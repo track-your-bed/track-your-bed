@@ -17,7 +17,6 @@ const StationRow: React.FunctionComponent<StationRow> = ({
   const [vacant, setVacant] = React.useState(0);
   const [max, setMax] = React.useState(0);
   const [percentage, setPercentage] = React.useState(100);
-  const [toggled, setToggled] = React.useState(false);
 
   React.useEffect(() => {
     if (stationData) {
@@ -47,18 +46,9 @@ const StationRow: React.FunctionComponent<StationRow> = ({
     return "#eb4d4b";
   };
 
-  const toggleRow = () => {
-    setToggled(!toggled);
-  };
-
   return (
     <>
-      <tr
-        className={classNames("station-row", {
-          "--expanded": toggled
-        })}
-        onClick={toggleRow}
-      >
+      <tr className="station-row">
         <td>
           <div
             className="station-row__status"
@@ -101,22 +91,6 @@ const StationRow: React.FunctionComponent<StationRow> = ({
           </p>
         </td>
       </tr>
-      {toggled &&
-        stationData.bed.map((bed: Bed) => {
-          const bedClass = classNames("station-row__bed", {
-            "--occupied": bed.bed_state.name === "belegt",
-            "--free": bed.bed_state.name === "frei"
-          });
-
-          return (
-            <tr key={bed.id} className={bedClass}>
-              <td />
-              <td>{bed.name}</td>
-              <td>{bed.bed_type.name}</td>
-              <td>{bed.bed_state.name}</td>
-            </tr>
-          );
-        })}
     </>
   );
 };
