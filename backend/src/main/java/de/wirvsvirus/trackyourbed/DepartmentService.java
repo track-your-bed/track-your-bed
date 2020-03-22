@@ -39,6 +39,7 @@ public class DepartmentService {
     this.departmentDtoMapper = departmentDtoMapper;
   }
 
+  @Transactional
   public DepartmentDto createDepartment(final CreateNewDepartment createNewDepartment) {
     final Department toSave = createNewDepartmentMapper.dtoToEntity(createNewDepartment);
     final Hospital hospital = hospitalRepository.findById(createNewDepartment.getHospitalId())
@@ -52,6 +53,7 @@ public class DepartmentService {
     departmentRepository.deleteById(departmentId);
   }
 
+  @Transactional
   public Collection<DepartmentDto> getAllDepartments() {
     final ArrayList<DepartmentDto> result = new ArrayList<>();
     departmentRepository.findAll()
@@ -59,6 +61,7 @@ public class DepartmentService {
     return result;
   }
 
+  @Transactional
   public DepartmentDto getDepartmentById(final UUID id) {
     final Department retrieved = departmentRepository.findById(id)
         .orElseThrow(() -> new NoSuchDepartmentExcpetion(id));
@@ -69,10 +72,12 @@ public class DepartmentService {
   public DepartmentDto updateDepartment(final UUID id, final UpdateDepartment updateDepartment) {
     final Department department = departmentRepository.findById(id)
         .orElseThrow(() -> new NoSuchDepartmentExcpetion(id));
+
     final String name = updateDepartment.getName();
     if (name != null) {
       department.setName(name);
     }
+
     final UUID hospitalId = updateDepartment.getHospitalId();
     if (hospitalId != null) {
       final Hospital hospital =
@@ -80,6 +85,7 @@ public class DepartmentService {
               .orElseThrow(() -> new NoSuchHospitalException(updateDepartment.getHospitalId()));
       department.setHospital(hospital);
     }
+
     return departmentDtoMapper.entityToDto(department);
   }
 
