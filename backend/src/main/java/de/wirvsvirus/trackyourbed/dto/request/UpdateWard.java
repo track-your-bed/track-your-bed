@@ -2,10 +2,10 @@ package de.wirvsvirus.trackyourbed.dto.request;
 
 import java.util.UUID;
 
-public class UpdateStation {
+public class UpdateWard {
   private String name;
   private UUID departmentId;
-  private String stationTypeName;
+  private String wardTypeName;
 
   public String getName() {
     return name;
@@ -23,11 +23,11 @@ public class UpdateStation {
     this.departmentId = departmentId;
   }
 
-  public String getStationTypeName() {
-    return stationTypeName;
+  public String getWardTypeName() {
+    return wardTypeName;
   }
 
-  public void setStationTypeName(final String stationTypeName) {
-    this.stationTypeName = stationTypeName;
+  public void setWardTypeName(final String wardTypeName) {
+    this.wardTypeName = wardTypeName;
   }
 }

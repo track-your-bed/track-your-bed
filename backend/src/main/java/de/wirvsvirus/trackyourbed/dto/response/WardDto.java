@@ -2,14 +2,14 @@ package de.wirvsvirus.trackyourbed.dto.response;
 
 import java.util.UUID;
 
-public class StationDto {
+public class WardDto {
 
   private UUID id;
 
   private String name;
 
   private UUID departmentId;
-  private UUID stationTypeId;
+  private UUID wardTypeId;
 
   public UUID getId() {
     return id;
@@ -35,12 +35,12 @@ public class StationDto {
     this.departmentId = departmentId;
   }
 
-  public UUID getStationTypeId() {
-    return stationTypeId;
+  public UUID getWardTypeId() {
+    return wardTypeId;
   }
 
-  public void setStationTypeId(final UUID stationTypeId) {
-    this.stationTypeId = stationTypeId;
+  public void setWardTypeId(final UUID wardTypeId) {
+    this.wardTypeId = wardTypeId;
   }
 
 }

@@ -3,7 +3,7 @@ package de.wirvsvirus.trackyourbed.dto.request;
 import java.util.UUID;
 import javax.validation.constraints.NotNull;
 
-public class CreateNewStation {
+public class CreateNewWard {
 
   @NotNull(message = "attribute \"name\" must be set.")
   private String name;
@@ -11,8 +11,8 @@ public class CreateNewStation {
   @NotNull(message = "attribute \"departmentId\" must be set.")
   private UUID departmentId;
 
-  @NotNull(message = "attribute \"stationTypeName\" must be set.")
-  private String stationTypeName;
+  @NotNull(message = "attribute \"wardTypeName\" must be set.")
+  private String wardTypeName;
 
   public String getName() {
     return name;
@@ -30,11 +30,11 @@ public class CreateNewStation {
     this.departmentId = departmentId;
   }
 
-  public String getStationTypeName() {
-    return stationTypeName;
+  public String getWardTypeName() {
+    return wardTypeName;
   }
 
-  public void setStationTypeName(final String stationTypeName) {
-    this.stationTypeName = stationTypeName;
+  public void setWardTypeName(final String wardTypeName) {
+    this.wardTypeName = wardTypeName;
   }
 }
