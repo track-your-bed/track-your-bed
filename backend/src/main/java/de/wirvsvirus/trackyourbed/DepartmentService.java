@@ -7,7 +7,7 @@ import de.wirvsvirus.trackyourbed.dto.response.DepartmentDto;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.DepartmentDtoMapper;
 import de.wirvsvirus.trackyourbed.entity.Department;
 import de.wirvsvirus.trackyourbed.entity.Hospital;
-import de.wirvsvirus.trackyourbed.excpetion.NoSuchDepartmentExcpetion;
+import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchDepartmentExcpetion;
 import de.wirvsvirus.trackyourbed.excpetion.dependency.HospitalMissingException;
 import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchHospitalException;
 import de.wirvsvirus.trackyourbed.persistence.DepartmentRepository;
@@ -57,14 +57,14 @@ public class DepartmentService {
 
   public DepartmentDto getDepartmentById(final UUID id) {
     final Department retrieved = departmentRepository.findById(id)
-        .orElseThrow(NoSuchDepartmentExcpetion::new);
+        .orElseThrow(() -> new NoSuchDepartmentExcpetion(id));
     return departmentDtoMapper.entityToDto(retrieved);
   }
 
   @Transactional
   public DepartmentDto updateDepartment(final UUID id, final UpdateDepartment updateDepartment) {
     final Department department = departmentRepository.findById(id)
-        .orElseThrow(NoSuchDepartmentExcpetion::new);
+        .orElseThrow(() -> new NoSuchDepartmentExcpetion(id));
     final String name = updateDepartment.getName();
     if (name != null) {
       department.setName(name);

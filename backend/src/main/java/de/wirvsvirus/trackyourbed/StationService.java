@@ -7,8 +7,8 @@ import de.wirvsvirus.trackyourbed.dto.response.mapper.StationDtoMapper;
 import de.wirvsvirus.trackyourbed.entity.Department;
 import de.wirvsvirus.trackyourbed.entity.Station;
 import de.wirvsvirus.trackyourbed.entity.StationType;
-import de.wirvsvirus.trackyourbed.excpetion.NoSuchDepartmentExcpetion;
-import de.wirvsvirus.trackyourbed.excpetion.dependency.HospitalMissingException;
+import de.wirvsvirus.trackyourbed.excpetion.dependency.DepartmentMissingException;
+import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchDepartmentExcpetion;
 import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchStationException;
 import de.wirvsvirus.trackyourbed.excpetion.dependency.InvalidStationTypeException;
 import de.wirvsvirus.trackyourbed.persistence.DepartmentRepository;
@@ -48,7 +48,7 @@ public class StationService {
   public StationDto createNewStation(final CreateNewStation createNewStation) {
     final Station toSave = createNewStationRequestMapper.dtoToEntity(createNewStation);
     final Department department = departmentRepository.findById(createNewStation.getDepartmentId())
-        .orElseThrow(NoSuchDepartmentExcpetion::new);
+        .orElseThrow(() -> new DepartmentMissingException(createNewStation.getDepartmentId()));
     // formatter:off
     final StationType stationType = stationTypeRepository
         .findByName(createNewStation.getStationTypeName())
@@ -81,7 +81,7 @@ public class StationService {
     }
     if (updateStation.getDepartmentId() != null) {
       final Department department = departmentRepository.findById(updateStation.getDepartmentId())
-          .orElseThrow(NoSuchDepartmentExcpetion::new);
+          .orElseThrow(() -> new DepartmentMissingException(updateStation.getDepartmentId()));
       station.setDepartment(department);
     }
     if (updateStation.getStationTypeName() != null) {
