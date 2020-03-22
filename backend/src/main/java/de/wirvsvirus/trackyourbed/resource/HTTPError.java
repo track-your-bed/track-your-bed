@@ -1,11 +1,11 @@
-package de.wirvsvirus.trackyourbed.excpetion.resource;
+package de.wirvsvirus.trackyourbed.resource;
 
 public class HTTPError {
 
   private final ErrorCode code;
   private final String errorMessage;
 
-  private HTTPError(ErrorCode code, String errorMessage) {
+  public HTTPError(final ErrorCode code, final String errorMessage) {
     this.code = code;
     this.errorMessage = errorMessage;
   }
@@ -22,4 +22,5 @@ public class HTTPError {
   public String toString(){
     return code + ": " + errorMessage;
   }
+
 }

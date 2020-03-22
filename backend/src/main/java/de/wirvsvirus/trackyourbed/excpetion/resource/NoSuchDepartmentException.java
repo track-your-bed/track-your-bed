@@ -6,8 +6,10 @@ import static java.lang.String.format;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-public class NoSuchDepartmentExcpetion extends NoSuchElementException {
-  public NoSuchDepartmentExcpetion(final UUID missingId) {
+public class NoSuchDepartmentException extends NoSuchElementException {
+
+  public NoSuchDepartmentException(final UUID missingId) {
     super(format("Could not find department with ID %s", missingId));
   }
+
 }
