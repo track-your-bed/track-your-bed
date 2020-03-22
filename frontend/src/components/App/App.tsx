@@ -9,6 +9,9 @@ import Dashboard from "../../pages/Dashboard/Dashboard";
 import Settings from "../../pages/Settings/Settings";
 import Login from "../../pages/Login/Login";
 import HospitalList from "../../pages/HospitalList/HospitalList";
+import EditBed from "../../pages/EditBed/EditBed";
+import EditWard from "../../pages/EditWard/EditWard"
+import EditDepartmend from "../../pages/EditDepartment/EditDepartment"
 
 // Styles
 import "./App.scss";
@@ -29,6 +32,15 @@ const App: React.FunctionComponent = () => (
         </Route>
         <Route path="/settings" exact>
           <Settings />
+        </Route>
+        <Route path="/hospital/:hospitalId/:departmentID/:wardId/:bedID/edit">
+          <EditBed/>
+        </Route>
+        <Route path="/hospital/:hospitalId/:departmendID/:wardId/edit">
+          <EditWard/>
+        </Route>
+        <Route path="/hospital/:hospitalId/:departmentID/edit">
+          <EditDepartmend/>
         </Route>
       </Switch>
     </Router>
