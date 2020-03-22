@@ -7,12 +7,16 @@ interface WardActionTemplate {
     isOccupied: boolean
 }
 
+function handleClickTrigger(event: any) {
+    console.log(event)
+}
+
 const WardActionTemplate: React.FunctionComponent<WardActionTemplate> = ({
     isOccupied,
 }) => {
     return (
         <div>
-            {isOccupied ? <FreeButton /> : <OccupiedButton />}
+
         </div>
     );
 };
