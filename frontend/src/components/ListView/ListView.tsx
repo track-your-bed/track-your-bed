@@ -7,6 +7,7 @@ import { ListData } from "./ListView.types";
 
 // Components
 import StationTable from "../StationTable/StationTable";
+import InputField from "../InputField/InputField";
 
 // Styles
 import "primereact/resources/themes/nova-light/theme.css";
@@ -18,6 +19,7 @@ import SampleData from "../SampleData/Data.json";
 
 const ListView: React.FunctionComponent = () => {
   const [data, setData] = React.useState<null | ListData>(null);
+  const [dataFilter, setDataFilter] = React.useState("");
   const [expandedRow, setExpandedRow] = React.useState<null | any>(null);
 
   React.useEffect(() => {
@@ -49,7 +51,7 @@ const ListView: React.FunctionComponent = () => {
 
     return (
       <div>
-        <p>{total}</p>
+        <p>{total} / 20</p>
       </div>
     );
   };
@@ -59,20 +61,31 @@ const ListView: React.FunctionComponent = () => {
       {data && (
         <div>
           <h1>{data.name}</h1>
+          <div className="list-view__search">
+            <InputField
+              id="search"
+              label="Abteilungssuche"
+              onChange={(event: any) =>
+                setDataFilter(event.currentTarget.value)
+              }
+            />
+          </div>
           <DataTable
             value={data.department}
             expandedRows={expandedRow}
             onRowToggle={handleRowToggle}
             rowExpansionTemplate={rowExpansionTemplate}
+            tableClassName="list-view__table"
+            globalFilter={dataFilter}
           >
-            <Column expander style={{ width: "40px" }} />
+            <Column expander style={{ width: "50px" }} />
             <Column header="Fachabteilung" field="name" />
             <Column header="Freie Betten" body={actionTemplate} />
+            <Column header="Standard" field="icu" />
+            <Column header="IMC" field="icu" />
             <Column header="ICU" field="icu" />
-            {/* {data.department.map(department => {
-              console.log(department);
-              return <Column key={department.id} header="name" field="name" />;
-            })} */}
+            <Column header="Covid Normal" field="icu" />
+            <Column header="Covid Intensiv" field="icu" />
           </DataTable>
         </div>
       )}
