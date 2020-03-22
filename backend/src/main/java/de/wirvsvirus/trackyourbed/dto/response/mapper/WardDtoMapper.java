@@ -5,7 +5,7 @@ import de.wirvsvirus.trackyourbed.entity.Ward;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = BedDtoMapper.class)
 public interface WardDtoMapper {
 
   @Mapping(source = "department.id", target = "departmentId")

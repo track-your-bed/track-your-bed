@@ -44,6 +44,7 @@ public class WardService {
     this.wardDtoMapper = wardDtoMapper;
   }
 
+  @Transactional
   public WardDto createNewWard(final CreateNewWard createNewWard) {
     final Ward toSave = createNewWardMapper.dtoToEntity(createNewWard);
     final Department department = departmentRepository.findById(createNewWard.getDepartmentId())
@@ -63,6 +64,7 @@ public class WardService {
     wardRepository.deleteById(wardId);
   }
 
+  @Transactional
   public Collection<WardDto> getAllWards() {
     final ArrayList<WardDto> result = new ArrayList<>();
     wardRepository.findAll()
@@ -70,6 +72,7 @@ public class WardService {
     return result;
   }
 
+  @Transactional
   public WardDto getWardById(final UUID id) {
     final Ward fetched = wardRepository.findById(id)
         .orElseThrow(() -> new NoSuchWardException(id));

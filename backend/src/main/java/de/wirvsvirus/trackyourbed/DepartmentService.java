@@ -39,6 +39,7 @@ public class DepartmentService {
     this.departmentDtoMapper = departmentDtoMapper;
   }
 
+  @Transactional
   public DepartmentDto createDepartment(final CreateNewDepartment createNewDepartment) {
     final Department toSave = createNewDepartmentMapper.dtoToEntity(createNewDepartment);
     final Hospital hospital = hospitalRepository.findById(createNewDepartment.getHospitalId())
@@ -48,6 +49,11 @@ public class DepartmentService {
     return departmentDtoMapper.entityToDto(saved);
   }
 
+  public void deleteDepartment(final UUID departmentId) {
+    departmentRepository.deleteById(departmentId);
+  }
+
+  @Transactional
   public Collection<DepartmentDto> getAllDepartments() {
     final ArrayList<DepartmentDto> result = new ArrayList<>();
     departmentRepository.findAll()
@@ -55,6 +61,7 @@ public class DepartmentService {
     return result;
   }
 
+  @Transactional
   public DepartmentDto getDepartmentById(final UUID id) {
     final Department retrieved = departmentRepository.findById(id)
         .orElseThrow(() -> new NoSuchDepartmentExcpetion(id));

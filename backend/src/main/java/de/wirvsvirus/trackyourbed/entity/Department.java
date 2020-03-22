@@ -1,9 +1,11 @@
 package de.wirvsvirus.trackyourbed.entity;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,6 +18,9 @@ public class Department extends AbstractBaseEntity {
   @ManyToOne
   @JoinColumn(name = "hospital_id")
   private Hospital hospital;
+
+  @OneToMany(mappedBy = "department")
+  private List<Ward> wards;
 
   public String getName() {
     return name;
@@ -31,6 +36,14 @@ public class Department extends AbstractBaseEntity {
 
   public void setHospital(final Hospital hospital) {
     this.hospital = hospital;
+  }
+
+  public List<Ward> getWards() {
+    return wards;
+  }
+
+  public void setWards(final List<Ward> wards) {
+    this.wards = wards;
   }
 
 }
