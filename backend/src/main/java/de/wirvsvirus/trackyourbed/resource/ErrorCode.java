@@ -8,7 +8,8 @@ public enum ErrorCode {
   DEPARTMENT_NOT_FOUND(4, "department not found"),
   BED_TYPE_NOT_FOUND(5, "bed type not found"),
   BED_STATE_NOT_FOUND(6, "bed state not found"),
-  BED_NOT_FOUND(7, "bed not found");
+  BED_NOT_FOUND(7, "bed not found"),
+  DEPARTMENT_TYPE_NOT_FOUND(8, "department type not found");
 
   private final int code;
   private final String description;
