@@ -1,6 +1,6 @@
 package de.wirvsvirus.trackyourbed.persistence;
 
-import de.wirvsvirus.trackyourbed.entity.StationType;
+import de.wirvsvirus.trackyourbed.entity.WardType;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Scope(scopeName = ConfigurableBeanFactory.SCOPE_SINGLETON)
-public interface StationTypeRepository extends CrudRepository<StationType, UUID> {
+public interface WardTypeRepository extends CrudRepository<WardType, UUID> {
 
-  Optional<StationType> findByName(String name);
+  Optional<WardType> findByName(String name);
 
 }

@@ -56,5 +56,4 @@ public class WardResource {
     return ResponseEntity.ok(wardService.updateWard(id, updateWard));
   }
 
-
 }

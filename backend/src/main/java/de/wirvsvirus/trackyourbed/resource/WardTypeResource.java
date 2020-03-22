@@ -31,4 +31,5 @@ public class WardTypeResource {
       @PathVariable("name") final String name) {
     return ResponseEntity.ok(wardTypeService.getWardTypeByName(name));
   }
+
 }
