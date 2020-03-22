@@ -59,6 +59,10 @@ public class WardService {
     return wardDtoMapper.entityToDto(saved);
   }
 
+  public void deleteWard(final UUID wardId) {
+    wardRepository.deleteById(wardId);
+  }
+
   public Collection<WardDto> getAllWards() {
     final ArrayList<WardDto> result = new ArrayList<>();
     wardRepository.findAll()
@@ -90,6 +94,10 @@ public class WardService {
       ward.setWardType(wardType);
     }
     return wardDtoMapper.entityToDto(ward);
+  }
+
+  public void deleteWardById(final UUID wardId) {
+    wardRepository.deleteById(wardId);
   }
 
 }
