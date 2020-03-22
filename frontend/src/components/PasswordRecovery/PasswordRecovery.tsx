@@ -1,11 +1,19 @@
 import * as React from "react";
+import {Button} from "primereact/button";
+import {InputText} from "primereact/inputtext";
+
+import 'primereact/resources/themes/nova-light/theme.css';
+import 'primereact/resources/primereact.min.css';
+
+import Label from "../Label/Label";
 import InputField from "../InputField/InputField";
-import Button from "../Button/Button";
+
+
 
 interface PasswordRecovery {
-  abortFunction: (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => void;
+    abortFunction: (
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => void;
 }
 
 const PasswordRecovery: React.FunctionComponent<PasswordRecovery> = ({

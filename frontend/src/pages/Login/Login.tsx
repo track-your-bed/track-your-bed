@@ -3,6 +3,7 @@ import * as React from "react";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import PasswordRecovery from "../../components/PasswordRecovery/PasswordRecovery";
 import Button from "../../components/Button/Button";
+import'./Login.scss';
 
 const Login: React.FunctionComponent = () => {
   const [recoveryMode, setRecoveryMode] = React.useState(false);
@@ -15,8 +16,9 @@ const Login: React.FunctionComponent = () => {
     setRecoveryMode(false);
   }
 
+
   return (
-    <div>
+    <div className = "BackgroundImg">
       {recoveryMode ? (
         <PasswordRecovery abortFunction={abort} />
       ) : (

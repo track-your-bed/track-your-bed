@@ -1,14 +1,15 @@
 import * as React from "react";
 
 // Components
-import InputField from "../InputField/InputField";
-import Button from "../Button/Button";
+import {Button} from "primereact/button";
+import {InputText} from "primereact/inputtext";
+import Label from "../Label/Label";
 
 // Style
 import "./LoginForm.scss";
 import PasswordRecovery from "../PasswordRecovery/PasswordRecovery";
-
 import AjaxHelper from "../../components/WardBedManagmentTbl/WardBedManagmentService";
+import Background from '../LoginForm/hospital-ward.jpg';
 
 const Login: React.FunctionComponent = () => {
   const [username, setUsername] = React.useState("");
@@ -23,29 +24,26 @@ const Login: React.FunctionComponent = () => {
     console.log(test);
       }
 
+  
+
   return (
-    <div>
-      <p>Login</p>
-      <InputField
-        id="username"
-        label="Benutzername"
-        onChange={(event: React.FormEvent<HTMLInputElement>): void =>
-          setUsername(event.currentTarget.value)
-        }
-      />
-      <InputField
-        id="password"
-        label="Passwort"
-        type="password"
-        onChange={(event: React.FormEvent<HTMLInputElement>): void =>
-          setPassword(event.currentTarget.value)
-        }
-      />
+    <div className="login_box">
+      <p className="login_headline">Login</p>
+      <span className="p-float-label" style={{marginBottom: '10px'}}>
+                <InputText id="username" value={username} onChange={(e) => setUsername(e.currentTarget.value)}/>
+                <Label id="username" label="Benutzername" />
+      </span>
+      <span className="p-float-label" style={{marginBottom: '10px'}}>
+          <InputText id="password" value={password} onChange={(e) => setPassword(e.currentTarget.value)}/>
+          <Label id="password" label="Passwort" />
+      </span>
+      <p></p>
+      <p></p>
       <div className="buttons">
         <Button
           id="loginButton"
-          className="button"
-          text="Login"
+          className="p-button-info"
+          label="Login"
           onClick={(): Promise<void> => getData()}
         />
       </div>
