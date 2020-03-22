@@ -31,7 +31,7 @@ public class BedTypeService {
   }
 
   public Collection<BedTypeDto> getAllBedTypes() {
-    final Collection<BedTypeDto> allBedTypes = new ArrayList<>();
+    final ArrayList<BedTypeDto> allBedTypes = new ArrayList<>();
     bedTypeRepository.findAll().forEach(entity -> allBedTypes.add(bedTypeDtoMapper.entityToDto(entity)));
     return allBedTypes;
   }

@@ -31,7 +31,7 @@ public class StationTypeService {
   }
 
   public Collection<StationTypeDto> getAllStationTypes() {
-    final Collection<StationTypeDto> allStationTypes = new ArrayList<>();
+    final ArrayList<StationTypeDto> allStationTypes = new ArrayList<>();
     stationTypeRepository.findAll().forEach(entity -> allStationTypes.add(stationTypeDtoMapper.entityToDto(entity)));
     return allStationTypes;
   }
