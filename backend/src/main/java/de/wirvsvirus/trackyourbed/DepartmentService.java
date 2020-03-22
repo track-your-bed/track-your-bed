@@ -72,7 +72,8 @@ public class DepartmentService {
     final UUID hospitalId = updateDepartment.getHospitalId();
     if (hospitalId != null) {
       final Hospital hospital =
-          hospitalRepository.findById(hospitalId).orElseThrow(() -> new NoSuchHospitalException(updateDepartment.getHospitalId()));
+          hospitalRepository.findById(hospitalId)
+              .orElseThrow(() -> new NoSuchHospitalException(updateDepartment.getHospitalId()));
       department.setHospital(hospital);
     }
     return departmentDtoMapper.entityToDto(department);
