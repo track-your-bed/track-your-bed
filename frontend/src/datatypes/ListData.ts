@@ -1,20 +1,15 @@
-export interface InfoItem {
-    id: string;
-    name: string;
-}
-
 export interface Bed {
     id: string;
     name: string;
     state_last_changed: string;
-    bed_type: InfoItem;
-    bed_state: InfoItem;
+    bed_type: string;
+    bed_state: string;
 }
 
 export interface Ward {
     id: string;
     name: string;
-    wardtype: InfoItem;
+    wardtype: string;
     bed: Bed[];
 }
 
