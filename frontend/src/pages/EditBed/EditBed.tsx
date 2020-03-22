@@ -56,7 +56,7 @@ const EditBed: React.FunctionComponent= () => {
           </span>
           <div>
             <Button label="Hinzufügen" />
-            <Button style={btnStyle} label="Abbrechen" />
+            <Button style={btnStyle} label="Abbrechen" onClick={(e) => {e.preventDefault(); window.location.href=`/hospital/${hospitalId}`;}} />
           </div>
         </form>
     </div>
