@@ -67,14 +67,14 @@ public class BedResource {
     return ResponseEntity.ok().build();
   }
 
-  @PutMapping("{id}")
+  @PutMapping("{id}/bedState")
   public ResponseEntity<BedDto> updateBedState(
       @PathVariable("id") final UUID id,
       @RequestBody final UpdateBedBedStateDto updateBedBedStateDto) {
     return ResponseEntity.ok(bedService.updateState(id, updateBedBedStateDto.getBedState()));
   }
 
-  @PutMapping("{id}")
+  @PutMapping("{id}/bedType")
   public ResponseEntity<BedDto> updateBedType(
       @PathVariable("id") final UUID id,
       @RequestBody final UpdateBedBedTypeDto updateBedBedTypeDto) {
