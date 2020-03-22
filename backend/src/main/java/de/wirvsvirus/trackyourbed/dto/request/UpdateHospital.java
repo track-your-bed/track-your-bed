@@ -3,9 +3,6 @@ package de.wirvsvirus.trackyourbed.dto.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Range;
 
-import javax.validation.constraints.NotNull;
-import java.util.UUID;
-
 public class UpdateHospital {
 
   private String name;

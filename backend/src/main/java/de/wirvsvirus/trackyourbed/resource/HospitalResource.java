@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/hospitals")
 public class HospitalResource {
 
-  private HospitalService hospitalService;
+  private final HospitalService hospitalService;
 
   @Inject
   public HospitalResource(final HospitalService hospitalService) {
