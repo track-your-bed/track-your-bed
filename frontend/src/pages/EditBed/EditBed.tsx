@@ -23,11 +23,12 @@ const fieldStyle = {
 
 
 const beds = [
-    {label: 'Intensivbett', value: 'Intensivbett'},
-    {label: 'Normalbett', value: 'Normalbett'}
+  {label: 'Normalstation', value: 'normal'},
+  {label: 'IMC', value: 'imc'},
+  {label: 'ICU (inkludiert Beatmung)', value: 'icu'},
+  {label: 'Covid Normalstation', value: 'covid'},
+  {label: 'Covid Intensivstation', value: 'covid-icu'}
 ];
-
-
 interface IEditBed {
   hospitalId: string,
   departmendId: string,
