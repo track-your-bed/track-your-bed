@@ -1,33 +1,24 @@
 package de.wirvsvirus.trackyourbed.dto.response;
 
-import de.wirvsvirus.trackyourbed.entity.FlatCapacity;
+import de.wirvsvirus.trackyourbed.entity.WardCapacity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HospitalCapacityDto extends FlatCapacityDto {
+public class HospitalCapacityDto extends WardCapacityDto {
 
-  private List<FlatCapacity> departmentCapacities;
-  private List<FlatCapacity> wardCapacities;
+  private List<WardCapacity> departmentCapacities;
 
   public HospitalCapacityDto() {
     super();
-    this.wardCapacities = new ArrayList<>();
     this.departmentCapacities = new ArrayList<>();
   }
 
-  public List<FlatCapacity> getDepartmentCapacities() {
+  public List<WardCapacity> getDepartmentCapacities() {
     return departmentCapacities;
   }
 
-  public void setDepartmentCapacities(final List<FlatCapacity> departmentCapacity) {
+  public void setDepartmentCapacities(final List<WardCapacity> departmentCapacity) {
     this.departmentCapacities = departmentCapacity;
   }
 
-  public List<FlatCapacity> getWardCapacities() {
-    return wardCapacities;
-  }
-
-  public void setWardCapacities(final List<FlatCapacity> wardCapacity) {
-    this.wardCapacities = wardCapacity;
-  }
 }

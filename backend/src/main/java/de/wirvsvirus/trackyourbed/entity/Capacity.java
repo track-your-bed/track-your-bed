@@ -12,16 +12,18 @@ public class Capacity {
     this.maxCapacity = maxCapacity;
   }
 
-  public void addToMaxCapacity(final int delta) {
+  public Capacity addToMaxCapacity(final int delta) {
     maxCapacity += delta;
+    return this;
   }
 
   public int getFreeCapacity() {
     return freeCapacity;
   }
 
-  public void addToFreeCapacity(final int delta) {
+  public Capacity addToFreeCapacity(final int delta) {
     freeCapacity += delta;
+    return this;
   }
 
   public void setFreeCapacity(final int freeCapacity) {

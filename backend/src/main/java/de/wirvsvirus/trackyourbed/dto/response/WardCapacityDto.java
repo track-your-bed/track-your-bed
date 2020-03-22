@@ -1,16 +1,19 @@
-package de.wirvsvirus.trackyourbed.entity;
+package de.wirvsvirus.trackyourbed.dto.response;
 
-public class FlatCapacity {
+import de.wirvsvirus.trackyourbed.entity.Capacity;
+
+public class WardCapacityDto {
   private String name;
   private Capacity all;
+  private Capacity normal;
   private Capacity imc;
   private Capacity icu;
   private Capacity covid;
   private Capacity covidIcu;
 
-  public FlatCapacity(final String name) {
-    this.name = name;
+  public WardCapacityDto() {
     all = new Capacity();
+    normal = new Capacity();
     imc = new Capacity();
     icu = new Capacity();
     covid = new Capacity();
@@ -31,6 +34,14 @@ public class FlatCapacity {
 
   public void setAll(final Capacity all) {
     this.all = all;
+  }
+
+  public Capacity getNormal() {
+    return normal;
+  }
+
+  public void setNormal(final Capacity normal) {
+    this.normal = normal;
   }
 
   public Capacity getImc() {

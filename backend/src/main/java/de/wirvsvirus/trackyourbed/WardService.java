@@ -3,7 +3,7 @@ package de.wirvsvirus.trackyourbed;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewWard;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateWard;
 import de.wirvsvirus.trackyourbed.dto.request.mapper.CreateNewWardMapper;
-import de.wirvsvirus.trackyourbed.dto.response.FlatCapacityDto;
+import de.wirvsvirus.trackyourbed.dto.response.WardCapacityDto;
 import de.wirvsvirus.trackyourbed.dto.response.WardDto;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.FlatCapacityDtoMapper;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.WardDtoMapper;
@@ -116,9 +116,9 @@ public class WardService {
   }
 
   @Transactional
-  public FlatCapacityDto calculateCapacity(final UUID id) {
+  public WardCapacityDto calculateCapacity(final UUID id) {
     final Ward ward = wardRepository.findById(id)
         .orElseThrow(() -> new NoSuchWardException(id));
-    return flatCapacityDtoMapper.entityToDto(capacityService.calculateCapacity(ward));
+    return flatCapacityDtoMapper.entityToDto(capacityService.calculateWardCapacity(ward));
   }
 }

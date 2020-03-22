@@ -22,6 +22,10 @@ public class Department extends AbstractBaseEntity {
   @OneToMany(mappedBy = "department")
   private List<Ward> wards;
 
+  @ManyToOne
+  @JoinColumn(name = "department_type_name", referencedColumnName = "name")
+  private DepartmentType departmentType;
+
   public String getName() {
     return name;
   }
@@ -46,4 +50,11 @@ public class Department extends AbstractBaseEntity {
     this.wards = wards;
   }
 
+  public DepartmentType getDepartmentType() {
+    return departmentType;
+  }
+
+  public void setDepartmentType(final DepartmentType departmentType) {
+    this.departmentType = departmentType;
+  }
 }

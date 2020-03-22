@@ -3,20 +3,20 @@ package de.wirvsvirus.trackyourbed.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DepartmentCapacity extends FlatCapacity {
+public class DepartmentCapacity extends WardCapacity {
 
-  private List<FlatCapacity> wardCapacities;
+  private List<WardCapacity> wardCapacities;
 
   public DepartmentCapacity(final String name) {
     super(name);
     this.wardCapacities = new ArrayList<>();
   }
 
-  public List<FlatCapacity> getWardCapacities() {
+  public List<WardCapacity> getWardCapacities() {
     return wardCapacities;
   }
 
-  public void setWardCapacities(final List<FlatCapacity> wardCapacity) {
+  public void setWardCapacities(final List<WardCapacity> wardCapacity) {
     this.wardCapacities = wardCapacity;
   }
 }

@@ -124,7 +124,8 @@ public class HospitalService {
   public HospitalCapacityDto calculateCapacity(final UUID id) {
     final Hospital hospital = hospitalRepository.findById(id)
         .orElseThrow(() -> new NoSuchHospitalException(id));
-    return hospitalCapacityDtoMapper.entityToDto(capacityService.calculateCapacity(hospital));
+    return hospitalCapacityDtoMapper
+        .entityToDto(capacityService.calculateHospitalCapacity(hospital));
   }
 
 }
