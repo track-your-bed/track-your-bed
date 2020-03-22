@@ -28,8 +28,8 @@
     {
       "name": "test-department-1",
       "all": {
-        "maxCapacity": 7,
-        "freeCapacity": 5
+        "maxCapacity": 14,
+        "freeCapacity": 6
       },
       "normal": {
         "maxCapacity": 3,
@@ -53,7 +53,7 @@
       },
       "wardCapacities": [
         {
-          "name": "test-ward-1",
+          "name": "test-ward-1-1",
           "all": {
             "maxCapacity": 7,
             "freeCapacity": 5
@@ -77,6 +77,33 @@
           "covidIcu": {
             "maxCapacity": 1,
             "freeCapacity": 1
+          }
+        },
+        {
+          "name": "test-ward-1-2",
+          "all": {
+            "maxCapacity": 7,
+            "freeCapacity": 1
+          },
+          "normal": {
+            "maxCapacity": 2,
+            "freeCapacity": 1
+          },
+          "imc": {
+            "maxCapacity": 1,
+            "freeCapacity": 0
+          },
+          "icu": {
+            "maxCapacity": 2,
+            "freeCapacity": 0
+          },
+          "covid": {
+            "maxCapacity": 1,
+            "freeCapacity": 0
+          },
+          "covidIcu": {
+            "maxCapacity": 1,
+            "freeCapacity": 0
           }
         }
       ]

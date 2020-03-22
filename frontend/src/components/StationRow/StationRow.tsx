@@ -26,15 +26,12 @@ interface StationRow {
 const StationRow: React.FunctionComponent<StationRow> = ({
   stationData
 }: StationRow) => {
-  console.log(stationData);
-  // const [vacant, setVacant] = React.useState(0);
-  // const [max, setMax] = React.useState(0);
   const [percentage, setPercentage] = React.useState(100);
 
   React.useEffect(() => {
     if (stationData) {
       const bedsPercentage = Math.round(
-        (stationData.all.freeCapacity / stationData.all.freeCapacity) * 100
+        (stationData.all.freeCapacity / stationData.all.maxCapacity) * 100
       );
 
       setPercentage(bedsPercentage);
@@ -70,13 +67,23 @@ const StationRow: React.FunctionComponent<StationRow> = ({
           <p className="station-row__title">{stationData.name}</p>
           <Link to={`/wardBedManagement/${stationData.name}`}>Details</Link>
         </td>
-        {bedTypes.map((bedType: string) => (
-          <td key={Math.random() * 9999}>
-            <p className="station-row__vacancy">{`${
-              (stationData as any)[bedType].freeCapacity
-            } / ${(stationData as any)[bedType].maxCapacity}`}</p>
-          </td>
-        ))}
+        {bedTypes.map((bedType: string) => {
+          const capFree = (stationData as any)[bedType].freeCapacity;
+          const capMax = (stationData as any)[bedType].maxCapacity;
+          const perc = Math.round((capFree / capMax) * 100);
+
+          return (
+            // TODO: Replace Math.random in Key with unique ID from DB
+            <td
+              key={Math.random() * 9999}
+              style={{
+                backgroundColor: getColorFromPercentage(perc)
+              }}
+            >
+              <p className="station-row__vacancy">{`${capFree} / ${capMax}`}</p>
+            </td>
+          );
+        })}
       </tr>
     </>
   );

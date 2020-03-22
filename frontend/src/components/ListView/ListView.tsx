@@ -27,7 +27,6 @@ const ListView: React.FunctionComponent = () => {
   const [expandedRow, setExpandedRow] = React.useState<null | any>(null);
 
   React.useEffect(() => {
-    console.log(CapacityData);
     setListData(CapacityData);
     setData(SampleData[0] as ListData);
   }, []);
@@ -43,7 +42,6 @@ const ListView: React.FunctionComponent = () => {
   const actionTemplate = (rowData: any, column: any) => (
     <div>
       <p>
-        {console.log({ rowData, column })}
         {rowData.all.freeCapacity} / {rowData.all.maxCapacity}
       </p>
     </div>
@@ -54,6 +52,9 @@ const ListView: React.FunctionComponent = () => {
       {data && (
         <div>
           <h1>{listData.name}</h1>
+          <h2>
+            {listData.all.freeCapacity} / {listData.all.maxCapacity}
+          </h2>
           <div className="list-view__search">
             <span className="p-float-label">
               <InputText
