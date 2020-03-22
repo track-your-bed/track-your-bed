@@ -11,17 +11,17 @@ export interface Bed {
     bed_state: InfoItem;
 }
 
-export interface Warn {
+export interface Ward {
     id: string;
     name: string;
-    warntype: InfoItem;
+    wardtype: InfoItem;
     bed: Bed[];
 }
 
 export interface Department {
     id: string;
     name: string;
-    warn: Warn[];
+    ward: Ward[];
 }
 
 export interface ListData {
