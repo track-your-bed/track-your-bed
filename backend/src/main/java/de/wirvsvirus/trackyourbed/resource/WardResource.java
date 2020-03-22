@@ -50,7 +50,7 @@ public class WardResource {
   }
 
   @PatchMapping("{id}")
-  public ResponseEntity<WardDto> patchWardDto(
+  public ResponseEntity<WardDto> patchWard (
       @PathVariable(name = "id") final UUID id,
       @RequestBody @Valid final UpdateWard updateWard) {
     return ResponseEntity.ok(wardService.updateWard(id, updateWard));
