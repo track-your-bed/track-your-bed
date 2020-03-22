@@ -40,7 +40,7 @@
                 },
                 "bed_state": {
                   "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
-                  "name": "frei"
+                  "name": "belegt"
                 }
               },
               {
@@ -52,7 +52,7 @@
                 },
                 "bed_state": {
                   "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
-                  "name": "frei"
+                  "name": "belegt"
                 }
               }
             ]
