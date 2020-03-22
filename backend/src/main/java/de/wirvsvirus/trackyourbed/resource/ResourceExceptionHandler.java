@@ -1,6 +1,7 @@
 package de.wirvsvirus.trackyourbed.resource;
 
 import java.util.NoSuchElementException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,6 +19,12 @@ public class ResourceExceptionHandler {
   public ResponseEntity<String> mapIllegalStateExceptionToBadRequestResponse(
       final IllegalStateException e) {
     return ResponseEntity.badRequest().body(e.getMessage());
+  }
+
+  @ExceptionHandler(EmptyResultDataAccessException.class)
+  public ResponseEntity<String> mapEmptyResultDataAccessExceptionToNotFoundResponse(
+      final EmptyResultDataAccessException e) {
+    return ResponseEntity.notFound().build();
   }
 
 }
