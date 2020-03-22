@@ -6,7 +6,7 @@ import Header from "../Header/Header";
 
 // Pages
 import Dashboard from "../../pages/Dashboard/Dashboard";
-import Settings from "../../pages/Settings/Settings";
+import UserSettings from "../../pages/UserSettings/UserSettings";
 import Login from "../../pages/Login/Login";
 import EditBed from "../../pages/EditBed/EditBed";
 import EditWard from "../../pages/EditWard/EditWard";
@@ -32,7 +32,7 @@ const App: React.FunctionComponent = () => (
           <ListView />
         </Route>
         <Route path="/settings" exact>
-          <Settings />
+          <UserSettings />
         </Route>
         <Route path="/hospital/:hospitalId/:departmentId/:wardId/:bedId/edit">
           <EditBed />
@@ -43,14 +43,12 @@ const App: React.FunctionComponent = () => (
         <Route path="/hospital/:hospitalId/:departmentId/edit">
           <EditDepartment />
         </Route>
-        <Route path="/wardBedManagement" exact>
-          <WardBedManagementPage hospitalName="Berlin Charité" />
+        <Route path="/wardBedManagement/:wardId">
+          <WardBedManagementPage />
         </Route>
       </Switch>
     </Router>
   </div>
 );
-
-//TODO hospitalName is a fixed string
 
 export default App;

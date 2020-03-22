@@ -1,57 +1,101 @@
 import * as React from "react";
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
-import SampleData from "../SampleData/Data.json";
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import {ListData} from "../../datatypes/ListData";
-import {Button} from "primereact/button";
+import { Bed } from "../../datatypes/ListData";
+import "./WardBedManagementTbl.scss";
+import WardActionTemplate from "./WardActionTemplate/WardActionTemplate";
+import { useParams } from "react-router-dom";
+import { fetchWard, updateBedStateOnServer } from "../../Services/WardBedManagementService";
 
-interface WardBedManagementTbl {
-    hospitalName: string
-}
+const WardBedManagementTbl: React.FunctionComponent = () => {
+    const { wardId } = useParams();
 
-const WardBedManagementTbl: React.FunctionComponent<WardBedManagementTbl> = ({
-                                                                                 hospitalName,
-                                                                             }: WardBedManagementTbl) => {
-    const [data, setData] = React.useState<null | ListData>(null);
-    const [occupied, setOccupied] = React.useState(null);
+    const [wardName, setWardName] = React.useState(null);
+    const [beds, setBeds] = React.useState<Bed[]>([]);
 
     React.useEffect(() => {
-        console.log(SampleData[0]);
-        setData(SampleData[0] as ListData);
+        const action = async () => {
+            if (!wardId) {
+                throw new Error("Expected a ward id");
+            }
+            const ward = await fetchWard(wardId);
+
+            setWardName(ward.name);
+            setBeds(ward.beds);
+        };
+
+        action();
     }, []);
 
-    function handleClickTrigger(event:any) {
-         console.log(event)
+    function isBedFree(rowData: Bed): boolean {
+        const bedState = rowData.bedState;
+
+        return bedState === "free";
     }
 
-    function getButtons(rowData: any, column: any) {
-        return <div>
-            <Button id="freeBtn" type="button" className="p-button-success" label="Freigegeben" onClick={handleClickTrigger}/>
-        </div>
+    function getRowClassName(rowData: Bed): object {
+
+        const occupied = !isBedFree(rowData);
+
+        return {
+            free: !occupied,
+            occupied: occupied
+        };
+    }
+
+    function updateBedState(id: string, newState: string) {
+        const newBeds = beds.map(bed => {
+            if (bed.id !== id) {
+                return bed;
+            }
+
+            const newData = {
+                ...bed,
+                bedState: newState
+            };
+
+            return newData;
+        });
+
+        setBeds(newBeds);
+
+        updateBedStateOnServer(id, newState);
+    }
+
+    function buttonTemplate(rowData: Bed) {
+        return (
+            <WardActionTemplate
+                isOccupied={!isBedFree(rowData)}
+                onClick={(newBedState: string) => {
+                    updateBedState(rowData.id, newBedState);
+                }}
+            />
+        );
     }
 
     return (
         <div>
             <div className="content-section introduction">
                 <div className="feature-intro">
-                    <h1>{hospitalName}</h1>
+                    <h1>{wardName}</h1>
                 </div>
             </div>
 
             <div className="content-section implementation">
-                <DataTable value={data?.department[0].ward[0].bed} rowGroupMode="rowspan" groupField="bed">
+                <DataTable
+                    rowClassName={getRowClassName}
+                    value={beds}
+                >
                     <Column header="Betten-Name" field="name"/>
-                    <Column header="Betten-Typ" field="bed_type.name"/>
-                    <Column header="Bett-Status" field="bed_state.name" />
-                    <Column header="Aktion" body={getButtons} />
+                    <Column header="Betten-Typ" field="bedType"/>
+                    <Column field="bedState" body={buttonTemplate} />
                 </DataTable>
             </div>
         </div>
     );
 };
-
 
 export default WardBedManagementTbl;

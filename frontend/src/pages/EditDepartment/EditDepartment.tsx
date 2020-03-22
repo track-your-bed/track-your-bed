@@ -4,7 +4,7 @@ import * as React from "react";
 import {Dropdown} from 'primereact/dropdown';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -24,7 +24,7 @@ const fieldStyle = {
 
 
 
-const departments = [
+const departmentTypes = [
 //  {label: 'Kardiologie', value: 'Kardiologie'},
 //  {label: 'Urologie', value: 'Urologie'},
 //  {label: 'Radiologie', value: 'Radiologie'}
@@ -77,24 +77,41 @@ const departments = [
 
 const EditDepartment: React.FunctionComponent = () => {
   
-  const [department, setDepartment] = React.useState(
+  const [departmentType, setDepartmentType] = React.useState(
     null
   )
+  const [departmentName, setDepartmentName] = React.useState(
+    ""
+  )
+
+  const history = useHistory()
+
   const {hospitalId, departmentId}=useParams();
+
+  function handleClickSubmit(event: any){
+    let json = {name: departmentName ,departmentTypeId: departmentType, hospitalID: hospitalId }
+    console.log("JSON: name:" + json.name + " TypeID: " + json.departmentTypeId + " HospitalID: " + json.hospitalID)
+  }
+
+  function handleClickCancle(event:any)
+  {
+
+  } 
+
   return (
     <div style={divStyle}>
       <h1>Fachabteilung hinzufügen</h1>
         <form>
-          <Dropdown style={fieldStyle} options={departments}  placeholder="Wählen Sie eine Fachabteilung" value={department} onChange={event => setDepartment(event.target.value)}/>
+          <Dropdown style={fieldStyle} options={departmentTypes}  placeholder="Wählen Sie eine Fachabteilung" value={departmentType} onChange={event => setDepartmentType(event.target.value)}/>
           <br/>
           <br/>
           <span className="p-float-label">
-            <InputText id="in" style={fieldStyle}/>
+            <InputText id="in" style={fieldStyle} name="departmentName" value={departmentName} onChange={event => setDepartmentName(event.currentTarget.value)} />
             <label htmlFor="in">Name der Abteilung</label>
           </span>
           <div>
-            <Button label="Hinzufügen" />
-            <Button style={btnStyle} label="Abbrechen" onClick={(e) => {e.preventDefault(); window.location.href=`/hospital/${hospitalId}`;}} />
+            <Button label="Hinzufügen" onClick={handleClickSubmit}/>
+            <Button style={btnStyle} label="Abbrechen" onClick={() => {history.goBack()}} />
           </div>
         </form>
     </div>

@@ -1,17 +1,13 @@
-import * as React from "react"
+import * as React from "react";
+
+// Components
 import WardBedManagementTbl from "../../components/WardBedManagmentTbl/WardBedManagementTbl";
 
-interface WardBedManagementPage {
-    hospitalName: string
-}
-
-const WardBedManagementPage: React.FunctionComponent<WardBedManagementPage> = ({
-hospitalName,}
-) => {
-    return (
-        <div>
-            <WardBedManagementTbl hospitalName={hospitalName}/>
-        </div>
-    )
+const WardBedManagementPage: React.FunctionComponent = () => {
+  return (
+    <div>
+      <WardBedManagementTbl />
+    </div>
+  );
 };
 export default WardBedManagementPage;

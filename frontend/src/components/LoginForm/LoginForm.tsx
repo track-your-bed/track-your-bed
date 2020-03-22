@@ -8,7 +8,7 @@ import Button from "../Button/Button";
 import "./LoginForm.scss";
 import PasswordRecovery from "../PasswordRecovery/PasswordRecovery";
 
-import AjaxHelper from "../../components/WardBedManagmentTbl/WardBedManagmentService";
+import * as API from "../../Services/APIService";
 
 const Login: React.FunctionComponent = () => {
   const [username, setUsername] = React.useState("");
@@ -19,7 +19,7 @@ const Login: React.FunctionComponent = () => {
     console.log(JSON.parse(text));
   }
   async function getData(){
-    const test = await AjaxHelper('https://jsonplaceholder.typicode.com/todos/1');    
+    const test = await API.APIGET('https://jsonplaceholder.typicode.com/todos/1');
     console.log(test);
       }
 

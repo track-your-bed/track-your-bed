@@ -2,12 +2,13 @@ import * as React from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 
-// Types
-import { ListData } from "./ListView.types";
-
 // Components
+import { InputText } from "primereact/inputtext";
 import StationTable from "../StationTable/StationTable";
 import InputField from "../InputField/InputField";
+
+// Types
+import { ListData } from "../../datatypes/ListView.types";
 
 // Styles
 import "primereact/resources/themes/nova-light/theme.css";
@@ -23,7 +24,6 @@ const ListView: React.FunctionComponent = () => {
   const [expandedRow, setExpandedRow] = React.useState<null | any>(null);
 
   React.useEffect(() => {
-    console.log(SampleData[0]);
     setData(SampleData[0] as ListData);
   }, []);
 
@@ -36,18 +36,9 @@ const ListView: React.FunctionComponent = () => {
   };
 
   const actionTemplate = (rowData: any, column: any) => {
-    const occupation = {
-      free: 0,
-      occupied: 0
-    };
-
     const total = rowData.ward.reduce(
       (a: any, b: any) => a.bed.length + b.bed.length
     );
-
-    // rowData.ward.map((ward: any) => {
-    //   console.log(ward);
-    // });
 
     return (
       <div>
@@ -62,13 +53,14 @@ const ListView: React.FunctionComponent = () => {
         <div>
           <h1>{data.name}</h1>
           <div className="list-view__search">
-            <InputField
-              id="search"
-              label="Abteilungssuche"
-              onChange={(event: any) =>
-                setDataFilter(event.currentTarget.value)
-              }
-            />
+            <span className="p-float-label">
+              <InputText
+                id="in"
+                value={dataFilter}
+                onChange={e => setDataFilter(e.currentTarget.value)}
+              />
+              <label htmlFor="in">Fachabteilung Suche</label>
+            </span>
           </div>
           <DataTable
             value={data.department}
