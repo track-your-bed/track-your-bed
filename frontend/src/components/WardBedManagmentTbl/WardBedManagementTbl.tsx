@@ -1,61 +1,39 @@
 import * as React from "react";
 import {DataTable} from 'primereact/datatable';
 import {Column} from 'primereact/column';
-import SampleData from "../SampleData/Data.json";
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import {ListData, Bed} from "../../datatypes/ListData";
+import { Bed } from "../../datatypes/ListData";
 import "./WardBedManagementTbl.scss";
 import WardActionTemplate from "./WardActionTemplate/WardActionTemplate";
+import { useParams } from "react-router-dom";
+import { fetchWard, updateBedStateOnServer } from "../../Services/WardBedManagementService";
 
+const WardBedManagementTbl: React.FunctionComponent = () => {
+    const { wardId } = useParams();
 
-interface WardBedManagementTbl {
-    hospitalName: string
-}
-
-const WardBedManagementTbl: React.FunctionComponent<WardBedManagementTbl> = ({
-                                                                                 hospitalName,
-                                                                             }: WardBedManagementTbl) => {
+    const [wardName, setWardName] = React.useState(null);
     const [beds, setBeds] = React.useState<Bed[]>([]);
 
-    function getAllBeds(data: ListData): Bed[] {
-        let beds: Bed[] = [];
-
-        data?.department.forEach(dep => {
-            dep?.ward.forEach(ward => {
-                if (ward.bed) {
-                    beds = beds.concat(ward.bed);
-                }
-            });
-        });
-
-        return beds;
-    }
-
     React.useEffect(() => {
-        const beds = getAllBeds(SampleData[0] as ListData);
+        const action = async () => {
+            if (!wardId) {
+                throw new Error("Expected a ward id");
+            }
+            const ward = await fetchWard(wardId);
 
-        setBeds(beds);
+            setWardName(ward.name);
+            setBeds(ward.beds);
+        };
+
+        action();
     }, []);
 
-    function handleClickTrigger(event: any) {
-        console.log(event);
-    }
+    function isBedFree(rowData: Bed): boolean {
+        const bedState = rowData.bedState;
 
-    function isBedFree(rowData: Bed) {
-        const bedState = rowData.bed_state.name;
-
-        switch (bedState) {
-            case 'free':
-                return true;
-
-            case 'frei':
-                return true;
-
-            default:
-                return false;
-        }
+        return bedState === "free";
     }
 
     function getRowClassName(rowData: Bed): object {
@@ -68,25 +46,23 @@ const WardBedManagementTbl: React.FunctionComponent<WardBedManagementTbl> = ({
         };
     }
 
-    function updateBed(id: string, newData: Bed) {
-        updateBedLocal(id, newData);
-        updateBedRemote(id, newData);
-    }
-
-    function updateBedLocal(id: string, newData: Bed) {
+    function updateBedState(id: string, newState: string) {
         const newBeds = beds.map(bed => {
             if (bed.id !== id) {
                 return bed;
             }
 
+            const newData = {
+                ...bed,
+                bedState: newState
+            };
+
             return newData;
         });
 
         setBeds(newBeds);
-    }
 
-    function updateBedRemote(id: string, newData: Bed) {
-        console.log("Ayy, send some request here!");
+        updateBedStateOnServer(id, newState);
     }
 
     function buttonTemplate(rowData: Bed) {
@@ -94,14 +70,7 @@ const WardBedManagementTbl: React.FunctionComponent<WardBedManagementTbl> = ({
             <WardActionTemplate
                 isOccupied={!isBedFree(rowData)}
                 onClick={(newBedState: string) => {
-                    const newData = {
-                        ...rowData,
-                        bed_state: {
-                            ...rowData.bed_state,
-                            name: newBedState
-                        }
-                    }
-                    updateBed(rowData.id, newData);
+                    updateBedState(rowData.id, newBedState);
                 }}
             />
         );
@@ -111,7 +80,7 @@ const WardBedManagementTbl: React.FunctionComponent<WardBedManagementTbl> = ({
         <div>
             <div className="content-section introduction">
                 <div className="feature-intro">
-                    <h1>{hospitalName}</h1>
+                    <h1>{wardName}</h1>
                 </div>
             </div>
 
@@ -121,8 +90,8 @@ const WardBedManagementTbl: React.FunctionComponent<WardBedManagementTbl> = ({
                     value={beds}
                 >
                     <Column header="Betten-Name" field="name"/>
-                    <Column header="Betten-Typ" field="bed_type.name"/>
-                    <Column field="bed_state" body={buttonTemplate} />
+                    <Column header="Betten-Typ" field="bedType"/>
+                    <Column field="bedState" body={buttonTemplate} />
                 </DataTable>
             </div>
         </div>

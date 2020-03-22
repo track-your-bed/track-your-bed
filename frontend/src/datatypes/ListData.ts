@@ -6,9 +6,9 @@ export interface InfoItem {
 export interface Bed {
     id: string;
     name: string;
-    state_last_changed: string;
-    bed_type: InfoItem;
-    bed_state: InfoItem;
+    stateLastChanged: string;
+    bedType: string;
+    bedState: string;
 }
 
 export interface Ward {
