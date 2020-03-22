@@ -34,13 +34,13 @@ const App: React.FunctionComponent = () => (
         <Route path="/settings" exact>
           <Settings />
         </Route>
-        <Route path="/hospital/:hospitalId/:departmentID/:wardId/:bedId/edit">
+        <Route path="/hospital/:hospitalId/:departmentId/:wardId/:bedId/edit">
           <EditBed />
         </Route>
-        <Route path="/hospital/:hospitalId/:departmendID/:wardId/edit">
+        <Route path="/hospital/:hospitalId/:departmendId/:wardId/edit">
           <EditWard />
         </Route>
-        <Route path="/hospital/:hospitalId/:departmentID/edit">
+        <Route path="/hospital/:hospitalId/:departmentId/edit">
           <EditDepartment />
         </Route>
         <Route path="/wardBedManagement" exact>
