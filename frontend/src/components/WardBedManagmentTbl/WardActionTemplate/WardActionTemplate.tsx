@@ -22,7 +22,7 @@ const WardActionTemplate: React.FunctionComponent<WardActionTemplate> = ({
     if (isOccupied) {
         return <FreeButton onClick={handleClick('free')} />;
     } else {
-        return <OccupiedButton onClick={handleClick('belegt')} />;
+        return <OccupiedButton onClick={handleClick('occupied')} />;
     }
 };
 export default WardActionTemplate;

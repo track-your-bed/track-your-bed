@@ -17,15 +17,30 @@ interface WardBedManagementTbl {
 const WardBedManagementTbl: React.FunctionComponent<WardBedManagementTbl> = ({
                                                                                  hospitalName,
                                                                              }: WardBedManagementTbl) => {
-    const [data, setData] = React.useState<null | ListData>(null);
+    const [beds, setBeds] = React.useState<Bed[]>([]);
+
+    function getAllBeds(data: ListData): Bed[] {
+        let beds: Bed[] = [];
+
+        data?.department.forEach(dep => {
+            dep?.ward.forEach(ward => {
+                if (ward.bed) {
+                    beds = beds.concat(ward.bed);
+                }
+            });
+        });
+
+        return beds;
+    }
 
     React.useEffect(() => {
-        console.log(SampleData[0]);
-        setData(SampleData[0] as ListData);
+        const beds = getAllBeds(SampleData[0] as ListData);
+
+        setBeds(beds);
     }, []);
 
     function handleClickTrigger(event: any) {
-        console.log(event)
+        console.log(event);
     }
 
     function isBedFree(rowData: Bed) {
@@ -53,13 +68,41 @@ const WardBedManagementTbl: React.FunctionComponent<WardBedManagementTbl> = ({
         };
     }
 
+    function updateBed(id: string, newData: Bed) {
+        updateBedLocal(id, newData);
+        updateBedRemote(id, newData);
+    }
+
+    function updateBedLocal(id: string, newData: Bed) {
+        const newBeds = beds.map(bed => {
+            if (bed.id !== id) {
+                return bed;
+            }
+
+            return newData;
+        });
+
+        setBeds(newBeds);
+    }
+
+    function updateBedRemote(id: string, newData: Bed) {
+        console.log("Ayy, send some request here!");
+    }
+
     function buttonTemplate(rowData: Bed) {
         return (
             <WardActionTemplate
-            isOccupied={!isBedFree(rowData)}
-            onClick={(newBedState: string) => {
-                console.log(newBedState);
-            }}
+                isOccupied={!isBedFree(rowData)}
+                onClick={(newBedState: string) => {
+                    const newData = {
+                        ...rowData,
+                        bed_state: {
+                            ...rowData.bed_state,
+                            name: newBedState
+                        }
+                    }
+                    updateBed(rowData.id, newData);
+                }}
             />
         );
     }
@@ -75,16 +118,15 @@ const WardBedManagementTbl: React.FunctionComponent<WardBedManagementTbl> = ({
             <div className="content-section implementation">
                 <DataTable
                     rowClassName={getRowClassName}
-                    value={data?.department[0].ward[0].bed}
+                    value={beds}
                 >
                     <Column header="Betten-Name" field="name"/>
                     <Column header="Betten-Typ" field="bed_type.name"/>
-                    <Column field="bed_type.bed_state" body={buttonTemplate} />
+                    <Column field="bed_state" body={buttonTemplate} />
                 </DataTable>
             </div>
         </div>
     );
 };
-
 
 export default WardBedManagementTbl;
