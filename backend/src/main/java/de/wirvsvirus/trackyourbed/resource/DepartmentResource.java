@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.UUID;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +51,12 @@ public class DepartmentResource {
       @PathVariable(name = "id") final UUID id,
       @RequestBody final UpdateDepartment updateDepartment) {
     return ResponseEntity.ok(departmentService.updateDepartment(id, updateDepartment));
+  }
+
+  @DeleteMapping("{id}")
+  public ResponseEntity<Void> deleteDepartment(@PathVariable("id") final UUID departmentId) {
+    departmentService.deleteDepartmentById(departmentId);
+    return ResponseEntity.ok().build();
   }
 
 }

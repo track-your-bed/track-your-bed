@@ -48,6 +48,10 @@ public class DepartmentService {
     return departmentDtoMapper.entityToDto(saved);
   }
 
+  public void deleteDepartment(final UUID departmentId) {
+    departmentRepository.deleteById(departmentId);
+  }
+
   public Collection<DepartmentDto> getAllDepartments() {
     final ArrayList<DepartmentDto> result = new ArrayList<>();
     departmentRepository.findAll()
@@ -77,6 +81,10 @@ public class DepartmentService {
       department.setHospital(hospital);
     }
     return departmentDtoMapper.entityToDto(department);
+  }
+
+  public void deleteDepartmentById(final UUID departmentId) {
+    departmentRepository.deleteById(departmentId);
   }
 
 }
