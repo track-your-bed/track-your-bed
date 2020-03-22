@@ -4,6 +4,7 @@ import {Dropdown} from 'primereact/dropdown';
 import {InputText} from 'primereact/inputtext';
 import {Button} from 'primereact/button';
 import { useParams } from "react-router-dom";
+import { Wardtypes } from "../../datatypes/enums"
 
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';

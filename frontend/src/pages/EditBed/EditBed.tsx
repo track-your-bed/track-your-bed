@@ -8,6 +8,7 @@ import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import { useParams } from "react-router-dom";
+import { Bedtypes } from "../../datatypes/enums"
 
 const divStyle = {
   margin: '50px'
@@ -23,8 +24,11 @@ const fieldStyle = {
 
 
 const beds = [
-    {label: 'Intensivbett', value: 'Intensivbett'},
-    {label: 'Normalbett', value: 'Normalbett'}
+    {label: 'Standardbett', value: Bedtypes.normal},
+    {label: 'IMC', value: Bedtypes.imc},
+    {label: 'ICU (includiert Beatmung)', value: Bedtypes.icu},
+    {label: 'Covid Standardbett', value: Bedtypes.covid},
+    {label: 'Covid Intensivbett', value: Bedtypes.covidIcu}
 ];
 
 
