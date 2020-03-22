@@ -43,8 +43,8 @@ const App: React.FunctionComponent = () => (
         <Route path="/hospital/:hospitalId/:departmentId/edit">
           <EditDepartment />
         </Route>
-        <Route path="/wardBedManagement">
-          <WardBedManagementPage hospitalName="Berlin Charité" />
+        <Route path="/wardBedManagement/:wardId">
+          <WardBedManagementPage />
         </Route>
       </Switch>
     </Router>
