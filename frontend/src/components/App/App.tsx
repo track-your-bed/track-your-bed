@@ -15,6 +15,7 @@ import EditDepartmend from "../../pages/EditDepartment/EditDepartment"
 
 // Styles
 import "./App.scss";
+import WardBedManagementPage from "../../pages/WardBedManagementPage/WardBedManagementPage";
 
 const App: React.FunctionComponent = () => (
   <div className="app-container">
@@ -42,9 +43,14 @@ const App: React.FunctionComponent = () => (
         <Route path="/hospital/:hospitalId/:departmentID/edit">
           <EditDepartmend/>
         </Route>
+        <Route path="/wardBedManagement" exact>
+          <WardBedManagementPage hospitalName="Berlin Charité"/>
+        </Route>
       </Switch>
     </Router>
   </div>
 );
+
+//TODO hospitalName is a fixed string
 
 export default App;
