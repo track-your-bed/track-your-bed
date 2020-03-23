@@ -1,17 +1,17 @@
 package de.wirvsvirus.trackyourbed.resource;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+
 import de.wirvsvirus.trackyourbed.BedStateService;
-import de.wirvsvirus.trackyourbed.entity.BedState;
 import de.wirvsvirus.trackyourbed.dto.response.BedStateDto;
 import java.util.Collection;
 import java.util.List;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
 
@@ -22,7 +22,10 @@ class BedStateResourceTest {
   @DisplayName("Test calls to getAllBedStates")
   class getAllBedStatesTest {
 
-    void shouldReturnResponseEntityWithAllBedStatesAndStatusSetToOK() {
+    @Test
+    @DisplayName("Should return the response entity with Status set to OK " +
+        "and body containing all bed states")
+    void shouldReturnResponseEntityWithAllBedStatesAndStatusSetToOKWhenCalled() {
 
       // GIVEN
       final BedStateService bedStateService = mock(BedStateService.class);
@@ -46,12 +49,31 @@ class BedStateResourceTest {
 
     }
 
+  }
+
+  @Nested
+  @DisplayName("Test calls to getBedStateByName")
+  class getBedStateByNameTest {
+
+    @Test
+    @DisplayName("To BE COMPLETED")
+    void shouldReturnResponseEntityWithCorrectBedStatesAndStatusSetToOKWhenCalled(){
+      // GIVEN
+      final BedStateService bedStateService = mock(BedStateService.class);
+      final String name = "name";
+      final BedStateDto bedStateDto = new BedStateDto().setName(name);
+      final ResponseEntity<BedStateDto> expected = ResponseEntity.ok(bedStateDto);
+
+      // WHEN
+      final ResponseEntity<BedStateDto> actual = new BedStateResource(bedStateService).getBedStateByName(name);
+
+      //THEN
+      assertEquals(actual,expected);
+    }
+
 
 
   }
 
 
-  @Test
-  void getBedStateByName() {
-  }
 }
