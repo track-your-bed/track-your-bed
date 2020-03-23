@@ -7,31 +7,38 @@ import { Ward } from "../../datatypes/ListView.types";
 // Styles
 import "./StationRow.scss";
 
+interface CapacityInfo {
+  maxCapacity: number;
+  freeCapacity: number;
+}
 interface StationRow {
-  stationData: Ward;
+  stationData: {
+    name: string;
+    all: CapacityInfo;
+    normal: CapacityInfo;
+    imc: CapacityInfo;
+    icu: CapacityInfo;
+    covid: CapacityInfo;
+    covidIcu: CapacityInfo;
+  };
 }
 
 const StationRow: React.FunctionComponent<StationRow> = ({
   stationData
 }: StationRow) => {
-  const [vacant, setVacant] = React.useState(0);
-  const [max, setMax] = React.useState(0);
   const [percentage, setPercentage] = React.useState(100);
 
   React.useEffect(() => {
     if (stationData) {
-      const bedsVacant = stationData.bed.filter(bed => {
-        return bed.bed_state.name === "frei";
-      }).length;
+      const bedsPercentage = Math.round(
+        (stationData.all.freeCapacity / stationData.all.maxCapacity) * 100
+      );
 
-      const bedsMax = stationData.bed.length;
-      const bedsPercentage = Math.round((bedsVacant / bedsMax) * 100);
-
-      setVacant(bedsVacant);
-      setMax(bedsMax);
       setPercentage(bedsPercentage);
     }
   }, [stationData]);
+
+  const bedTypes = ["all", "normal", "imc", "icu", "covid", "covidIcu"];
 
   const getColorFromPercentage = (percent: number): string => {
     if (percent >= 25) {
@@ -58,38 +65,25 @@ const StationRow: React.FunctionComponent<StationRow> = ({
         </td>
         <td>
           <p className="station-row__title">{stationData.name}</p>
-          <Link to={`/wardBedManagement/${stationData.id}`}>Vacancy</Link>
+          <Link to={`/wardBedManagement/${stationData.name}`}>Details</Link>
         </td>
-        <td>
-          <p className="station-row__vacancy">
-            {vacant} / {max}
-          </p>
-        </td>
-        <td>
-          <p className="station-row__vacancy">
-            {vacant} / {max}
-          </p>
-        </td>
-        <td>
-          <p className="station-row__vacancy">
-            {vacant} / {max}
-          </p>
-        </td>
-        <td>
-          <p className="station-row__vacancy">
-            {vacant} / {max}
-          </p>
-        </td>
-        <td>
-          <p className="station-row__vacancy">
-            {vacant} / {max}
-          </p>
-        </td>
-        <td>
-          <p className="station-row__vacancy">
-            {vacant} / {max}
-          </p>
-        </td>
+        {bedTypes.map((bedType: string) => {
+          const capFree = (stationData as any)[bedType].freeCapacity;
+          const capMax = (stationData as any)[bedType].maxCapacity;
+          const perc = Math.round((capFree / capMax) * 100);
+
+          return (
+            // TODO: Replace Math.random in Key with unique ID from DB
+            <td
+              key={Math.random() * 9999}
+              style={{
+                backgroundColor: getColorFromPercentage(perc)
+              }}
+            >
+              <p className="station-row__vacancy">{`${capFree} / ${capMax}`}</p>
+            </td>
+          );
+        })}
       </tr>
     </>
   );

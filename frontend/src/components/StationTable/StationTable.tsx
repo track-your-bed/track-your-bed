@@ -13,8 +13,9 @@ const StationTable: React.FunctionComponent<StationTable> = ({
   return (
     <table className="list-view__station-table">
       <tbody>
-        {data.ward.map((ward: any) => (
-          <StationRow key={ward.id} stationData={ward} />
+        {data.wardCapacities.map((ward: any) => (
+          // TODO: Fix key to be Unique ID from DB
+          <StationRow key={Math.random() * 1000} stationData={ward} />
         ))}
       </tbody>
     </table>
