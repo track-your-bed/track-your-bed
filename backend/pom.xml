@@ -9,6 +9,38 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <artifactId>backend</artifactId>
+
+    <properties>
+        <org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
+        <maven.resources.plugin.version>3.1.0</maven.resources.plugin.version>
+        <spring.boot.dependencies.version>2.1.9.RELEASE</spring.boot.dependencies.version>
+        <spring.doc.version>1.1.49</spring.doc.version>
+        <junit.version>5.4.2</junit.version>
+        <org.hamcrest.version>1.3</org.hamcrest.version>
+        <mockito.version>3.1.0</mockito.version>
+        <flyway-plugin.version>6.0.4</flyway-plugin.version>
+        <postgres.driver.version>42.2.8</postgres.driver.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <!-- COMPILE SCOPE -->
 
@@ -43,6 +75,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>${org.hamcrest.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
             <version>${mockito.version}</version>
@@ -64,37 +102,6 @@
             <scope>runtime</scope>
         </dependency>
     </dependencies>
-
-    <artifactId>backend</artifactId>
-
-    <properties>
-        <org.mapstruct.version>1.3.1.Final</org.mapstruct.version>
-        <maven.resources.plugin.version>3.1.0</maven.resources.plugin.version>
-        <spring.boot.dependencies.version>2.1.9.RELEASE</spring.boot.dependencies.version>
-        <spring.doc.version>1.1.49</spring.doc.version>
-        <junit.version>5.4.2</junit.version>
-        <mockito.version>3.1.0</mockito.version>
-        <flyway-plugin.version>6.0.4</flyway-plugin.version>
-        <postgres.driver.version>42.2.8</postgres.driver.version>
-    </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot.dependencies.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <finalName>trackYourBed</finalName>

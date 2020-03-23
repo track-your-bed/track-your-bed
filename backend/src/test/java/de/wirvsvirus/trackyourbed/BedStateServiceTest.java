@@ -1,28 +1,36 @@
 package de.wirvsvirus.trackyourbed;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.AdditionalMatchers.or;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 
 import de.wirvsvirus.trackyourbed.dto.response.BedStateDto;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.BedStateDtoMapper;
 import de.wirvsvirus.trackyourbed.entity.BedState;
 import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchBedStateException;
 import de.wirvsvirus.trackyourbed.persistence.BedStateRepository;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("Test BedStateService")
+@DisplayName("Tests for BedStateService")
 class BedStateServiceTest {
 
   @Nested
@@ -30,7 +38,8 @@ class BedStateServiceTest {
   class GetBedStateByNameTest {
 
     @Test
-    void shouldCallRepositoryAndReturnExpectedResultWhenCalled () {
+    @DisplayName("Should call dependencies and return expected BedState if bed state exists.")
+    void shouldCallDependenciesAndReturnExpectedResultWhenCalled () {
       // GIVEN
       final String name = "name";
       final BedStateRepository bedStateRepository = mock(BedStateRepository.class);
@@ -55,6 +64,7 @@ class BedStateServiceTest {
     }
 
     @Test
+    @DisplayName("Should throw a NoSuchBedTypeException when if bed state does not exist.")
     void shouldThrowNoSuchBedExceptionWhenBedStateDoesNotExist () {
       // GIVEN
       final String name = "name";
@@ -72,4 +82,43 @@ class BedStateServiceTest {
     }
   }
 
+  @Nested
+  class GetAllBedStatesTest {
+
+    @Test
+    @DisplayName("Should call dependencies and return a collection of all existing bed types")
+    void shouldCallDependenciesAndReturnCollectionOfBedTypesWhenCalled() {
+      // GIVEN
+      final BedStateRepository bedStateRepository = mock(BedStateRepository.class);
+      final String bedStateOneName = "one";
+      final String bedStateTwoName = "two";
+      final Collection<BedState> allBedStates = List.of(
+          new BedState().setName(bedStateOneName),
+          new BedState().setName(bedStateTwoName)
+      );
+      when(bedStateRepository.findAll()).thenReturn(allBedStates);
+
+      final BedStateDtoMapper bedStateDtoMapper = mock(BedStateDtoMapper.class);
+      when(bedStateDtoMapper.entityToDto(any(BedState.class)))
+          .thenAnswer(arguments -> new BedStateDto()
+              .setName(arguments.getArgument(0, BedState.class).getName())
+          );
+
+      final Collection<String> expectedBedStateNames = List.of(
+          bedStateOneName,
+          bedStateTwoName
+      );
+      // WHEN
+      final Collection<BedStateDto> actual =
+          new BedStateService(bedStateRepository, bedStateDtoMapper).getAllBedStates();
+
+      // THEN
+      assertThat(actual, hasSize(2));
+
+      verify(bedStateDtoMapper, times(1))
+          .entityToDto(argThat(state -> Objects.equals(bedStateOneName, state.getName())));
+      verify(bedStateDtoMapper, times(1))
+          .entityToDto(argThat(state -> Objects.equals(bedStateTwoName, state.getName())));
+    }
+  }
 }
