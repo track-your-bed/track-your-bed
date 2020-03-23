@@ -15,8 +15,9 @@ public class BedType extends AbstractBaseEntity {
     return name;
   }
 
-  public void setName(final String name) {
+  public BedType setName(final String name) {
     this.name = name;
+    return this;
   }
 
 }

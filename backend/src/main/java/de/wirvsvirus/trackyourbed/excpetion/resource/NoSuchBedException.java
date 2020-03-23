@@ -8,8 +8,10 @@ import java.util.UUID;
 
 public class NoSuchBedException extends NoSuchElementException {
 
+  public static final String MESSAGE_TEMPLATE = "There is no bed with ID %s";
+
   public NoSuchBedException(final UUID missingId) {
-    super(format("There is no bed with ID %s", missingId));
+    super(format(MESSAGE_TEMPLATE, missingId));
   }
 
 }

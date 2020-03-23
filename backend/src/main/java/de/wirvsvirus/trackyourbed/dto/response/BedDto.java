@@ -16,47 +16,53 @@ public class BedDto {
     return id;
   }
 
-  public void setId(final UUID id) {
+  public BedDto setId(final UUID id) {
     this.id = id;
+    return this;
   }
 
   public String getName() {
     return name;
   }
 
-  public void setName(final String name) {
+  public BedDto setName(final String name) {
     this.name = name;
+    return this;
   }
 
   public UUID getWardId() {
     return wardId;
   }
 
-  public void setWardId(final UUID wardId) {
+  public BedDto setWardId(final UUID wardId) {
     this.wardId = wardId;
+    return this;
   }
 
   public String getBedState() {
     return bedState;
   }
 
-  public void setBedState(final String bedState) {
+  public BedDto  setBedState(final String bedState) {
     this.bedState = bedState;
+    return this;
   }
 
   public String getBedType() {
     return bedType;
   }
 
-  public void setBedType(final String bedType) {
+  public BedDto setBedType(final String bedType) {
     this.bedType = bedType;
+    return this;
   }
 
   public Instant getStateLastChanged() {
     return stateLastChanged;
   }
 
-  public void setStateLastChanged(final Instant stateLastChanged) {
+  public BedDto setStateLastChanged(final Instant stateLastChanged) {
     this.stateLastChanged = stateLastChanged;
+    return this;
   }
 }
