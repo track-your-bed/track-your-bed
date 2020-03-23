@@ -15,4 +15,8 @@ public class BedState extends AbstractBaseEntity {
     return name;
   }
 
+  public BedState setName(final String name) {
+    this.name = name;
+    return this;
+  }
 }

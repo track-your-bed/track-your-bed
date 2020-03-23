@@ -8,8 +8,9 @@ public class BedStateDto {
     return name;
   }
 
-  public void setName(final String name) {
+  public BedStateDto setName(final String name) {
     this.name = name;
+    return this;
   }
 
 }
