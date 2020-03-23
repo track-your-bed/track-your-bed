@@ -1,101 +1,100 @@
 import * as React from "react";
-import {DataTable} from 'primereact/datatable';
-import {Column} from 'primereact/column';
+import { DataTable } from "primereact/datatable";
+import { useParams } from "react-router-dom";
+import { Column } from "primereact/column";
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import { Bed } from "../../datatypes/ListData";
 import "./WardBedManagementTbl.scss";
 import WardActionTemplate from "./WardActionTemplate/WardActionTemplate";
-import { useParams } from "react-router-dom";
-import { fetchWard, updateBedStateOnServer } from "../../Services/WardBedManagementService";
+import {
+  fetchWard,
+  updateBedStateOnServer
+} from "../../Services/WardBedManagementService";
 
 const WardBedManagementTbl: React.FunctionComponent = () => {
-    const { wardId } = useParams();
+  const { wardId } = useParams();
 
-    const [wardName, setWardName] = React.useState(null);
-    const [beds, setBeds] = React.useState<Bed[]>([]);
+  const [wardName, setWardName] = React.useState(null);
+  const [beds, setBeds] = React.useState<Bed[]>([]);
 
-    React.useEffect(() => {
-        const action = async () => {
-            if (!wardId) {
-                throw new Error("Expected a ward id");
-            }
-            const ward = await fetchWard(wardId);
+  React.useEffect(() => {
+    const action = async () => {
+      if (!wardId) {
+        throw new Error("Expected a ward id");
+      }
+      const ward = await fetchWard(wardId);
 
-            setWardName(ward.name);
-            setBeds(ward.beds);
-        };
+      setWardName(ward.name);
+      setBeds(ward.beds);
+    };
 
-        action();
-    }, []);
+    action();
+  }, []);
 
-    function isBedFree(rowData: Bed): boolean {
-        const bedState = rowData.bedState;
+  function isBedFree(rowData: Bed): boolean {
+    const bedState = rowData.bedState;
 
-        return bedState === "free";
-    }
+    return bedState === "free";
+  }
 
-    function getRowClassName(rowData: Bed): object {
+  function getRowClassName(rowData: Bed): object {
+    const occupied = !isBedFree(rowData);
 
-        const occupied = !isBedFree(rowData);
+    return {
+      free: !occupied,
+      occupied: occupied
+    };
+  }
 
-        return {
-            free: !occupied,
-            occupied: occupied
-        };
-    }
+  function updateBedState(id: string, newState: string) {
+    const newBeds = beds.map(bed => {
+      if (bed.id !== id) {
+        return bed;
+      }
 
-    function updateBedState(id: string, newState: string) {
-        const newBeds = beds.map(bed => {
-            if (bed.id !== id) {
-                return bed;
-            }
+      const newData = {
+        ...bed,
+        bedState: newState
+      };
 
-            const newData = {
-                ...bed,
-                bedState: newState
-            };
+      return newData;
+    });
 
-            return newData;
-        });
+    setBeds(newBeds);
 
-        setBeds(newBeds);
+    updateBedStateOnServer(id, newState);
+  }
 
-        updateBedStateOnServer(id, newState);
-    }
-
-    function buttonTemplate(rowData: Bed) {
-        return (
-            <WardActionTemplate
-                isOccupied={!isBedFree(rowData)}
-                onClick={(newBedState: string) => {
-                    updateBedState(rowData.id, newBedState);
-                }}
-            />
-        );
-    }
-
+  function buttonTemplate(rowData: Bed) {
     return (
-        <div>
-            <div className="content-section introduction">
-                <div className="feature-intro">
-                    <h1>{wardName}</h1>
-                </div>
-            </div>
-
-            <div className="content-section implementation">
-                <DataTable
-                    rowClassName={getRowClassName}
-                    value={beds}
-                >
-                    <Column header="Betten-Name" field="name"/>
-                    <Column header="Betten-Typ" field="bedType"/>
-                    <Column field="bedState" body={buttonTemplate} />
-                </DataTable>
-            </div>
-        </div>
+      <WardActionTemplate
+        isOccupied={!isBedFree(rowData)}
+        onClick={(newBedState: string) => {
+          updateBedState(rowData.id, newBedState);
+        }}
+      />
     );
+  }
+
+  return (
+    <div>
+      <div className="content-section introduction">
+        <div className="feature-intro">
+          <h1>{wardName}</h1>
+        </div>
+      </div>
+
+      <div className="content-section implementation">
+        <DataTable rowClassName={getRowClassName} value={beds}>
+          <Column header="Betten-Name" field="name" />
+          <Column header="Betten-Typ" field="bedType" />
+          <Column field="bedState" body={buttonTemplate} />
+        </DataTable>
+      </div>
+    </div>
+  );
 };
 
 export default WardBedManagementTbl;
