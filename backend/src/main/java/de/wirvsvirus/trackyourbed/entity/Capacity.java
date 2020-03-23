@@ -4,6 +4,11 @@ public class Capacity {
   private int maxCapacity;
   private int freeCapacity;
 
+  public Capacity() {
+    maxCapacity = 0;
+    freeCapacity = 0;
+  }
+
   public int getMaxCapacity() {
     return maxCapacity;
   }
@@ -28,5 +33,10 @@ public class Capacity {
 
   public void setFreeCapacity(final int freeCapacity) {
     this.freeCapacity = freeCapacity;
+  }
+
+  public void add(final Capacity that) {
+    this.addToMaxCapacity(that.getMaxCapacity());
+    this.addToFreeCapacity(that.getFreeCapacity());
   }
 }
