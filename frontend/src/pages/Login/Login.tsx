@@ -1,36 +1,30 @@
 import * as React from "react";
+
 // Components
 import LoginForm from "../../components/LoginForm/LoginForm";
 import PasswordRecovery from "../../components/PasswordRecovery/PasswordRecovery";
 import Button from "../../components/Button/Button";
-import'./Login.scss';
 
-const Login: React.FunctionComponent = () => {
-  const [recoveryMode, setRecoveryMode] = React.useState(false);
+// COntext
+import { UserContext } from "../../contexts/UserContext";
 
-  function login() {
-    setRecoveryMode(true);
-  }
+// Styles
+import "./Login.scss";
 
-  function abort(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    setRecoveryMode(false);
-  }
-
-
-  return (
-    <div className = "BackgroundImg">
-      {recoveryMode ? (
-        <PasswordRecovery abortFunction={abort} />
-      ) : (
+const Login: React.FunctionComponent = () => (
+  <UserContext.Consumer>
+    {user => (
+      <div className="BackgroundImg">
         <LoginForm />
-      )}
-      <Button
-        id="resetPasswordButton"
-        text="Reset Password"
-        onClick={(): void => login()}
-      />
-    </div>
-  );
-};
+
+        <Button
+          id="resetPasswordButton"
+          text="Reset Password"
+          onClick={() => console.log("reset password")}
+        />
+      </div>
+    )}
+  </UserContext.Consumer>
+);
 
 export default Login;
