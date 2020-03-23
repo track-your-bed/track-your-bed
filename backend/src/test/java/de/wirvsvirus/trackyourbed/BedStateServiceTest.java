@@ -18,53 +18,58 @@ import de.wirvsvirus.trackyourbed.entity.BedState;
 import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchBedStateException;
 import de.wirvsvirus.trackyourbed.persistence.BedStateRepository;
 import java.util.Optional;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+@DisplayName("Test BedStateService")
 class BedStateServiceTest {
 
-  @Test
-  void shouldCallRepositoryAndReturnExpectedResultWhenGetBedStateByNameIsCalled() {
-    // GIVEN
-    final String name = "name";
-    final BedStateRepository bedStateRepository = mock(BedStateRepository.class);
-    final BedState bedState = new BedState().setName(name);
-    when(bedStateRepository.findByName(anyString())).thenReturn(Optional.of(bedState));
+  @Nested
+  @DisplayName("Test calls to getBedSTateByName")
+  class GetBedStateByNameTest {
 
-    final BedStateDtoMapper bedStateDtoMapper = mock(BedStateDtoMapper.class);
-    final BedStateDto expected = new BedStateDto().setName(name);
-    when(bedStateDtoMapper.entityToDto(any(BedState.class))).thenReturn(expected);
+    @Test
+    void shouldCallRepositoryAndReturnExpectedResultWhenCalled () {
+      // GIVEN
+      final String name = "name";
+      final BedStateRepository bedStateRepository = mock(BedStateRepository.class);
+      final BedState bedState = new BedState().setName(name);
+      when(bedStateRepository.findByName(anyString())).thenReturn(Optional.of(bedState));
 
-    // WHEN
-    final BedStateDto actual = new BedStateService(bedStateRepository, bedStateDtoMapper)
-        .getBedStateByName(name);
+      final BedStateDtoMapper bedStateDtoMapper = mock(BedStateDtoMapper.class);
+      final BedStateDto expected = new BedStateDto().setName(name);
+      when(bedStateDtoMapper.entityToDto(any(BedState.class))).thenReturn(expected);
 
-    // THEN
-    assertSame(expected, actual);
+      // WHEN
+      final BedStateDto actual = new BedStateService(bedStateRepository, bedStateDtoMapper).getBedStateByName(name);
 
-    verify(bedStateRepository).findByName(eq(name));
-    verify(bedStateDtoMapper).entityToDto(argThat(state -> {
-      assertEquals(name, state.getName());
-      return true;
-    }));
-  }
+      // THEN
+      assertSame(expected, actual);
 
-  @Test
-  void shouldThrowNoSuchBedExceptionWhenBedStateDoesNotExist() {
-    // GIVEN
-    final String name = "name";
-    final BedStateRepository bedStateRepository = mock(BedStateRepository.class);
-    when(bedStateRepository.findByName(anyString())).thenReturn(Optional.empty());
-    final String expectedMessage = String.format(NoSuchBedStateException.MESSAGE_TEMPLATE, name);
+      verify(bedStateRepository).findByName(eq(name));
+      verify(bedStateDtoMapper).entityToDto(argThat(state -> {
+        assertEquals(name, state.getName());
+        return true;
+      }));
+    }
 
-    // WHEN
-    final NoSuchBedStateException e = assertThrows(
-        NoSuchBedStateException.class,
-        () -> new BedStateService(bedStateRepository, null).getBedStateByName(name)
-    );
+    @Test
+    void shouldThrowNoSuchBedExceptionWhenBedStateDoesNotExist () {
+      // GIVEN
+      final String name = "name";
+      final BedStateRepository bedStateRepository = mock(BedStateRepository.class);
+      when(bedStateRepository.findByName(anyString())).thenReturn(Optional.empty());
+      final String expectedMessage = String.format(NoSuchBedStateException.MESSAGE_TEMPLATE, name);
 
-    // THEN
-    assertNotNull(e);
-    assertEquals(expectedMessage, e.getMessage());
+      // WHEN
+      final NoSuchBedStateException e = assertThrows(NoSuchBedStateException.class,
+          () -> new BedStateService(bedStateRepository, null).getBedStateByName(name));
+
+      // THEN
+      assertNotNull(e);
+      assertEquals(expectedMessage, e.getMessage());
+    }
   }
 
 }
