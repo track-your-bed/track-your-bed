@@ -92,11 +92,6 @@ const EditDepartment: React.FunctionComponent = () => {
     console.log("JSON: name:" + json.name + " TypeID: " + json.departmentTypeId + " HospitalID: " + json.hospitalID)
   }
 
-  function handleClickCancle(event:any)
-  {
-
-  } 
-
   return (
     <div style={divStyle}>
       <h1>Fachabteilung hinzufügen</h1>
