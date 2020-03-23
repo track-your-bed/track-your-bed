@@ -31,13 +31,21 @@ const Login: React.FunctionComponent = () => {
   return (
     <div className="login_box">
       <p className="login_headline">Login</p>
-      <span className="p-float-label" style={{marginBottom: '10px'}}>
-                <InputText id="username" value={username} onChange={(e) => setUsername(e.currentTarget.value)}/>
-                <Label id="username" label="Benutzername" />
+      <span className="p-float-label" style={{ marginBottom: "10px" }}>
+        <InputText
+          id="username"
+          value={username}
+          onChange={e => setUsername(e.currentTarget.value)}
+        />
+        <Label id="username" label="Benutzername" />
       </span>
-      <span className="p-float-label" style={{marginBottom: '10px'}}>
-          <InputText id="password" value={password} onChange={(e) => setPassword(e.currentTarget.value)}/>
-          <Label id="password" label="Passwort" />
+      <span className="p-float-label" style={{ marginBottom: "10px" }}>
+        <InputText
+          id="password"
+          value={password}
+          onChange={e => setPassword(e.currentTarget.value)}
+        />
+        <Label id="password" label="Passwort" />
       </span>
       <p></p>
       <p></p>
