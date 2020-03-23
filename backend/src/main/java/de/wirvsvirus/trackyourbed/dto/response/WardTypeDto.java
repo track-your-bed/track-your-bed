@@ -7,8 +7,9 @@ public class WardTypeDto {
     return name;
   }
 
-  public void setName(final String name) {
+  public WardTypeDto setName(final String name) {
     this.name = name;
+    return this;
   }
 
 }

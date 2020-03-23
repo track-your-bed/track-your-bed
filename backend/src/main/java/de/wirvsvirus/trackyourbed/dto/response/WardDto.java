@@ -15,39 +15,44 @@ public class WardDto {
     return id;
   }
 
-  public void setId(final UUID id) {
+  public WardDto setId(final UUID id) {
     this.id = id;
+    return this;
   }
 
   public String getName() {
     return name;
   }
 
-  public void setName(final String name) {
+  public WardDto setName(final String name) {
     this.name = name;
+    return this;
   }
 
   public UUID getDepartmentId() {
     return departmentId;
   }
 
-  public void setDepartmentId(final UUID departmentId) {
+  public WardDto setDepartmentId(final UUID departmentId) {
     this.departmentId = departmentId;
+    return this;
   }
 
   public String getWardType() {
     return wardType;
   }
 
-  public void setWardType(final String wardType) {
+  public WardDto setWardType(final String wardType) {
     this.wardType = wardType;
+    return this;
   }
 
   public Collection<BedDto> getBeds() {
     return beds;
   }
 
-  public void setBeds(final Collection<BedDto> beds) {
+  public WardDto setBeds(final Collection<BedDto> beds) {
     this.beds = beds;
+    return this;
   }
 }

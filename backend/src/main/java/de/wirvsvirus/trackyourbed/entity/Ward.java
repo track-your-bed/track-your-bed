@@ -30,31 +30,35 @@ public class Ward extends AbstractBaseEntity<Ward> {
     return name;
   }
 
-  public void setName(final String name) {
+  public Ward setName(final String name) {
     this.name = name;
+    return this;
   }
 
   public Department getDepartment() {
     return department;
   }
 
-  public void setDepartment(final Department department) {
+  public Ward setDepartment(final Department department) {
     this.department = department;
+    return this;
   }
 
   public WardType getWardType() {
     return wardType;
   }
 
-  public void setWardType(final WardType wardType) {
+  public Ward setWardType(final WardType wardType) {
     this.wardType = wardType;
+    return this;
   }
 
   public List<Bed> getBeds() {
     return beds;
   }
 
-  public void setBeds(final List<Bed> beds) {
+  public Ward setBeds(final List<Bed> beds) {
     this.beds = beds;
+    return this;
   }
 }

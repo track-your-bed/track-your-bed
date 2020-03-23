@@ -15,8 +15,9 @@ public class WardType extends AbstractBaseEntity<WardType> {
     return name;
   }
 
-  public void setName(final String name) {
+  public WardType setName(final String name) {
     this.name = name;
+    return this;
   }
 
 }
