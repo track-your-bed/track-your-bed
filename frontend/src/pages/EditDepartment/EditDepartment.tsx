@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import {InputText} from 'primereact/inputtext';
-import {Button} from 'primereact/button';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import { useParams, useHistory } from "react-router-dom";
 
 import 'primereact/resources/themes/nova-light/theme.css';
@@ -92,18 +93,19 @@ const EditDepartment: React.FunctionComponent = () => {
     console.log("JSON: name:" + json.name + " TypeID: " + json.departmentTypeId + " HospitalID: " + json.hospitalID)
   }
 
-  function handleClickCancle(event:any)
-  {
-
-  } 
-
   return (
     <div style={divStyle}>
       <h1>Fachabteilung hinzufügen</h1>
-        <form>
-          <Select
-            options={departmentTypes}
-            withSearch={true}/>
+          <Form>
+            <Form.Group controlId="departmentType">
+              <Form.Label>Wählen Sie die Fachabteilung</Form.Label>
+              <Form.Control as="select">
+                {departmentTypes.map(dt => {
+                  return <option value={dt.value}>{dt.displayValue}</option>
+                })}
+              </Form.Control>
+            </Form.Group>
+          </Form>
           <br/>
           <br/>
           <span className="p-float-label">
@@ -111,10 +113,9 @@ const EditDepartment: React.FunctionComponent = () => {
             <label htmlFor="in">Name der Abteilung</label>
           </span>
           <div>
-            <Button label="Hinzufügen" onClick={handleClickSubmit}/>
-            <Button style={btnStyle} label="Abbrechen" onClick={() => {history.goBack()}} />
+            <Button value="Hinzufügen" onClick={handleClickSubmit}/>
+            <Button style={btnStyle} value="Abbrechen" onClick={() => {history.goBack()}} />
           </div>
-        </form>
     </div>
   );
 };
