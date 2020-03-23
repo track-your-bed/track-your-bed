@@ -1,12 +1,12 @@
 package de.wirvsvirus.trackyourbed;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.AdditionalMatchers.or;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -15,7 +15,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 
 import de.wirvsvirus.trackyourbed.dto.response.BedStateDto;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.BedStateDtoMapper;
@@ -26,6 +25,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -104,7 +104,7 @@ class BedStateServiceTest {
               .setName(arguments.getArgument(0, BedState.class).getName())
           );
 
-      final Collection<String> expectedBedStateNames = List.of(
+      final List<String> expectedBedStateNames = List.of(
           bedStateOneName,
           bedStateTwoName
       );
@@ -114,6 +114,11 @@ class BedStateServiceTest {
 
       // THEN
       assertThat(actual, hasSize(2));
+      assertThat(
+          actual.stream()
+              .map(BedStateDto::getName)
+              .collect(Collectors.toList()),
+          containsInAnyOrder(expectedBedStateNames.toArray()));
 
       verify(bedStateDtoMapper, times(1))
           .entityToDto(argThat(state -> Objects.equals(bedStateOneName, state.getName())));
