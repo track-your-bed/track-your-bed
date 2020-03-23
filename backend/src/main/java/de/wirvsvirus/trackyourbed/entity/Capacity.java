@@ -9,11 +9,6 @@ public class Capacity {
     freeCapacity = 0;
   }
 
-  public Capacity(Bed bed) {
-    maxCapacity = 1;
-    freeCapacity = "free".equals(bed.getBedState().getName()) ? 1 : 0;
-  }
-
   public int getMaxCapacity() {
     return maxCapacity;
   }
@@ -38,5 +33,10 @@ public class Capacity {
 
   public void setFreeCapacity(final int freeCapacity) {
     this.freeCapacity = freeCapacity;
+  }
+
+  public void add(final Capacity that) {
+    this.addToMaxCapacity(that.getMaxCapacity());
+    this.addToFreeCapacity(that.getFreeCapacity());
   }
 }

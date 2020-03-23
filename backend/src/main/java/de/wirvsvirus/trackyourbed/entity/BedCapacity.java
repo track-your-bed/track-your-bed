@@ -1,21 +1,23 @@
 package de.wirvsvirus.trackyourbed.entity;
 
 import java.util.Collection;
+import java.util.Objects;
 
 public class BedCapacity {
 
-  private static final String NORMAL = "normal";
-  private static final String IMC = "imc";
-  private static final String ICU = "icu";
-  private static final String COVID = "covid";
-  private static final String COVID_ICU = "covid-icu";
+  private static final String FREE_STATE = "free";
+  private static final String NORMAL_TYPE = "normal";
+  private static final String IMC_TYPE = "imc";
+  private static final String ICU_TYPE = "icu";
+  private static final String COVID_TYPE = "covid";
+  private static final String COVID_ICU_TYPE = "covid-icu";
 
-  private Capacity all;
-  private Capacity normal;
-  private Capacity imc;
-  private Capacity icu;
-  private Capacity covid;
-  private Capacity covidIcu;
+  private final Capacity all;
+  private final Capacity normal;
+  private final Capacity imc;
+  private final Capacity icu;
+  private final Capacity covid;
+  private final Capacity covidIcu;
 
   public BedCapacity() {
     all = new Capacity();
@@ -27,12 +29,27 @@ public class BedCapacity {
   }
 
   public BedCapacity(final Bed bed) {
-    all = new Capacity(bed);
-    normal = NORMAL.equals(bed.getBedType().getName()) ? new Capacity(bed) : new Capacity();
-    imc = IMC.equals(bed.getBedType().getName()) ? new Capacity(bed) : new Capacity();
-    icu = ICU.equals(bed.getBedType().getName()) ? new Capacity(bed) : new Capacity();
-    covid = COVID.equals(bed.getBedType().getName()) ? new Capacity(bed) : new Capacity();
-    covidIcu = COVID_ICU.equals(bed.getBedType().getName()) ? new Capacity(bed) : new Capacity();
+    all = mapBedToCapacityByFreeState(bed);
+    normal = mapBedToCapacityByType(bed, NORMAL_TYPE);
+    imc = mapBedToCapacityByType(bed, IMC_TYPE);
+    icu = mapBedToCapacityByType(bed, ICU_TYPE);
+    covid = mapBedToCapacityByType(bed, COVID_TYPE);
+    covidIcu = mapBedToCapacityByType(bed, COVID_ICU_TYPE);
+  }
+
+  private Capacity mapBedToCapacityByFreeState(final Bed bed) {
+    final Capacity capacity = new Capacity().addToMaxCapacity(1);
+    if (Objects.equals(FREE_STATE, bed.getBedState().getName())) {
+      capacity.addToFreeCapacity(1);
+    }
+    return capacity;
+  }
+
+  private Capacity mapBedToCapacityByType(final Bed bed, final String bedType) {
+    if (Objects.equals(bedType, bed.getBedType().getName())) {
+      return mapBedToCapacityByFreeState(bed);
+    }
+    return new Capacity();
   }
 
   public Capacity getAll() {
@@ -60,27 +77,15 @@ public class BedCapacity {
   }
 
   public void add(final BedCapacity that) {
-    this.getAll().addToMaxCapacity(that.getAll().getMaxCapacity());
-    this.getAll().addToFreeCapacity(that.getAll().getFreeCapacity());
-
-    this.getNormal().addToMaxCapacity(that.getNormal().getMaxCapacity());
-    this.getNormal().addToFreeCapacity(that.getNormal().getFreeCapacity());
-
-    this.getImc().addToMaxCapacity(that.getImc().getMaxCapacity());
-    this.getImc().addToFreeCapacity(that.getImc().getFreeCapacity());
-
-    this.getIcu().addToMaxCapacity(that.getIcu().getMaxCapacity());
-    this.getIcu().addToFreeCapacity(that.getIcu().getFreeCapacity());
-
-    this.getCovid().addToMaxCapacity(that.getCovid().getMaxCapacity());
-    this.getCovid().addToFreeCapacity(that.getCovid().getFreeCapacity());
-
-    this.getCovidIcu().addToMaxCapacity(that.getCovidIcu().getMaxCapacity());
-    this.getCovidIcu().addToFreeCapacity(that.getCovidIcu().getFreeCapacity());
+    this.getAll().add(that.getAll());
+    this.getNormal().add(that.getNormal());
+    this.getImc().add(that.getImc());
+    this.getIcu().add(that.getIcu());
+    this.getCovid().add(that.getCovid());
+    this.getCovidIcu().add(that.getCovidIcu());
   }
 
   public void add(final Collection<? extends BedCapacity> those) {
     those.forEach(this::add);
   }
-
 }
