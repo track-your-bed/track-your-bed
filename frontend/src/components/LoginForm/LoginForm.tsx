@@ -3,14 +3,11 @@ import * as React from "react";
 // Components
 import {Button} from "primereact/button";
 import {InputText} from "primereact/inputtext";
-import {Dialog} from 'primereact/dialog';
 import Label from "../Label/Label";
 
 // Style
 import "./LoginForm.scss";
 import PasswordRecovery from "../PasswordRecovery/PasswordRecovery";
-import AjaxHelper from "../../components/WardBedManagmentTbl/WardBedManagmentService";
-import Background from '../LoginForm/hospital-ward.jpg';
 import * as API from "../../Services/APIService";
 
 const Login: React.FunctionComponent = () => {
@@ -21,12 +18,15 @@ const Login: React.FunctionComponent = () => {
     const text = `{"username": "${username}", "password": "${password}"}`;
     console.log(JSON.parse(text));
   }
-  async function getData(){
+
+  function abort() {
+    console.log("close Dialog?")
+  }
+
+  async function getData() {
     const test = await API.APIGET('https://jsonplaceholder.typicode.com/todos/1');
     console.log(test);
-      }
-
-  
+  }
 
   return (
     <div className="login_box">
@@ -48,6 +48,7 @@ const Login: React.FunctionComponent = () => {
           label="Login"
           onClick={(): Promise<void> => getData()}
         />
+        <PasswordRecovery abortFunction={abort} />
       </div>
       <br />
     </div>
