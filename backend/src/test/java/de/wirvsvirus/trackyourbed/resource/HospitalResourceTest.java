@@ -9,6 +9,8 @@ import de.wirvsvirus.trackyourbed.DepartmentService;
 import de.wirvsvirus.trackyourbed.HospitalService;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewDepartment;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewHospital;
+import de.wirvsvirus.trackyourbed.dto.request.UpdateDepartment;
+import de.wirvsvirus.trackyourbed.dto.request.UpdateHospital;
 import de.wirvsvirus.trackyourbed.dto.response.DepartmentDto;
 import de.wirvsvirus.trackyourbed.dto.response.HospitalDto;
 import java.net.URI;
@@ -98,6 +100,27 @@ class HospitalResourceTest {
       //THEN
       assertEquals(expected, actual);
       //verify....
+    }
+  }
+
+  @Nested
+  @DisplayName("Test calls to patchHospital")
+  class PatchHospitalTest {
+    @Test
+    @DisplayName("Should return a ResponseEntity containing the updated hospitalDto" +
+        "with Status set to OK when called with a UUID and an UpdateHospital")
+    void shouldReturnResponseEntityContainingHospitalDtoWithStatusOkWhenCalledWithUuidAndUpdateHospital() {
+      //GIVEN
+      final HospitalService hospitalService = mock(HospitalService.class);
+      final HospitalDto hospitalDto = new HospitalDto();
+      final UpdateHospital updateHospital = new UpdateHospital();
+      final UUID id = UUID.randomUUID();
+      when(hospitalService.updateHospital(id, updateHospital)).thenReturn(hospitalDto);
+      final ResponseEntity<HospitalDto> expected = ResponseEntity.ok(hospitalDto);
+      //WHEN
+      final ResponseEntity<HospitalDto> actual = new HospitalResource(hospitalService).patchHospital(id, updateHospital);
+      //THEN
+      assertEquals(expected, actual);
     }
 
   }
