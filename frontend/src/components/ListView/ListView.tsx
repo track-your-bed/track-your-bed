@@ -29,6 +29,9 @@ const ListView: React.FunctionComponent = () => {
   const [dataFilter, setDataFilter] = React.useState("");
 
   React.useEffect(() => {
+    fetch(`http://localhost:8080/api/bedTypes`).then(response => {
+      console.log(response);
+    });
     /**
      * TODO: Add API Call once Backend is available
      */
