@@ -35,7 +35,7 @@ const ListView: React.FunctionComponent = () => {
     /**
      * TODO: Add API Call once Backend is available
      */
-    console.log(CapacityData);
+    // console.log(CapacityData);
     setListData(CapacityData);
   }, []);
 
