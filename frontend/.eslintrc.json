@@ -36,6 +36,7 @@
     ],
     "import/no-unresolved": "off",
     "import/extensions": "off",
-    "jsx-a11y/label-has-associated-control": "off"
+    "jsx-a11y/label-has-associated-control": "off",
+    "@typescript-eslint/explicit-function-return-type": "off"
   }
 }
