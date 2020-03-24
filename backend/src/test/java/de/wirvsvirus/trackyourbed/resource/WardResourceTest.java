@@ -12,6 +12,8 @@ import de.wirvsvirus.trackyourbed.dto.request.CreateNewWard;
 import de.wirvsvirus.trackyourbed.dto.response.DepartmentDto;
 import de.wirvsvirus.trackyourbed.dto.response.WardDto;
 import java.net.URI;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -46,6 +48,33 @@ class WardResourceTest {
 
       //THEN
       assertEquals(expected,actual);
+    }
+
+    @Nested
+    @DisplayName("Test calls to getAllWards")
+    class GetAllWardsTest{
+      @Test
+      @DisplayName("Should return a ResponseEntity containing a collection of all wards" +
+          "with status set to ok when called")
+      void shouldReturnResponseEntityContainingCollectionOfAllWardsWithStatusOkWhenCalled() {
+        //GIVEN
+        final WardService wardService = mock(WardService.class);
+        final WardDto wardOne = mock(WardDto.class);
+        final WardDto wardTwo = mock(WardDto.class);
+        final Collection<WardDto> allWards = List.of(
+            wardOne,
+            wardTwo
+        );
+        final ResponseEntity<Collection<WardDto>> expected = ResponseEntity.ok(allWards);
+        when(wardService.getAllWards()).thenReturn(allWards);
+
+        //WHEN
+        final ResponseEntity<Collection<WardDto>> actual = new WardResource(wardService).getAllWards();
+        //THEN
+        assertEquals(actual, expected);
+
+      }
+
     }
   }
 

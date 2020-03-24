@@ -59,11 +59,11 @@ class DepartmentResourceTest {
     void shouldReturnResponseEntityContainingCollectionOfAllDepartmentsWithStatusOkWhenCalled() {
       //GIVEN
       final DepartmentService departmentService = mock(DepartmentService.class);
-      final DepartmentDto DepartmentOne = mock(DepartmentDto.class);
-      final DepartmentDto DepartmentTwo = mock(DepartmentDto.class);
+      final DepartmentDto departmentOne = mock(DepartmentDto.class);
+      final DepartmentDto departmentTwo = mock(DepartmentDto.class);
       final Collection<DepartmentDto> allDepartments = List.of(
-          DepartmentOne,
-          DepartmentTwo
+          departmentOne,
+          departmentTwo
       );
       final ResponseEntity<Collection<DepartmentDto>> expected = ResponseEntity.ok(allDepartments);
       when(departmentService.getAllDepartments()).thenReturn(allDepartments);
