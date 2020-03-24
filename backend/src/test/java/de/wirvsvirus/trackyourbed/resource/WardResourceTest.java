@@ -1,17 +1,14 @@
 package de.wirvsvirus.trackyourbed.resource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-import de.wirvsvirus.trackyourbed.DepartmentService;
 import de.wirvsvirus.trackyourbed.WardService;
-import de.wirvsvirus.trackyourbed.dto.request.CreateNewDepartment;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewWard;
-import de.wirvsvirus.trackyourbed.dto.request.UpdateDepartment;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateWard;
-import de.wirvsvirus.trackyourbed.dto.response.DepartmentDto;
+import de.wirvsvirus.trackyourbed.dto.response.WardCapacityDto;
 import de.wirvsvirus.trackyourbed.dto.response.WardDto;
 import java.net.URI;
 import java.util.Collection;
@@ -144,6 +141,29 @@ class WardResourceTest {
       //THEN
       assertEquals(expected,actual);
 
+    }
+
+  }
+
+  @Nested
+  @DisplayName("Test calls to getCapacity")
+  class GetCapacityTest{
+    @Test
+    @DisplayName("Should return a ResponseEntity containing a WardCapacityDto with Status OK" +
+        "when called with an Id")
+    void shouldReturnResponseEntityContainingWardCapacityDtoWithStatusOkWhenCalledWithId(){
+      //GIVEN
+      final WardService wardService = mock(WardService.class);
+      final WardCapacityDto wardCapacityDto = mock(WardCapacityDto.class);
+      final UUID id = UUID.randomUUID();
+      when(wardService.calculateCapacity(id)).thenReturn(wardCapacityDto);
+      final ResponseEntity<WardCapacityDto> expected = ResponseEntity.ok(wardCapacityDto);
+
+      //WHEN
+      final ResponseEntity<WardCapacityDto> actual = new WardResource(wardService).getCapacity(id);
+
+      //THEN
+      assertEquals(expected,actual);
     }
 
   }
