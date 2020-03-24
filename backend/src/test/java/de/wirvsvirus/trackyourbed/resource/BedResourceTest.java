@@ -10,6 +10,7 @@ import de.wirvsvirus.trackyourbed.dto.request.CreateNewBed;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateBed;
 import de.wirvsvirus.trackyourbed.dto.response.BedDto;
 import de.wirvsvirus.trackyourbed.dto.response.BedStateDto;
+import de.wirvsvirus.trackyourbed.dto.response.BedTypeDto;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -143,7 +144,6 @@ class BedResourceTest {
   @Nested
   @DisplayName("Test calls to updateBedState")
   class UpdateBedStateTest {
-    final BedService bedService = mock(BedService.class);
 
     @Test
     @DisplayName("Should return a ResponseEntity containing the updated BedStateDto and Status set to OK" +
@@ -170,7 +170,27 @@ class BedResourceTest {
   @Nested
   @DisplayName("Test calls to updateBedType")
   class UpdateBedType {
-    final BedService bedService = mock(BedService.class);
+
+    @Test
+    @DisplayName("Should return ResponseEntity containing the updated BedTypeDto and Status set to OK" +
+        "when called with id and BedTypeDto")
+    void shouldReturnResponseEntityWithUpdatedBedTypeDtoStatusOkWhenCalledWithIdAndBedTypeDto (){
+      //GiVEN
+      final BedService bedService = mock(BedService.class);
+      final UUID id = UUID.randomUUID();
+      final String name = "name";
+      final BedTypeDto bedType= new BedTypeDto();
+      bedType.setName(name);
+      final BedTypeDto bedTypeDto = new BedTypeDto();
+      bedTypeDto.setName(name);
+      when(bedService.updateType(id,bedType.getName())).thenReturn(bedTypeDto);
+      final ResponseEntity<BedTypeDto> expected = ResponseEntity.ok(bedTypeDto);
+      //WHEN
+      final ResponseEntity<BedTypeDto> actual = new BedResource(bedService).updateBedType(id,bedType);
+
+      //THEN
+      assertEquals(expected,actual);
+    }
 
   }
 
