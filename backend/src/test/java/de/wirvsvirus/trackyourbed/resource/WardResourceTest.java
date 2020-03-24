@@ -128,4 +128,24 @@ class WardResourceTest {
 
   }
 
+  @Nested
+  @DisplayName("Test calls to deleteWard")
+  class DeleteWardTest {
+    @Test
+    @DisplayName("Should return a ResponseEntity with empty body" +
+        "and status set to OK when called with Id ")
+    void shouldReturnEmptyResponseEntityWithStatusOkWhenCalledWithId (){
+      //GIVEN
+      final WardService wardService = mock(WardService.class);
+      final UUID id = UUID.randomUUID();
+      final ResponseEntity<Void> expected = ResponseEntity.ok().build();
+      //WHEN
+      final ResponseEntity<Void> actual = new WardResource(wardService).deleteWard(id);
+      //THEN
+      assertEquals(expected,actual);
+
+    }
+
+  }
+
 }
