@@ -77,4 +77,28 @@ class HospitalResourceTest {
     }
 
   }
+
+  @Nested
+  @DisplayName("Test calls to getHospitalById")
+  class GetHospitalTest {
+    @Test
+    @DisplayName("Should return a ResponseEntity containing the correct HospitalDto" +
+        "with Status set to OK when called with  UUID id")
+    void shouldReturnResponseEntityWithHospitalDtoAndStatusOkWhenCalledWithId() {
+      //GIVEN
+      final HospitalService hospitalService = mock(HospitalService.class);
+      final HospitalDto hospitalDto = new HospitalDto();
+      final UUID id = UUID.randomUUID();
+      hospitalDto.setId(id);
+      when(hospitalService.getHospitalById(id)).thenReturn(hospitalDto); //any
+      final ResponseEntity<HospitalDto> expected = ResponseEntity.ok(hospitalDto);
+
+      //WHEN
+      final ResponseEntity<HospitalDto> actual = new HospitalResource(hospitalService).getHospital(id);
+      //THEN
+      assertEquals(expected, actual);
+      //verify....
+    }
+
+  }
 }
