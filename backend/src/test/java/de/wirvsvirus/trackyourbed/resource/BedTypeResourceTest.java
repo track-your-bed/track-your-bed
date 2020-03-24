@@ -67,7 +67,7 @@ class BedTypeResourceTest {
       final BedTypeDto bedTypeDto = new BedTypeDto();
       bedTypeDto.setName(name);
       final ResponseEntity<BedTypeDto> expected = ResponseEntity.ok(bedTypeDto);
-      when(bedTypeService.getBedTypeByName(anyString())).thenReturn(bedTypeDto); //Optional.of()
+      when(bedTypeService.getBedTypeByName(anyString())).thenReturn(bedTypeDto);
 
       //WHEN
       final ResponseEntity<BedTypeDto> actual = new BedTypeResource(bedTypeService).getBedTypeByName(name);

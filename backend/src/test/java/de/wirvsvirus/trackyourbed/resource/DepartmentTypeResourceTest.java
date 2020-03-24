@@ -70,7 +70,7 @@ class DepartmentTypeResourceTest {
       final String name = "name";
       final DepartmentTypeDto departmentTypeDto = new DepartmentTypeDto();
       departmentTypeDto.setName(name);
-      when(departmentTypeService.getDepartmentTypeByName(anyString())).thenReturn(departmentTypeDto); //Optional.of()
+      when(departmentTypeService.getDepartmentTypeByName(anyString())).thenReturn(departmentTypeDto);
 
       final ResponseEntity<DepartmentTypeDto> expected = ResponseEntity.ok(departmentTypeDto);
 

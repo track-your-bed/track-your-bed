@@ -73,7 +73,7 @@ class WardTypeResourceTest {
       final WardTypeService wardTypeService = mock(WardTypeService.class);
       final WardTypeDto wardTypeDto = new WardTypeDto();
       wardTypeDto.setName(name);
-      when(wardTypeService.getWardTypeByName(anyString())).thenReturn(wardTypeDto); //Optional.of()
+      when(wardTypeService.getWardTypeByName(anyString())).thenReturn(wardTypeDto);
 
       final ResponseEntity<WardTypeDto> expected = ResponseEntity.ok(wardTypeDto);
 
