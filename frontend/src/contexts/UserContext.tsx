@@ -60,7 +60,7 @@ const UserContextProvider: React.FunctionComponent<UserContextProvider> = ({
   const logout = () => dispatch({ type: "logoutUser" });
 
   React.useEffect(() => {
-    if (localStorage.getItem("jwt") && !state.user.isAuthenticated) {
+    if (localStorage.getItem(TOKEN_NAME) && !state.user.isAuthenticated) {
       login("defaultUser");
     }
   }, []);
