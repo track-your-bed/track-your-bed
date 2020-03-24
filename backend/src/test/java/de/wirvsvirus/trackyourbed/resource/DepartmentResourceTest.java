@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import de.wirvsvirus.trackyourbed.DepartmentService;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewDepartment;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateDepartment;
+import de.wirvsvirus.trackyourbed.dto.response.DepartmentCapacityDto;
 import de.wirvsvirus.trackyourbed.dto.response.DepartmentDto;
 import java.net.URI;
 import java.util.Collection;
@@ -147,6 +148,23 @@ class DepartmentResourceTest {
   @Nested
   @DisplayName("Test calls to getCapacity")
   class GetCapacityTest{
+    @Test
+    @DisplayName("Should return a ResponseEntity containing a DepartmentCapacityDto with Status OK" +
+        "when called with an Id")
+    void shouldReturnResponseEntityContainingDepartmentCapacityDtoWithStatusOkWhenCalledWithId(){
+      //GIVEN
+      final DepartmentService departmentService = mock(DepartmentService.class);
+      final DepartmentCapacityDto departmentCapacityDto = mock(DepartmentCapacityDto.class);
+      final UUID id = UUID.randomUUID();
+      when(departmentService.calculateCapacity(id)).thenReturn(departmentCapacityDto);
+      final ResponseEntity<DepartmentCapacityDto> expected = ResponseEntity.ok(departmentCapacityDto);
+
+      //WHEN
+      final ResponseEntity<DepartmentCapacityDto> actual = new DepartmentResource(departmentService).getCapacity(id);
+
+      //THEN
+      assertEquals(expected,actual);
+    }
 
   }
 
