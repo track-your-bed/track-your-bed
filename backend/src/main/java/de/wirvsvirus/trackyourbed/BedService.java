@@ -101,6 +101,11 @@ public class BedService {
     final Bed toUpdate = bedRepository.findById(id)
         .orElseThrow(() -> new NoSuchBedException(id));
 
+    final String name = updateBed.getName();
+    if (name != null) {
+      toUpdate.setName(name);
+    }
+
     final UUID wardId = updateBed.getWardId();
     if (wardId != null) {
       final Ward ward =

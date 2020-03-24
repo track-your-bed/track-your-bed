@@ -17,6 +17,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewBed;
+import de.wirvsvirus.trackyourbed.dto.request.UpdateBed;
 import de.wirvsvirus.trackyourbed.dto.request.mapper.CreateNewBedMapper;
 import de.wirvsvirus.trackyourbed.dto.response.BedDto;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.BedDtoMapper;
@@ -364,6 +365,158 @@ class BedServiceTest {
       assertNotNull(e);
       assertEquals(expectedMessage, e.getMessage());
     }
+  }
+
+  @Nested
+  @DisplayName("Test calls to updateBed")
+  class UpdateBedTest {
+
+    @Test
+    @DisplayName("Should call dependencies and return the expected result when called.")
+    void shouldCallDependenciesAndReturnExpectedResultWhenCalled() {
+      // GIVEN
+      final UUID bedId = UUID.randomUUID();
+      final Bed bedBeforeChange = new Bed();
+      final BedRepository bedRepository = mock(BedRepository.class);
+      when(bedRepository.findById(any(UUID.class))).thenReturn(Optional.of(bedBeforeChange));
+
+      final UUID wardId = UUID.randomUUID();
+      final Ward ward = new Ward();
+      final WardRepository wardRepository = mock(WardRepository.class);
+      when(wardRepository.findById(any(UUID.class))).thenReturn(Optional.of(ward));
+
+      final String type = "type";
+      final BedType bedType = new BedType().setName(type);
+      final BedTypeRepository bedTypeRepository = mock(BedTypeRepository.class);
+      when(bedTypeRepository.findByName(anyString())).thenReturn(Optional.of(bedType));
+
+      final String state = "state";
+      final BedState bedState = new BedState().setName(state);
+      final BedStateRepository bedStateRepository = mock(BedStateRepository.class);
+      when(bedStateRepository.findByName(anyString())).thenReturn(Optional.of(bedState));
+
+      final Bed bedAfterChange = new Bed();
+      when(bedRepository.save(any(Bed.class))).thenReturn(bedAfterChange);
+
+      final BedDto expected = new BedDto();
+      final BedDtoMapper bedDtoMapper = mock(BedDtoMapper.class);
+      when(bedDtoMapper.entityToDto(any(Bed.class))).thenReturn(expected);
+
+      final String newName = "new name";
+      final UpdateBed request = new UpdateBed()
+          .setName("new name")
+          .setWardId(wardId)
+          .setBedType(type)
+          .setBedState(state);
+
+      // WHEN
+      final BedDto actual = new BedService(
+          bedRepository,
+          wardRepository,
+          bedTypeRepository,
+          bedStateRepository,
+          null,
+          bedDtoMapper,
+          null,
+          null
+      ).updateBed(bedId, request);
+
+      // THEN
+      assertSame(expected, actual);
+
+      verify(bedRepository).findById(eq(bedId));
+      verify(wardRepository).findById(eq(wardId));
+      verify(bedTypeRepository).findByName(eq(type));
+      verify(bedStateRepository).findByName(eq(state));
+      verify(bedRepository).save(argThat(newBed -> {
+        assertEquals(newName, newBed.getName());
+        assertSame(ward, newBed.getWard());
+        assertSame(bedType, newBed.getBedType());
+        assertSame(bedState, newBed.getBedState());
+        return true;
+      }));
+    }
+
+    @Test
+    @DisplayName("Should throw a WardMissingException when the ward is not found.")
+    void shouldThrowWardMissingExceptionWhenWardIsNotFound() {
+      // GIVEN
+      final UUID bedId = UUID.randomUUID();
+      final Bed bedBeforeChange = new Bed();
+      final BedRepository bedRepository = mock(BedRepository.class);
+      when(bedRepository.findById(any(UUID.class))).thenReturn(Optional.of(bedBeforeChange));
+
+      final WardRepository wardRepository = mock(WardRepository.class);
+      when(wardRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+      final UUID wardId = UUID.randomUUID();
+      final UpdateBed request = new UpdateBed()
+          .setName("new name")
+          .setWardId(wardId);
+      final String expectedMessage = String.format(WardMissingException.MESSAGE_TEMPLATE, wardId);
+
+      // WHEN
+      final WardMissingException e = assertThrows(
+          WardMissingException.class,
+          () -> new BedService(
+              bedRepository,
+              wardRepository,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+          ).updateBed(bedId, request)
+      );
+
+      // THEN
+      assertEquals(expectedMessage, e.getMessage());
+    }
+
+    @Test
+    @DisplayName("Should throw a InvalidBedTypeException when bed type is not found.")
+    void shouldThrowInvalidBedTypeExceptionWhenBedTypeIsNotFound() {
+      // GIVEN
+      final UUID bedId = UUID.randomUUID();
+      final Bed bedBeforeChange = new Bed();
+      final BedRepository bedRepository = mock(BedRepository.class);
+      when(bedRepository.findById(any(UUID.class))).thenReturn(Optional.of(bedBeforeChange));
+
+      final UUID wardId = UUID.randomUUID();
+      final Ward ward = new Ward();
+      final WardRepository wardRepository = mock(WardRepository.class);
+      when(wardRepository.findById(any(UUID.class))).thenReturn(Optional.of(ward));
+
+      final String type = "type";
+      final BedTypeRepository bedTypeRepository = mock(BedTypeRepository.class);
+      when(bedTypeRepository.findByName(anyString())).thenReturn(Optional.empty());
+
+      final UpdateBed request = new UpdateBed()
+          .setName("new name")
+          .setWardId(wardId)
+          .setBedType(type);
+
+      final String expectedMessage = String.format(InvalidBedTypeException.MESSAGE_TEMPLATE, type);
+
+      // WHEN
+      final InvalidBedTypeException e = assertThrows(
+          InvalidBedTypeException.class,
+          () -> new BedService(
+              bedRepository,
+              wardRepository,
+              bedTypeRepository,
+              null,
+              null,
+              null,
+              null,
+              null
+          ).updateBed(bedId, request));
+
+      // THEN
+      assertEquals(expectedMessage, e.getMessage());
+    }
+
   }
 
 }

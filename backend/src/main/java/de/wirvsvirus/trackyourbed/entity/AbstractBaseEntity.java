@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
-public class AbstractBaseEntity implements Serializable {
+public class AbstractBaseEntity<T extends AbstractBaseEntity<T>> implements Serializable {
 
   @Id
   @GeneratedValue
@@ -20,8 +20,10 @@ public class AbstractBaseEntity implements Serializable {
     return id;
   }
 
-  public void setId(final UUID id) {
+  @SuppressWarnings("unchecked")
+  public T setId(final UUID id) {
     this.id = id;
+    return (T) this;
   }
 
   @Override
@@ -32,7 +34,7 @@ public class AbstractBaseEntity implements Serializable {
     if (thatObject == null || getClass() != thatObject.getClass()) {
       return false;
     }
-    final AbstractBaseEntity that = (AbstractBaseEntity) thatObject;
+    final AbstractBaseEntity<?> that = (AbstractBaseEntity<?>) thatObject;
     return getId().equals(that.getId());
   }
 

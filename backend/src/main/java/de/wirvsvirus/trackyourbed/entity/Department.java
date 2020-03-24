@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "department")
-public class Department extends AbstractBaseEntity {
+public class Department extends AbstractBaseEntity<Department> {
 
   @Column(name = "name")
   private String name;
