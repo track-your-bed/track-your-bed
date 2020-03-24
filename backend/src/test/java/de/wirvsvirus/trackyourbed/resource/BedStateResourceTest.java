@@ -53,12 +53,13 @@ class BedStateResourceTest {
   }
 
   @Nested
-  @DisplayName("Test calls to getBedStateByName")
+  @DisplayName("Test calls to getBedStateByName.")
   class getBedStateByNameTest {
 
     @Test
-    @DisplayName("To BE COMPLETED")
-    void shouldReturnResponseEntityWithCorrectBedStatesAndStatusSetToOKWhenCalled(){
+    @DisplayName("Should return a ResponseEntity containing the bedStateDto with Status set to OK" +
+        "when called.")
+    void shouldReturnResponseEntityWithCorrectBedStatesAndStatusSetToOkWhenCalled(){
       // GIVEN
       final String name = "name";
       final BedStateDto bedStateDto = new BedStateDto().setName(name);
@@ -72,7 +73,7 @@ class BedStateResourceTest {
           new BedStateResource(bedStateService).getBedStateByName(name);
 
       //THEN
-      assertEquals(actual,expected);
+      assertEquals(expected,actual);
 
       verify(bedStateService).getBedStateByName(eq(name));
     }
