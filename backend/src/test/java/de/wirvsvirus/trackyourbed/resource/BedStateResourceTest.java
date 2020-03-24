@@ -1,13 +1,17 @@
 package de.wirvsvirus.trackyourbed.resource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
 import de.wirvsvirus.trackyourbed.BedStateService;
 import de.wirvsvirus.trackyourbed.dto.response.BedStateDto;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -64,12 +68,15 @@ class BedStateResourceTest {
       final BedStateDto bedStateDto = new BedStateDto().setName(name);
       final ResponseEntity<BedStateDto> expected = ResponseEntity.ok(bedStateDto);
 
-      when(bedStateService.getBedStateByName(name)).thenReturn(bedStateDto);
+      when(bedStateService.getBedStateByName(anyString())).thenReturn(bedStateDto); //Optional.of(
+
       // WHEN
       final ResponseEntity<BedStateDto> actual = new BedStateResource(bedStateService).getBedStateByName(name);
 
       //THEN
       assertEquals(actual,expected);
+
+      verify(bedStateService).getBedStateByName(eq(name));
     }
 
 
