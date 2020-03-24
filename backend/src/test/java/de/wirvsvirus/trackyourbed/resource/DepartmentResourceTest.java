@@ -7,6 +7,8 @@ import static org.mockito.Mockito.when;
 
 import de.wirvsvirus.trackyourbed.BedService;
 import de.wirvsvirus.trackyourbed.DepartmentService;
+import de.wirvsvirus.trackyourbed.dto.request.UpdateBed;
+import de.wirvsvirus.trackyourbed.dto.request.UpdateDepartment;
 import de.wirvsvirus.trackyourbed.dto.response.BedDto;
 import de.wirvsvirus.trackyourbed.dto.response.DepartmentDto;
 import java.util.Collection;
@@ -87,6 +89,22 @@ class DepartmentResourceTest {
  @Nested
  @DisplayName("Test calls to patchDepartment")
  class PatchDepartmentTest {
+   @Test
+   @DisplayName("Should return a ResponseEntity containing the updated departmentDto" +
+       "with Status set to OK when called with a UUID and an UpdateDepartment")
+   void shouldReturnResponseEntityContainingDepartmentDtoWithStatusOkWhenCalledWithUuidAndUpdateDepartment() {
+     //GIVEN
+     final DepartmentService departmentService = mock(DepartmentService.class);
+     final DepartmentDto departmentDto = new DepartmentDto();
+     final UpdateDepartment updateDepartment = new UpdateDepartment();
+     final UUID id = UUID.randomUUID();
+     when(departmentService.updateDepartment(id, updateDepartment)).thenReturn(departmentDto);
+     final ResponseEntity<DepartmentDto> expected = ResponseEntity.ok(departmentDto);
+     //WHEN
+     final ResponseEntity<DepartmentDto> actual = new DepartmentResource(departmentService).patchDepartment(id, updateDepartment);
+     //THEN
+     assertEquals(expected, actual);
+   }
 
  }
 
