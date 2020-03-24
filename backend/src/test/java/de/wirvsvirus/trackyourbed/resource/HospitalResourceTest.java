@@ -12,6 +12,8 @@ import de.wirvsvirus.trackyourbed.dto.request.CreateNewHospital;
 import de.wirvsvirus.trackyourbed.dto.response.DepartmentDto;
 import de.wirvsvirus.trackyourbed.dto.response.HospitalDto;
 import java.net.URI;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -47,5 +49,32 @@ class HospitalResourceTest {
       //THEN
       assertEquals(expected,actual);
     }
+  }
+
+  @Nested
+  @DisplayName("Test calls to getAllHospitals")
+  class GetAllHospitalsTest{
+    @Test
+    @DisplayName("Should return a ResponseEntity containing a collection of all hospitals" +
+        "with status set to ok when called")
+    void shouldReturnResponseEntityContainingCollectionOfAllHospitalsWithStatusOkWhenCalled() {
+      //GIVEN
+      final HospitalService hospitalService = mock(HospitalService.class);
+      final HospitalDto hospitalOne = mock(HospitalDto.class);
+      final HospitalDto hospitalTwo = mock(HospitalDto.class);
+      final Collection<HospitalDto> allHospitals = List.of(
+          hospitalOne,
+          hospitalTwo
+      );
+      final ResponseEntity<Collection<HospitalDto>> expected = ResponseEntity.ok(allHospitals);
+      when(hospitalService.getAllHospitals()).thenReturn(allHospitals);
+
+      //WHEN
+      final ResponseEntity<Collection<HospitalDto>> actual = new HospitalResource(hospitalService).getAllHospitals();
+      //THEN
+      assertEquals(actual, expected);
+
+    }
+
   }
 }
