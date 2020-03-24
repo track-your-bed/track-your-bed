@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import de.wirvsvirus.trackyourbed.BedService;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewBed;
+import de.wirvsvirus.trackyourbed.dto.request.UpdateBed;
 import de.wirvsvirus.trackyourbed.dto.response.BedDto;
 import java.time.format.ResolverStyle;
 import java.util.Collection;
@@ -98,7 +99,26 @@ class BedResourceTest {
   @Nested
   @DisplayName("Test calls to patchBed")
   class PatchBedTest {
-    final BedService bedService = mock(BedService.class);
+
+
+    @Test
+    @DisplayName("Should return a ResponseEntity containing the updated bedDto" +
+        "with Status set to OK when called with a UUID and an UpdateBed")
+    void shouldReturnResponseEntityContainingBedDtoWithStatusOkWhenCalledWithUuidAndUpdateBed (){
+      //GIVEN
+      final BedService bedService = mock(BedService.class);
+      final BedDto bedDto = new BedDto();
+      final UpdateBed updateBed = new UpdateBed();
+      final UUID id = UUID.randomUUID();
+      when(bedService.updateBed(id,updateBed)).thenReturn(bedDto);
+      final ResponseEntity<BedDto> expected = ResponseEntity.ok(bedDto);
+      //WHEN
+      final ResponseEntity<BedDto> actual = new BedResource(bedService).patchBed(id,updateBed);
+      //THEN
+      assertEquals(expected,actual);
+    }
+
+
 
   }
 
