@@ -1,5 +1,6 @@
 {
   "name": "test-hospital-1",
+  "id": "51d02bbb-2505-479c-a619-b305de7eee7f",
   "all": {
     "maxCapacity": 14,
     "freeCapacity": 10
@@ -27,6 +28,7 @@
   "departmentCapacities": [
     {
       "name": "test-department-1",
+      "id": "d98a0e19-20fb-47ac-89c0-65ffed962127",
       "all": {
         "maxCapacity": 14,
         "freeCapacity": 6
@@ -54,6 +56,7 @@
       "wardCapacities": [
         {
           "name": "test-ward-1-1",
+          "id": "3ccd8157-b005-4708-93c3-fee0d469ab9e",
           "all": {
             "maxCapacity": 7,
             "freeCapacity": 5
@@ -81,6 +84,7 @@
         },
         {
           "name": "test-ward-1-2",
+          "id": "976b8900-930d-44ff-846b-9ba20ff05883",
           "all": {
             "maxCapacity": 7,
             "freeCapacity": 1
@@ -110,6 +114,7 @@
     },
     {
       "name": "test-department-2",
+      "id": "ab91bc2b-8dcf-4f04-8d51-bea552037b77",
       "all": {
         "maxCapacity": 7,
         "freeCapacity": 5
@@ -137,6 +142,7 @@
       "wardCapacities": [
         {
           "name": "test-ward-2",
+          "id": "90342103-71cc-4ec5-a42c-392d3ca1fece",
           "all": {
             "maxCapacity": 7,
             "freeCapacity": 5

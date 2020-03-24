@@ -3,7 +3,7 @@ import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { useParams, useHistory } from "react-router-dom";
-import { Wardtypes } from "../../datatypes/enums";
+import { Wardtypes } from "../../datatypes/enums.types";
 import {
   fetchWard,
   updateBedStateOnServer

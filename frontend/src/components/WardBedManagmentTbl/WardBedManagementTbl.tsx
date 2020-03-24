@@ -2,16 +2,20 @@ import * as React from "react";
 import { DataTable } from "primereact/datatable";
 import { useParams } from "react-router-dom";
 import { Column } from "primereact/column";
-import "primereact/resources/themes/nova-light/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
-import { Bed } from "../../datatypes/ListData";
-import "./WardBedManagementTbl.scss";
 import WardActionTemplate from "./WardActionTemplate/WardActionTemplate";
 import {
   fetchWard,
   updateBedStateOnServer
 } from "../../Services/WardBedManagementService";
+
+// Types
+import { Bed, BedState } from "../../datatypes/ListView.types";
+
+// Styles
+import "primereact/resources/themes/nova-light/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+import "./WardBedManagementTbl.scss";
 
 const WardBedManagementTbl: React.FunctionComponent = () => {
   const { wardId } = useParams();
@@ -34,9 +38,9 @@ const WardBedManagementTbl: React.FunctionComponent = () => {
   }, []);
 
   function isBedFree(rowData: Bed): boolean {
-    const bedState = rowData.bedState;
+    const { bedState } = rowData;
 
-    return bedState === "free";
+    return bedState === BedState.free;
   }
 
   function getRowClassName(rowData: Bed): object {
@@ -44,25 +48,25 @@ const WardBedManagementTbl: React.FunctionComponent = () => {
 
     return {
       free: !occupied,
-      occupied: occupied
+      occupied
     };
   }
 
   function updateBedState(id: string, newState: string) {
-    const newBeds = beds.map(bed => {
-      if (bed.id !== id) {
-        return bed;
-      }
+    // const newBeds = beds.map(bed => {
+    //   if (bed.id !== id) {
+    //     return bed;
+    //   }
 
-      const newData = {
-        ...bed,
-        bedState: newState
-      };
+    //   const newData = {
+    //     ...bed,
+    //     bedState: newState
+    //   };
 
-      return newData;
-    });
+    //   return newData;
+    // });
 
-    setBeds(newBeds);
+    // setBeds(newBeds);
 
     updateBedStateOnServer(id, newState);
   }

@@ -4,36 +4,26 @@
   }
 
   &__table {
-    tr:not(.p-datatable-row) td[colspan] {
-      padding: 0;
-    }
-  }
+    user-select: none;
+    table-layout: fixed;
 
-  &__station-table {
-    thead {
-      text-align: left;
+    thead tr th:first-of-type {
+      width: 46px;
+      color: transparent;
     }
 
-    td {
-      border: 1px solid #c8c8c8;
-      border-top: 0;
+    &__row {
+      cursor: pointer;
 
-      &:first-of-type {
-        border-left: 0;
-        border-right: 0;
+      td:first-of-type {
+        vertical-align: middle;
       }
 
-      &:nth-of-type(2) {
-        border-left: 0;
+      &.--expanded {
+        svg {
+          transform: rotate(90deg);
+        }
       }
-
-      &:last-of-type {
-        border-right: 0;
-      }
-    }
-
-    th:first-of-type {
-      width: 50px;
     }
   }
 }

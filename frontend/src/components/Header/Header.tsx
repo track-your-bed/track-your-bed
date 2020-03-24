@@ -9,11 +9,13 @@ interface Header {
 }
 
 const Header: React.FunctionComponent<Header> = ({ title }: Header) => (
-  <header>
-    <Navbar bg="light">
+  <header className="mb-4">
+    <Navbar bg="light" expand="md">
       <Navbar.Brand>
         <Link to="/">TrackYourBed</Link>
       </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
       <Navbar.Collapse>
         <Nav className="w-100">
           <Nav.Link as={Link} to="/list">

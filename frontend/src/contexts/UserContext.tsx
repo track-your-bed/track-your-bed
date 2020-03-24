@@ -17,7 +17,7 @@ const initialState = {
   user: {
     name: ""
   },
-  isAuthenticated: false
+  isAuthenticated: true
 };
 
 export const UserContext = React.createContext(initialState);

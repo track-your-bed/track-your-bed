@@ -1,20 +1,40 @@
-export interface InfoItem {
-  id: string;
-  name: string;
+/* eslint-disable @typescript-eslint/camelcase */
+
+export enum BedState {
+  free,
+  occupied,
+  maybe,
+  out_of_order,
+  unknown
+}
+
+export enum BedType {
+  normal,
+  imc,
+  icu,
+  covid,
+  covidIcu
+}
+
+export enum WardTypes {
+  normal,
+  imc,
+  icu,
+  covid
 }
 
 export interface Bed {
   id: string;
   name: string;
-  state_last_changed: string;
-  bed_type: InfoItem;
-  bed_state: InfoItem;
+  stateLastChanged: string;
+  bedType: BedType;
+  bedState: BedState;
 }
 
 export interface Ward {
   id: string;
   name: string;
-  ward_type: InfoItem;
+  wardType: WardTypes;
   bed: Bed[];
 }
 
@@ -27,7 +47,7 @@ export interface Department {
 export interface ListData {
   id: string;
   name: string;
-  max_capacity: number;
+  maxCapacity: number;
   lat: string;
   long: string;
   department: Department[];

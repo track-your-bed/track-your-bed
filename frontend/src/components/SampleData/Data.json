@@ -13,82 +13,46 @@
           {
             "id": "d6e792cc-c187-4634-875a-e4b66c850574",
             "name": "Station1",
-            "ward_type": {
-              "id": "c70408e5-8194-43de-a72b-c51b39b90601",
-              "name": "StationsType1"
-            },
+            "ward_type": "StationsType1",
             "bed": [
               {
                 "id": "2365328d-4630-4950-83b7-d07b1d191d3e",
                 "name": "Bed1",
                 "state_last_changed": "2019-09-07T15:50+00Z",
-                "bed_type": {
-                  "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
-                  "name": "Intensiv"
-                },
-                "bed_state": {
-                  "id": "275770b6-0e90-432f-b551-81e437b7aee1",
-                  "name": "belegt"
-                }
+                "bedType": "icu",
+                "bedState": "occupied"
               },
               {
                 "id": "b76f903a-f498-47b1-b991-eb1eb0c07f85",
                 "name": "Bed2",
-                "bed_type": {
-                  "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
-                  "name": "Intensiv"
-                },
-                "bed_state": {
-                  "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
-                  "name": "belegt"
-                }
+                "bedType": "imc",
+                "bedState": "occupied"
               },
               {
                 "id": "b76f903a-f498-47b1-b991-eb1eb0c010d1",
                 "name": "Bed3",
-                "bed_type": {
-                  "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
-                  "name": "Intensiv"
-                },
-                "bed_state": {
-                  "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
-                  "name": "belegt"
-                }
+                "bedType": "icu",
+                "bedState": "occupied"
               }
             ]
           },
           {
             "id": "e274f648-db4d-43a9-8120-f97ed49c9356",
             "name": "Station2",
-            "ward_type": {
-              "id": "c70408e5-8194-43de-a72b-c51b39b90601",
-              "name": "StationsType1"
-            },
+            "ward_type": "StationsType1",
             "bed": [
               {
                 "id": "2365328d-4630-4950-83b7-d07b1d191d3e",
                 "name": "Bed1",
                 "state_last_changed": "2019-09-07T15:50+00Z",
-                "bed_type": {
-                  "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
-                  "name": "Intensiv"
-                },
-                "bed_state": {
-                  "id": "275770b6-0e90-432f-b551-81e437b7aee1",
-                  "name": "belegt"
-                }
+                "bedType": "imc",
+                "bedState": "occupied"
               },
               {
                 "id": "b76f903a-f498-47b1-b991-eb1eb0c07f85",
                 "name": "Bed2",
-                "bed_type": {
-                  "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
-                  "name": "Intensiv"
-                },
-                "bed_state": {
-                  "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
-                  "name": "frei"
-                }
+                "bedType": "covid",
+                "bedState": "free"
               }
             ]
           }
@@ -101,94 +65,54 @@
           {
             "id": "f943defa-10c2-488c-b986-d4e067d2d8c8",
             "name": "Station1",
-            "ward_type": {
-              "id": "c70408e5-8194-43de-a72b-c51b39b90601",
-              "name": "StationsType1"
-            },
+            "ward_type": "StationsType1",
+
             "bed": [
               {
                 "id": "81aca913-6d2c-41cc-b351-c343e10b4052",
                 "name": "Bed1",
                 "state_last_changed": "2019-09-07T15:50+00Z",
-                "bed_type": {
-                  "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
-                  "name": "Intensiv"
-                },
-                "bed_state": {
-                  "id": "275770b6-0e90-432f-b551-81e437b7aee1",
-                  "name": "belegt"
-                }
+                "bedType": "covid",
+                "bedState": "occupied"
               },
               {
                 "id": "b76f903a-f498-47b1-b991-eb1eb0c07f85",
                 "name": "Bed2",
-                "bed_type": {
-                  "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
-                  "name": "Intensiv"
-                },
-                "bed_state": {
-                  "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
-                  "name": "frei"
-                }
+                "bedType": "imc",
+                "bedState": "free"
               },
               {
                 "id": "b76f123a-f498-47b1-b991-eb1eb0c07f85",
                 "name": "Bed3",
-                "bed_type": {
-                  "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
-                  "name": "Intensiv"
-                },
-                "bed_state": {
-                  "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
-                  "name": "belegt"
-                }
+                "bedType": "icu",
+                "bedState": "occupied"
               },
               {
                 "id": "b76f903a-f498-47b1-b991-eb1eb0c071234",
                 "name": "Bed2",
-                "bed_type": {
-                  "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
-                  "name": "Intensiv"
-                },
-                "bed_state": {
-                  "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
-                  "name": "belegt"
-                }
+                "bedType": "icu",
+                "bedState": "occupied"
               }
             ]
           },
           {
             "id": "9e3fc4f7-26a0-4136-983c-bf1cf22d335f",
             "name": "Station2",
-            "ward_type": {
-              "id": "09765ffd-6632-41eb-8fe9-362fb75b6b9e",
-              "name": "StationsType2"
-            },
+            "ward_type": "StationsType2",
+
             "bed": [
               {
                 "id": "0212f599-544a-4d64-af6a-fd8653801039",
                 "name": "Bed1",
                 "state_last_changed": "2019-09-07T15:50+00Z",
-                "bed_type": {
-                  "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
-                  "name": "Intensiv"
-                },
-                "bed_state": {
-                  "id": "275770b6-0e90-432f-b551-81e437b7aee1",
-                  "name": "belegt"
-                }
+                "bedType": "covidIcu",
+                "bedState": "occupied"
               },
               {
                 "id": "0dea0c36-6660-4586-aba4-cfd258eadc56",
                 "name": "Bed2",
-                "bed_type": {
-                  "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
-                  "name": "Intensiv"
-                },
-                "bed_state": {
-                  "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
-                  "name": "frei"
-                }
+                "bedType": "covid",
+                "bedState": "free"
               }
             ]
           }
@@ -219,25 +143,25 @@
                 "id": "21f62b90-c73b-46c7-9374-95b2c2124b96",
                 "name": "Bed1",
                 "state_last_changed": "2019-09-07T15:50+00Z",
-                "bed_type": {
+                "bedType": {
                   "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
                   "name": "Intensiv"
                 },
-                "bed_state": {
+                "bedState": {
                   "id": "275770b6-0e90-432f-b551-81e437b7aee1",
-                  "name": "belegt"
+                  "name": "occupied"
                 }
               },
               {
                 "id": "6e5cfa16-91b8-4811-99ab-010192b362e1",
                 "name": "Bed2",
-                "bed_type": {
+                "bedType": {
                   "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
                   "name": "Intensiv"
                 },
-                "bed_state": {
+                "bedState": {
                   "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
-                  "name": "frei"
+                  "name": "free"
                 }
               }
             ]
@@ -254,25 +178,25 @@
                 "id": "99bad8c3-e29e-459b-93db-bc3f5aef614b",
                 "name": "Bed1",
                 "state_last_changed": "2019-09-07T15:50+00Z",
-                "bed_type": {
+                "bedType": {
                   "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
                   "name": "Intensiv"
                 },
-                "bed_state": {
+                "bedState": {
                   "id": "275770b6-0e90-432f-b551-81e437b7aee1",
-                  "name": "belegt"
+                  "name": "occupied"
                 }
               },
               {
                 "id": "9a8e02e9-5bcf-43cc-aef1-1b3c6f8cb6a3",
                 "name": "Bed2",
-                "bed_type": {
+                "bedType": {
                   "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
                   "name": "Intensiv"
                 },
-                "bed_state": {
+                "bedState": {
                   "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
-                  "name": "frei"
+                  "name": "free"
                 }
               }
             ]
@@ -304,25 +228,25 @@
                 "id": "f373a778-33f1-4cc9-9595-a2f368965207",
                 "name": "Bed1",
                 "state_last_changed": "2019-09-07T15:50+00Z",
-                "bed_type": {
+                "bedType": {
                   "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
                   "name": "Intensiv"
                 },
-                "bed_state": {
+                "bedState": {
                   "id": "275770b6-0e90-432f-b551-81e437b7aee1",
-                  "name": "belegt"
+                  "name": "occupied"
                 }
               },
               {
                 "id": "829aea6c-849b-47b7-a572-f371fe2524b0",
                 "name": "Bed2",
-                "bed_type": {
+                "bedType": {
                   "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
                   "name": "Intensiv"
                 },
-                "bed_state": {
+                "bedState": {
                   "id": "6bf0c4ff-fd30-4bb6-9626-d9e5988aa447",
-                  "name": "frei"
+                  "name": "free"
                 }
               }
             ]
@@ -339,13 +263,13 @@
                 "id": "ac1fcd4b-d06b-455d-8d64-ed526596de48",
                 "name": "Bed1",
                 "state_last_changed": "2019-09-07T15:50+00Z",
-                "bed_type": {
+                "bedType": {
                   "id": "54eadd78-6464-43fc-8faa-fcf9f00eac6e",
                   "name": "Intensiv"
                 },
-                "bed_state": {
+                "bedState": {
                   "id": "275770b6-0e90-432f-b551-81e437b7aee1",
-                  "name": "belegt"
+                  "name": "occupied"
                 }
               }
             ]
