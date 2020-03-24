@@ -11,6 +11,7 @@ import de.wirvsvirus.trackyourbed.dto.response.BedDto;
 import de.wirvsvirus.trackyourbed.dto.response.DepartmentDto;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
@@ -60,6 +61,26 @@ class DepartmentResourceTest {
  @Nested
  @DisplayName("Test calls to getDepartmentById")
  class GetDepartmentByIdTest {
+   @Test
+   @DisplayName("Should return a ResponseEntity containing the correct DepartmentDto" +
+       "with Status set to OK when called with  UUID id")
+   void shouldReturnResponseEntityWithDepartmentDtoAndStatusOkWhenCalledWithId() {
+     //GIVEN
+     final DepartmentService departmentService = mock(DepartmentService.class);
+     final DepartmentDto departmentDto = new DepartmentDto();
+     final UUID id = UUID.randomUUID();
+     departmentDto.setId(id);
+     when(departmentService.getDepartmentById(id)).thenReturn(departmentDto); //any
+     final ResponseEntity<DepartmentDto> expected = ResponseEntity.ok(departmentDto);
+
+     //WHEN
+     final ResponseEntity<DepartmentDto> actual = new DepartmentResource(departmentService).getDepartmentById(id);
+     //THEN
+     assertEquals(expected, actual);
+     //verify....
+
+
+   }
 
  }
 
