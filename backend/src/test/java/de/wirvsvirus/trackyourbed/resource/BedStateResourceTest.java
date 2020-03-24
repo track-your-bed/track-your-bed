@@ -1,6 +1,7 @@
 package de.wirvsvirus.trackyourbed.resource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -16,6 +17,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 
@@ -40,14 +42,13 @@ class BedStateResourceTest {
       final BedStateService bedStateService = mock(BedStateService.class);
       when(bedStateService.getAllBedStates()).thenReturn(allBedStates);
 
-      final ResponseEntity<Collection<BedStateDto>> expected = ResponseEntity.ok(allBedStates);
-
       // WHEN
       final ResponseEntity<Collection<BedStateDto>> actual =
           new BedStateResource(bedStateService).getAllBedStates();
 
       // THEN
-      assertEquals(expected, actual);
+      assertEquals(HttpStatus.OK, actual.getStatusCode());
+      assertSame(allBedStates, actual.getBody());
     }
 
   }
@@ -66,14 +67,13 @@ class BedStateResourceTest {
       final BedStateService bedStateService = mock(BedStateService.class);
       when(bedStateService.getBedStateByName(anyString())).thenReturn(bedStateDto);
 
-      final ResponseEntity<BedStateDto> expected = ResponseEntity.ok(bedStateDto);
-
       // WHEN
       final ResponseEntity<BedStateDto> actual =
           new BedStateResource(bedStateService).getBedStateByName(name);
 
       //THEN
-      assertEquals(expected,actual);
+      assertEquals(HttpStatus.OK,actual.getStatusCode());
+      assertSame(bedStateDto, actual.getBody());
 
       verify(bedStateService).getBedStateByName(eq(name));
     }

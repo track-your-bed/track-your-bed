@@ -18,17 +18,18 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
-@DisplayName("Tests for BedTypeResourceTest")
+@DisplayName("Tests for BedTypeResourceTest.")
 class BedTypeResourceTest {
+
   @Nested
-  @DisplayName("Test calls to getAllBedTypes")
+  @DisplayName("Test calls to getAllBedTypes.")
   class GetAllBedTypes {
+
     @Test
-    @DisplayName("Should return a response entity containing all bed types" +
-        "in its body and with status set to ok")
-    void shouldReturnResponseEntityWithAllBedTypesInBodyAndStatusSetToOK() {
+    @DisplayName("Should return a response entity containing all bed types in its body with status" +
+        " set to ok")
+    void shouldReturnResponseEntityWithAllBedTypesInBodyAndStatusSetToOkWhenCalled() {
       //GIVEN
-      final BedTypeService bedStateService = mock(BedTypeService.class);
       final String bedTypeOneName = "one";
       final String bedTypeTwoName = "two";
       final BedTypeDto  bedOne = new BedTypeDto();
@@ -39,26 +40,27 @@ class BedTypeResourceTest {
           bedOne,
           bedTwo
       );
+      final BedTypeService bedStateService = mock(BedTypeService.class);
       when(bedStateService.getAllBedTypes()).thenReturn(allBedTypes);
 
       final ResponseEntity<Collection<BedTypeDto>> expected = ResponseEntity.ok(allBedTypes);
 
       //WHEN
-      final ResponseEntity<Collection<BedTypeDto>> actual = new BedTypeResource(bedStateService).getAllBedTypes();
+      final ResponseEntity<Collection<BedTypeDto>> actual =
+          new BedTypeResource(bedStateService).getAllBedTypes();
 
       //THEN
-      assertEquals(actual,expected);
+      assertEquals(expected, actual);
     }
 
   }
 
   @Nested
-  @DisplayName("Test calls to getBedTypeByName")
+  @DisplayName("Test calls to getBedTypeByName.")
   class GetBedTypeNameTest {
 
     @Test
-    @DisplayName("Should return a response entity containing the correct name" +
-        "in its body and with status set to ok")
+    @DisplayName("Should return a response entity containing the correct name with status set to ok.")
     void shouldReturnResponseEntityWithCorrectBedTypeAndStatusSetToOkWhenCalledWithName (){
 
       //GIVEN
