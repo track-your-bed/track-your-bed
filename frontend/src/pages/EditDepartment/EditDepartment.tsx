@@ -1,6 +1,6 @@
 import * as React from "react";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import { useParams, useHistory } from "react-router-dom";
 import FormControl, { FormControlProps } from "react-bootstrap/FormControl";
 
@@ -90,7 +90,7 @@ const departmentTypes = [
 ];
 
 const EditDepartment: React.FunctionComponent = () => {
-  const [departmentType, setDepartmentType] = React.useState(null);
+  const [departmentType, setDepartmentType] = React.useState("");
   const [departmentName, setDepartmentName] = React.useState("");
 
   const history = useHistory();
@@ -98,7 +98,7 @@ const EditDepartment: React.FunctionComponent = () => {
   const { hospitalId, departmentId } = useParams();
 
   function handleSubmit(event: any) {
-    let json = {
+    const json = {
       name: departmentName,
       departmentTypeId: departmentType,
       hospitalID: hospitalId
@@ -114,8 +114,22 @@ const EditDepartment: React.FunctionComponent = () => {
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formDapartmentType">
           <Form.Label>Fachabteilung Typ</Form.Label>
-          <Form.Control as="select" onChange={event => setDepartmentType(event.target.value)}>
-            {departmentTypes.map(departmentType => <option value={departmentType.value}>{departmentType.label}</option>)}
+          <Form.Control
+            as="select"
+            onChange={event => setDepartmentType(event.currentTarget.value)}
+          >
+            {departmentTypes.map(departmentTypeItem => (
+              // FIXME:
+              // Key parameter needs to be unique! ideally we get a unique ID with the departmenTypes Array
+              // which we can reference here to guarante uniqueness. Math.random() etc. shouldnt be used
+              // because the Key would change on each rerender thus impacting performance and leading to bugs.
+              <option
+                key={departmentTypeItem.value}
+                value={departmentTypeItem.value}
+              >
+                {departmentTypeItem.label}
+              </option>
+            ))}
           </Form.Control>
           <Form.Text className="text-muted">
             Welche Fachabteilung wollen Sie anlegen?
@@ -123,7 +137,11 @@ const EditDepartment: React.FunctionComponent = () => {
         </Form.Group>
         <Form.Group controlId="formDepartmentName">
           <Form.Label>Name der Fachabteilung</Form.Label>
-          <Form.Control as="input" placeholder="Kennzeichnung" onChange={event => setDepartmentName(event.currentTarget.value)}/>
+          <Form.Control
+            as="input"
+            placeholder="Kennzeichnung"
+            onChange={event => setDepartmentName(event.currentTarget.value)}
+          />
           <Form.Text className="text-muted">
             Geben Sie die Individuelle Kennzeichnung der Fachabteilung an
           </Form.Text>
@@ -132,7 +150,12 @@ const EditDepartment: React.FunctionComponent = () => {
           <Button variant="primary" type="submit">
             Hinzufügen
           </Button>
-          <Button variant="secondary" onClick={() => {history.goBack()}}>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              history.goBack();
+            }}
+          >
             Abbrechen
           </Button>
         </Form.Row>

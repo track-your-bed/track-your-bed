@@ -1,6 +1,6 @@
 import * as React from "react";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import { useParams, useHistory } from "react-router-dom";
 import { Wardtypes } from "../../datatypes/enums";
 
@@ -15,9 +15,8 @@ const wards = [
   { label: "Covid-Station", value: Wardtypes.covid }
 ];
 
-
 const EditWard: React.FunctionComponent = () => {
-  const [ward, setWard] = React.useState(null);
+  const [ward, setWard] = React.useState("");
 
   const [wardName, setWardName] = React.useState("");
 
@@ -37,8 +36,15 @@ const EditWard: React.FunctionComponent = () => {
       <Form onSubmit={onSubmitForm}>
         <Form.Group controlId="formWardType">
           <Form.Label>Stations Typ</Form.Label>
-          <Form.Control as="select" onChange={event => setWard(event.target.value)}>
-            {wards.map(ward => <option value={ward.value}>{ward.label}</option>)}
+          <Form.Control
+            as="select"
+            onChange={event => setWard(event.currentTarget.value)}
+          >
+            {wards.map(wardItem => (
+              <option key={`wardItem-${wardItem.value}`} value={wardItem.value}>
+                {wardItem.label}
+              </option>
+            ))}
           </Form.Control>
           <Form.Text className="text-muted">
             Welche Fachabteilung wollen Sie anlegen?
@@ -46,7 +52,11 @@ const EditWard: React.FunctionComponent = () => {
         </Form.Group>
         <Form.Group controlId="formWardName">
           <Form.Label>Name der Station</Form.Label>
-          <Form.Control as="input" placeholder="Kennzeichnung" onChange={event => setWardName(event.currentTarget.value)}/>
+          <Form.Control
+            as="input"
+            placeholder="Kennzeichnung"
+            onChange={event => setWardName(event.currentTarget.value)}
+          />
           <Form.Text className="text-muted">
             Geben Sie die Individuelle Kennzeichnung der Station an
           </Form.Text>
@@ -55,7 +65,12 @@ const EditWard: React.FunctionComponent = () => {
           <Button variant="primary" type="submit">
             Hinzufügen
           </Button>
-          <Button variant="secondary" onClick={() => {history.goBack()}}>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              history.goBack();
+            }}
+          >
             Abbrechen
           </Button>
         </Form.Row>
