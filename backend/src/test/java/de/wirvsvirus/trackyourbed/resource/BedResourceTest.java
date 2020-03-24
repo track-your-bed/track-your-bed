@@ -1,6 +1,6 @@
 package de.wirvsvirus.trackyourbed.resource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -9,10 +9,9 @@ import de.wirvsvirus.trackyourbed.BedService;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewBed;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateBed;
 import de.wirvsvirus.trackyourbed.dto.response.BedDto;
-import java.time.format.ResolverStyle;
+import de.wirvsvirus.trackyourbed.dto.response.BedStateDto;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -145,6 +144,27 @@ class BedResourceTest {
   @DisplayName("Test calls to updateBedState")
   class UpdateBedStateTest {
     final BedService bedService = mock(BedService.class);
+
+    @Test
+    @DisplayName("Should return a ResponseEntity containing the updated BedStateDto and Status set to OK" +
+        "when called with id and updateBedState")
+    void shouldReturnResponseEntityWithUpdatedBedStateDtoandStatusOkWhenCalledWithIdAndUpdateBedState (){
+      //GiVEN
+      final BedService bedService = mock(BedService.class);
+      final UUID id = UUID.randomUUID();
+      final String name = "name";
+      final BedStateDto bedState= new BedStateDto();
+      bedState.setName(name);
+      final BedStateDto bedStateDto = new BedStateDto();
+      bedStateDto.setName(name);
+      when(bedService.updateState(id,bedState.getName())).thenReturn(bedStateDto);
+      final ResponseEntity<BedStateDto> expected = ResponseEntity.ok(bedStateDto);
+      //WHEN
+      final ResponseEntity<BedStateDto> actual = new BedResource(bedService).updateBedState(id,bedState);
+
+      //THEN
+      assertEquals(expected,actual);
+    }
   }
 
   @Nested
