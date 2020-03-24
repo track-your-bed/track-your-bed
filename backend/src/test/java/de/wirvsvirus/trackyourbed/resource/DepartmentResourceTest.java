@@ -111,6 +111,20 @@ class DepartmentResourceTest {
   @Nested
   @DisplayName("Test calls to deleteDepartment")
   class DeleteDepartmentTest {
+    @Test
+    @DisplayName("Should return a ResponseEntity with empty body" +
+        "and status set to OK when called with Id ")
+    void shouldReturnEmptyResponseEntityWithStatusOkWhenCalledWithId (){
+      //GIVEN
+      final DepartmentService departmentService = mock(DepartmentService.class);
+      final UUID id = UUID.randomUUID();
+      final ResponseEntity<Void> expected = ResponseEntity.ok().build();
+      //WHEN
+      final ResponseEntity<Void> actual = new DepartmentResource(departmentService).deleteDepartment(id);
+      //THEN
+      assertEquals(expected,actual);
+
+    }
 
   }
 
