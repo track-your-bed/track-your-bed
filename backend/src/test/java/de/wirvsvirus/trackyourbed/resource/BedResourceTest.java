@@ -38,7 +38,6 @@ class BedResourceTest {
     }
 
 
-
   }
 
   @Nested
@@ -63,7 +62,7 @@ class BedResourceTest {
       //WHEN
       final ResponseEntity<Collection<BedDto>> actual = new BedResource(bedService).getAllBeds();
       //THEN
-      assertEquals(actual,expected);
+      assertEquals(actual, expected);
 
     }
   }
@@ -75,7 +74,7 @@ class BedResourceTest {
     @Test
     @DisplayName("Should return a ResponseEntity containing the correct BedDto" +
         "with Status set to OK when called with  UUID id")
-    void shouldReturnResponseEntityWithBedDtoAndStatusOkWhenCalledWithId (){
+    void shouldReturnResponseEntityWithBedDtoAndStatusOkWhenCalledWithId() {
       //GIVEN
       final BedService bedService = mock(BedService.class);
       final BedDto bedDto = new BedDto();
@@ -87,9 +86,8 @@ class BedResourceTest {
       //WHEN
       final ResponseEntity<BedDto> actual = new BedResource(bedService).getBedById(id);
       //THEN
-      assertEquals(expected,actual);
+      assertEquals(expected, actual);
       //verify....
-
 
 
     }
@@ -104,28 +102,30 @@ class BedResourceTest {
     @Test
     @DisplayName("Should return a ResponseEntity containing the updated bedDto" +
         "with Status set to OK when called with a UUID and an UpdateBed")
-    void shouldReturnResponseEntityContainingBedDtoWithStatusOkWhenCalledWithUuidAndUpdateBed (){
+    void shouldReturnResponseEntityContainingBedDtoWithStatusOkWhenCalledWithUuidAndUpdateBed() {
       //GIVEN
       final BedService bedService = mock(BedService.class);
       final BedDto bedDto = new BedDto();
       final UpdateBed updateBed = new UpdateBed();
       final UUID id = UUID.randomUUID();
-      when(bedService.updateBed(id,updateBed)).thenReturn(bedDto);
+      when(bedService.updateBed(id, updateBed)).thenReturn(bedDto);
       final ResponseEntity<BedDto> expected = ResponseEntity.ok(bedDto);
       //WHEN
-      final ResponseEntity<BedDto> actual = new BedResource(bedService).patchBed(id,updateBed);
+      final ResponseEntity<BedDto> actual = new BedResource(bedService).patchBed(id, updateBed);
       //THEN
-      assertEquals(expected,actual);
+      assertEquals(expected, actual);
     }
 
-
-
   }
+
 
   @Nested
   @DisplayName("Test calls to deleteBed")
   class DeleteBedTest {
     final BedService bedService = mock(BedService.class);
+
+    //@Test
+    //@DisplayName("Should return ")
 
   }
 

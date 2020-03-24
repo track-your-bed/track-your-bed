@@ -68,7 +68,7 @@ class BedStateResourceTest {
       final BedStateDto bedStateDto = new BedStateDto().setName(name);
       final ResponseEntity<BedStateDto> expected = ResponseEntity.ok(bedStateDto);
 
-      when(bedStateService.getBedStateByName(anyString())).thenReturn(bedStateDto); //Optional.of(
+      when(bedStateService.getBedStateByName(anyString())).thenReturn(bedStateDto);
 
       // WHEN
       final ResponseEntity<BedStateDto> actual = new BedStateResource(bedStateService).getBedStateByName(name);
