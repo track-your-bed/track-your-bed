@@ -11,6 +11,7 @@ import de.wirvsvirus.trackyourbed.dto.request.UpdateBed;
 import de.wirvsvirus.trackyourbed.dto.response.BedDto;
 import de.wirvsvirus.trackyourbed.dto.response.BedStateDto;
 import de.wirvsvirus.trackyourbed.dto.response.BedTypeDto;
+import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -30,9 +31,24 @@ class BedResourceTest {
     @DisplayName("Should return a response entity containing the created link and bedDto" +
         "when called with createNewbed")
     void ShouldReturnResponseEntityWithCreatedLinkAndBedDtoWhenCalledWithCreateNewBed() {
+      //GIVEN
       final BedService bedService = mock(BedService.class);
       final CreateNewBed createNewBed = mock(CreateNewBed.class);
-      //TO BE COMPLETED!!!!!!!
+      final String name = "name";
+      final String createdLink = "/api/beds/name";
+      final BedDto bedDto = new BedDto();
+      bedDto.setName(name);
+      when(bedService.createNewBed(createNewBed)).thenReturn(bedDto);
+      final ResponseEntity<BedDto> expected = ResponseEntity
+          .created(URI.create(createdLink))
+          .body(bedDto);
+
+      //WHEN
+      final ResponseEntity<BedDto> actual = new BedResource(bedService).createBed(createNewBed);
+
+      //THEN
+      assertEquals(expected,actual);
+
 
 
     }
