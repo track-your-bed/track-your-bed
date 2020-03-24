@@ -8,8 +8,11 @@ import static org.mockito.Mockito.when;
 import de.wirvsvirus.trackyourbed.BedService;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewBed;
 import de.wirvsvirus.trackyourbed.dto.response.BedDto;
+import java.time.format.ResolverStyle;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -43,7 +46,7 @@ class BedResourceTest {
 
     @Test
     @DisplayName("Should return a ResponseEntity containing a collection of all beds" +
-        "with status set to ok")
+        "with status set to ok when called")
     void shouldReturnResponseEntityContainingCollectionOfAllBedsWithStatusOkWhenCalled() {
       //GIVEN
       final BedService bedService = mock(BedService.class);
@@ -57,12 +60,8 @@ class BedResourceTest {
       when(bedService.getAllBeds()).thenReturn(allBeds);
 
       //WHEN
-
       final ResponseEntity<Collection<BedDto>> actual = new BedResource(bedService).getAllBeds();
-
-
       //THEN
-
       assertEquals(actual,expected);
 
     }
@@ -71,7 +70,28 @@ class BedResourceTest {
   @Nested
   @DisplayName("Test calls to getBedById")
   class getBedByIdTest {
-    final BedService bedService = mock(BedService.class);
+
+    @Test
+    @DisplayName("Should return a ResponseEntity containing the correct BedDto" +
+        "with Status set to OK when called with  UUID id")
+    void shouldReturnResponseEntityWithBedDtoAndStatusOkWhenCalledWithId (){
+      //GIVEN
+      final BedService bedService = mock(BedService.class);
+      final BedDto bedDto = new BedDto();
+      final UUID id = UUID.randomUUID();
+      bedDto.setId(id);
+      when(bedService.getBedById(id)).thenReturn(bedDto); //any and optional.of missing
+      final ResponseEntity<BedDto> expected = ResponseEntity.ok(bedDto);
+
+      //WHEN
+      final ResponseEntity<BedDto> actual = new BedResource(bedService).getBedById(id);
+      //THEN
+      assertEquals(expected,actual);
+      //verify....
+
+
+
+    }
 
   }
 
