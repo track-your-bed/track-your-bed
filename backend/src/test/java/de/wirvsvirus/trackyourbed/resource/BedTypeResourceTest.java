@@ -16,6 +16,7 @@ import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @DisplayName("Tests for BedTypeResourceTest.")
@@ -27,7 +28,7 @@ class BedTypeResourceTest {
 
     @Test
     @DisplayName("Should return a response entity containing all bed types in its body with status" +
-        " set to ok")
+        " set to ok.")
     void shouldReturnResponseEntityWithAllBedTypesInBodyAndStatusSetToOkWhenCalled() {
       //GIVEN
       final String bedTypeOneName = "one";
@@ -43,14 +44,13 @@ class BedTypeResourceTest {
       final BedTypeService bedStateService = mock(BedTypeService.class);
       when(bedStateService.getAllBedTypes()).thenReturn(allBedTypes);
 
-      final ResponseEntity<Collection<BedTypeDto>> expected = ResponseEntity.ok(allBedTypes);
-
       //WHEN
       final ResponseEntity<Collection<BedTypeDto>> actual =
           new BedTypeResource(bedStateService).getAllBedTypes();
 
       //THEN
-      assertEquals(expected, actual);
+      assertEquals(HttpStatus.OK, actual.getStatusCode());
+      assertSame(allBedTypes, actual.getBody());
     }
 
   }
@@ -62,26 +62,24 @@ class BedTypeResourceTest {
     @Test
     @DisplayName("Should return a response entity containing the correct name with status set to ok.")
     void shouldReturnResponseEntityWithCorrectBedTypeAndStatusSetToOkWhenCalledWithName (){
-
       //GIVEN
-      final BedTypeService bedTypeService = mock(BedTypeService.class);
       final String name = "name";
       final BedTypeDto bedTypeDto = new BedTypeDto();
       bedTypeDto.setName(name);
-      final ResponseEntity<BedTypeDto> expected = ResponseEntity.ok(bedTypeDto);
+      final BedTypeService bedTypeService = mock(BedTypeService.class);
       when(bedTypeService.getBedTypeByName(anyString())).thenReturn(bedTypeDto);
 
       //WHEN
-      final ResponseEntity<BedTypeDto> actual = new BedTypeResource(bedTypeService).getBedTypeByName(name);
+      final ResponseEntity<BedTypeDto> actual =
+          new BedTypeResource(bedTypeService).getBedTypeByName(name);
 
       //THEN
-      assertEquals(actual,expected);
+      assertEquals(HttpStatus.OK, actual.getStatusCode());
+      assertSame(bedTypeDto, actual.getBody());
+
       verify(bedTypeService).getBedTypeByName(eq(name));
     }
+
   }
-
-
-
-
 
 }
