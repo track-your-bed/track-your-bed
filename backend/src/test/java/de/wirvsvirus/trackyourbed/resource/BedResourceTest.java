@@ -122,10 +122,22 @@ class BedResourceTest {
   @Nested
   @DisplayName("Test calls to deleteBed")
   class DeleteBedTest {
-    final BedService bedService = mock(BedService.class);
 
-    //@Test
-    //@DisplayName("Should return ")
+
+    @Test
+    @DisplayName("Should return a ResponseEntity with empty body" +
+        "and status set to OK when called with Id ")
+    void shouldReturnEmptyResponseEntityWithStatusOkWhenCalledWithId (){
+      //GIVEN
+      final BedService bedService = mock(BedService.class);
+      final UUID id = UUID.randomUUID();
+      final ResponseEntity<Void> expected = ResponseEntity.ok().build();
+      //WHEN
+      final ResponseEntity<Void> actual = new BedResource(bedService).deleteBed(id);
+      //THEN
+      assertEquals(expected,actual);
+
+    }
 
   }
 
