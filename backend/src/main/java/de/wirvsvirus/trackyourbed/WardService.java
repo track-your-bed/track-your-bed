@@ -68,6 +68,7 @@ public class WardService {
     return wardDtoMapper.entityToDto(saved);
   }
 
+  // TODO: this method needs to be invoked in the resource
   public void deleteWard(final UUID wardId) {
     wardRepository.deleteById(wardId);
   }
