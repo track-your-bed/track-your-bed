@@ -20,7 +20,11 @@ import de.wirvsvirus.trackyourbed.dto.request.CreateNewBed;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateBed;
 import de.wirvsvirus.trackyourbed.dto.request.mapper.CreateNewBedMapper;
 import de.wirvsvirus.trackyourbed.dto.response.BedDto;
+import de.wirvsvirus.trackyourbed.dto.response.BedStateDto;
+import de.wirvsvirus.trackyourbed.dto.response.BedTypeDto;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.BedDtoMapper;
+import de.wirvsvirus.trackyourbed.dto.response.mapper.BedStateDtoMapper;
+import de.wirvsvirus.trackyourbed.dto.response.mapper.BedTypeDtoMapper;
 import de.wirvsvirus.trackyourbed.entity.Bed;
 import de.wirvsvirus.trackyourbed.entity.BedState;
 import de.wirvsvirus.trackyourbed.entity.BedType;
@@ -83,6 +87,7 @@ class BedServiceTest {
       final BedDto expected = new BedDto();
       final BedDtoMapper bedDtoMapper = mock(BedDtoMapper.class);
       when(bedDtoMapper.entityToDto(any(Bed.class))).thenReturn(expected);
+
       // WHEN
       final BedDto actual = new BedService(
           bedRepository,
@@ -480,6 +485,7 @@ class BedServiceTest {
       // GIVEN
       final UUID bedId = UUID.randomUUID();
       final Bed bedBeforeChange = new Bed();
+
       final BedRepository bedRepository = mock(BedRepository.class);
       when(bedRepository.findById(any(UUID.class))).thenReturn(Optional.of(bedBeforeChange));
 
@@ -517,6 +523,306 @@ class BedServiceTest {
       assertEquals(expectedMessage, e.getMessage());
     }
 
+    @Test
+    @DisplayName("Should throw a InvalidBedStateException when bed state is not found.")
+    void shouldThrowInvalidBedStateExceptionWhenBedStateIsNotFound() {
+      // GIVEN
+      final UUID bedId = UUID.randomUUID();
+      final Bed bedBeforeChange = new Bed();
+      final BedRepository bedRepository = mock(BedRepository.class);
+      when(bedRepository.findById(any(UUID.class))).thenReturn(Optional.of(bedBeforeChange));
+
+      final UUID wardId = UUID.randomUUID();
+      final Ward ward = new Ward();
+      final WardRepository wardRepository = mock(WardRepository.class);
+      when(wardRepository.findById(any(UUID.class))).thenReturn(Optional.of(ward));
+
+      final String type = "type";
+      final BedType bedType = new BedType().setName(type);
+      final BedTypeRepository bedTypeRepository = mock(BedTypeRepository.class);
+      when(bedTypeRepository.findByName(anyString())).thenReturn(Optional.of(bedType));
+
+      final String state = "state";
+      final BedStateRepository bedStateRepository = mock(BedStateRepository.class);
+      when(bedStateRepository.findByName(anyString())).thenReturn(Optional.empty());
+
+      final String newName = "new name";
+      final UpdateBed request = new UpdateBed()
+          .setName("new name")
+          .setWardId(wardId)
+          .setBedType(type)
+          .setBedState(state);
+
+      final String expectedMessage =
+          String.format(InvalidBedStateException.MESSAGE_TEMPLATE, state);
+
+      // WHEN
+      final InvalidBedStateException e = assertThrows(
+          InvalidBedStateException.class,
+          () -> new BedService(
+              bedRepository,
+              wardRepository,
+              bedTypeRepository,
+              bedStateRepository,
+              null,
+              null,
+              null,
+              null
+          ).updateBed(bedId, request));
+
+      // THEN
+      assertEquals(expectedMessage, e.getMessage());
+    }
+
+  }
+
+  @Nested
+  @DisplayName("Test calls to deleteBedById.")
+  class DeleteBedByIdTest {
+
+    @Test
+    @DisplayName("Should call bedRepository and return the expected result when called.")
+    void shouldCallBedRepositoryAndReturnExpectedResultWhenCalled() {
+      // GIVEN
+      final UUID id = UUID.randomUUID();
+      final BedRepository bedRepository = mock(BedRepository.class);
+
+      // WHEN
+      new BedService(bedRepository, null, null, null, null, null, null, null).deleteBedById(id);
+
+      // THEN
+      verify(bedRepository).deleteById(eq(id));
+    }
+  }
+
+  @Nested
+  @DisplayName("Test calls to updateState.")
+  class UpdateStateTest {
+
+    @Test
+    @DisplayName("Should call dependencies and return the expected result when called.")
+    void shouldCallDependenciesAndReturnExpectedResultWhenCalled() {
+      // GIVEN
+      final UUID id = UUID.randomUUID();
+      final BedRepository bedRepository = mock(BedRepository.class);
+      final Bed bed = new Bed();
+      when(bedRepository.findById(any(UUID.class))).thenReturn(Optional.of(bed));
+
+      final String state = "state";
+      final BedState bedState = new BedState();
+      final BedStateRepository bedStateRepository = mock(BedStateRepository.class);
+      when(bedStateRepository.findByName(anyString())).thenReturn(Optional.of(bedState));
+
+      final Bed updated = new Bed().setBedState(bedState);
+      when(bedRepository.save(any(Bed.class))).thenReturn(updated);
+
+      final BedStateDto expected = new BedStateDto();
+      final BedStateDtoMapper bedStateDtoMapper = mock(BedStateDtoMapper.class);
+      when(bedStateDtoMapper.entityToDto(any(BedState.class))).thenReturn(expected);
+
+      // WHEN
+      final BedStateDto actual = new BedService(
+          bedRepository,
+          null,
+          null,
+          bedStateRepository,
+          null,
+          null,
+          bedStateDtoMapper,
+          null
+      ).updateState(id, state);
+
+      // THEN
+      assertSame(expected, actual);
+
+      verify(bedRepository).findById(eq(id));
+      verify(bedStateRepository).findByName(eq(state));
+      verify(bedRepository).save(argThat(b -> {
+        assertSame(bedState, b.getBedState());
+        return true;
+      }));
+      verify(bedStateDtoMapper).entityToDto(same(bedState));
+    }
+
+    @Test
+    @DisplayName("Should throw NoSuchBedException when bed is not found.")
+    void shouldThrowNoSuchBedExceptionWhenBedIsNotFound() {
+      // GIVEN
+      final UUID id = UUID.randomUUID();
+      final BedRepository bedRepository = mock(BedRepository.class);
+      when(bedRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+      final String state = "state";
+
+      final String expectedMessage = String.format(NoSuchBedException.MESSAGE_TEMPLATE, id);
+
+      // WHEN
+      final NoSuchBedException e = assertThrows(
+          NoSuchBedException.class,
+          () -> new BedService(
+              bedRepository,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+          ).updateState(id, state));
+
+      // THEN
+      assertEquals(expectedMessage, e.getMessage());
+    }
+
+    @Test
+    @DisplayName("Should throw an InvalidBedStateException when bed state is not found.")
+    void shouldThrowInvalidBedStateExceptionWhenBedStateIsNotFound() {
+      // GIVEN
+      final UUID id = UUID.randomUUID();
+      final BedRepository bedRepository = mock(BedRepository.class);
+      final Bed bed = new Bed();
+      when(bedRepository.findById(any(UUID.class))).thenReturn(Optional.of(bed));
+
+      final String state = "state";
+      final BedStateRepository bedStateRepository = mock(BedStateRepository.class);
+      when(bedStateRepository.findByName(anyString())).thenReturn(Optional.empty());
+
+      final String expectedMessage =
+          String.format(InvalidBedStateException.MESSAGE_TEMPLATE, state);
+
+      // WHEN
+      final InvalidBedStateException e = assertThrows(
+          InvalidBedStateException.class,
+          () -> new BedService(
+              bedRepository,
+              null,
+              null,
+              bedStateRepository,
+              null,
+              null,
+              null,
+              null
+          ).updateState(id, state));
+
+      // THEN
+      assertEquals(expectedMessage, e.getMessage());
+    }
+
+
+  }
+
+  @Nested
+  @DisplayName("Test calls to updateType.")
+  class UpdateTypeTest {
+
+    @Test
+    @DisplayName("Should call dependencies and return the expected result when called.")
+    void shouldCallDependenciesAndReturnExpectedResultWhenCalled() {
+      // GIVEN
+      final UUID id = UUID.randomUUID();
+      final BedRepository bedRepository = mock(BedRepository.class);
+      final Bed bed = new Bed();
+      when(bedRepository.findById(any(UUID.class))).thenReturn(Optional.of(bed));
+
+      final String type = "type";
+      final BedType bedType = new BedType();
+      final BedTypeRepository bedTypeRepository = mock(BedTypeRepository.class);
+      when(bedTypeRepository.findByName(anyString())).thenReturn(Optional.of(bedType));
+
+      final Bed updated = new Bed().setBedType(bedType);
+      when(bedRepository.save(any(Bed.class))).thenReturn(updated);
+
+      final BedTypeDto expected = new BedTypeDto();
+      final BedTypeDtoMapper bedTypeDtoMapper = mock(BedTypeDtoMapper.class);
+      when(bedTypeDtoMapper.entityToDto(any(BedType.class))).thenReturn(expected);
+
+      // WHEN
+      final BedTypeDto actual = new BedService(
+          bedRepository,
+          null,
+          bedTypeRepository,
+          null,
+          null,
+          null,
+          null,
+          bedTypeDtoMapper
+      ).updateType(id, type);
+
+      // THEN
+      assertSame(expected, actual);
+
+      verify(bedRepository).findById(eq(id));
+      verify(bedTypeRepository).findByName(eq(type));
+      verify(bedRepository).save(argThat(b -> {
+        assertSame(bedType, b.getBedType());
+        return true;
+      }));
+      verify(bedTypeDtoMapper).entityToDto(eq(bedType));
+    }
+
+    @Test
+    @DisplayName("Should throw NoSuchBedException when bed is not found.")
+    void shouldThrowNoSuchBedExceptionWhenBedIsNotFound() {
+      // GIVEN
+      final UUID id = UUID.randomUUID();
+      final BedRepository bedRepository = mock(BedRepository.class);
+      when(bedRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+
+      final String type = "type";
+
+      final String expectedMessage = String.format(NoSuchBedException.MESSAGE_TEMPLATE, id);
+
+      // WHEN
+      final NoSuchBedException e = assertThrows(
+          NoSuchBedException.class,
+          () -> new BedService(
+              bedRepository,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+          ).updateType(id, type));
+
+      // THEN
+      assertEquals(expectedMessage, e.getMessage());
+    }
+
+  }
+
+  @Test
+  @DisplayName("Should throw InvalidBedTypeException when bed type is not found.")
+  void shouldThrowInvalidBedTypeExceptionWhenBedTypeIsNotFound() {
+    // GIVEN
+    final UUID id = UUID.randomUUID();
+    final BedRepository bedRepository = mock(BedRepository.class);
+    final Bed bed = new Bed();
+    when(bedRepository.findById(any(UUID.class))).thenReturn(Optional.of(bed));
+
+    final String type = "type";
+    final BedTypeRepository bedTypeRepository = mock(BedTypeRepository.class);
+    when(bedTypeRepository.findByName(anyString())).thenReturn(Optional.empty());
+
+    final String expectedMessage = String.format(InvalidBedTypeException.MESSAGE_TEMPLATE, type);
+
+    // WHEN
+    final InvalidBedTypeException e = assertThrows(
+        InvalidBedTypeException.class,
+        () -> new BedService(
+            bedRepository,
+            null,
+            bedTypeRepository,
+            null,
+            null,
+            null,
+            null,
+            null
+        ).updateType(id, type));
+
+    // THEN
+    assertEquals(expectedMessage, e.getMessage());
   }
 
 }
