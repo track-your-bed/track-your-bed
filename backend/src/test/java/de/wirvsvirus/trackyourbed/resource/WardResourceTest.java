@@ -50,32 +50,58 @@ class WardResourceTest {
       assertEquals(expected,actual);
     }
 
-    @Nested
-    @DisplayName("Test calls to getAllWards")
-    class GetAllWardsTest{
-      @Test
-      @DisplayName("Should return a ResponseEntity containing a collection of all wards" +
-          "with status set to ok when called")
-      void shouldReturnResponseEntityContainingCollectionOfAllWardsWithStatusOkWhenCalled() {
-        //GIVEN
-        final WardService wardService = mock(WardService.class);
-        final WardDto wardOne = mock(WardDto.class);
-        final WardDto wardTwo = mock(WardDto.class);
-        final Collection<WardDto> allWards = List.of(
-            wardOne,
-            wardTwo
-        );
-        final ResponseEntity<Collection<WardDto>> expected = ResponseEntity.ok(allWards);
-        when(wardService.getAllWards()).thenReturn(allWards);
+  }
+  @Nested
+  @DisplayName("Test calls to getAllWards")
+  class GetAllWardsTest{
+    @Test
+    @DisplayName("Should return a ResponseEntity containing a collection of all wards" +
+        "with status set to ok when called")
+    void shouldReturnResponseEntityContainingCollectionOfAllWardsWithStatusOkWhenCalled() {
+      //GIVEN
+      final WardService wardService = mock(WardService.class);
+      final WardDto wardOne = mock(WardDto.class);
+      final WardDto wardTwo = mock(WardDto.class);
+      final Collection<WardDto> allWards = List.of(
+          wardOne,
+          wardTwo
+      );
+      final ResponseEntity<Collection<WardDto>> expected = ResponseEntity.ok(allWards);
+      when(wardService.getAllWards()).thenReturn(allWards);
 
-        //WHEN
-        final ResponseEntity<Collection<WardDto>> actual = new WardResource(wardService).getAllWards();
-        //THEN
-        assertEquals(actual, expected);
-
-      }
+      //WHEN
+      final ResponseEntity<Collection<WardDto>> actual = new WardResource(wardService).getAllWards();
+      //THEN
+      assertEquals(actual, expected);
 
     }
+
+  }
+
+  @Nested
+  @DisplayName("Test calls to getWardById")
+  class GetWardByIdTest {
+    @Test
+    @DisplayName("Should return a ResponseEntity containing the correct WardDto" +
+        "with Status set to OK when called with  UUID id")
+    void shouldReturnResponseEntityWithWardDtoAndStatusOkWhenCalledWithId() {
+      //GIVEN
+      final WardService wardService = mock(WardService.class);
+      final WardDto wardDto = new WardDto();
+      final UUID id = UUID.randomUUID();
+      wardDto.setId(id);
+      when(wardService.getWardById(id)).thenReturn(wardDto); //any
+      final ResponseEntity<WardDto> expected = ResponseEntity.ok(wardDto);
+
+      //WHEN
+      final ResponseEntity<WardDto> actual = new WardResource(wardService).getWardById(id);
+      //THEN
+      assertEquals(expected, actual);
+      //verify....
+
+
+    }
+
   }
 
 }
