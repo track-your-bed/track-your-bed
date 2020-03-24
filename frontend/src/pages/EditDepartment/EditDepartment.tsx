@@ -1,23 +1,11 @@
 import * as React from "react";
-import { Dropdown } from "primereact/dropdown";
-import { InputText } from "primereact/inputtext";
-import { Button } from "primereact/button";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import { useParams, useHistory } from "react-router-dom";
-
-import "primereact/resources/themes/nova-light/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
+import FormControl, { FormControlProps } from "react-bootstrap/FormControl";
 
 const divStyle = {
   margin: "50px"
-};
-
-const btnStyle = {
-  margin: "20px"
-};
-
-const fieldStyle = {
-  width: "250px"
 };
 
 const departmentTypes = [
@@ -109,7 +97,7 @@ const EditDepartment: React.FunctionComponent = () => {
 
   const { hospitalId, departmentId } = useParams();
 
-  function handleClickSubmit(event: any) {
+  function handleSubmit(event: any) {
     let json = {
       name: departmentName,
       departmentTypeId: departmentType,
@@ -120,42 +108,35 @@ const EditDepartment: React.FunctionComponent = () => {
     );
   }
 
-  function handleClickCancle(event: any) {}
-
   return (
     <div style={divStyle}>
       <h1>Fachabteilung hinzufügen</h1>
-      <form>
-        <Dropdown
-          style={fieldStyle}
-          options={departmentTypes}
-          placeholder="Wählen Sie eine Fachabteilung"
-          value={departmentType}
-          onChange={event => setDepartmentType(event.target.value)}
-        />
-        <br />
-        <br />
-        <span className="p-float-label">
-          <InputText
-            id="in"
-            style={fieldStyle}
-            name="departmentName"
-            value={departmentName}
-            onChange={event => setDepartmentName(event.currentTarget.value)}
-          />
-          <label htmlFor="in">Name der Abteilung</label>
-        </span>
-        <div>
-          <Button label="Hinzufügen" onClick={handleClickSubmit} />
-          <Button
-            style={btnStyle}
-            label="Abbrechen"
-            onClick={() => {
-              history.goBack();
-            }}
-          />
-        </div>
-      </form>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="formDapartmentType">
+          <Form.Label>Fachabteilung Typ</Form.Label>
+          <Form.Control as="select" onChange={event => setDepartmentType(event.target.value)}>
+            {departmentTypes.map(departmentType => <option value={departmentType.value}>{departmentType.label}</option>)}
+          </Form.Control>
+          <Form.Text className="text-muted">
+            Welche Fachabteilung wollen Sie anlegen?
+          </Form.Text>
+        </Form.Group>
+        <Form.Group controlId="formDepartmentName">
+          <Form.Label>Name der Fachabteilung</Form.Label>
+          <Form.Control as="input" placeholder="Kennzeichnung" onChange={event => setDepartmentName(event.currentTarget.value)}/>
+          <Form.Text className="text-muted">
+            Geben Sie die Individuelle Kennzeichnung der Fachabteilung an
+          </Form.Text>
+        </Form.Group>
+        <Form.Row>
+          <Button variant="primary" type="submit">
+            Hinzufügen
+          </Button>
+          <Button variant="secondary" onClick={() => {history.goBack()}}>
+            Abbrechen
+          </Button>
+        </Form.Row>
+      </Form>
     </div>
   );
 };
