@@ -1,17 +1,14 @@
 package de.wirvsvirus.trackyourbed.resource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-import de.wirvsvirus.trackyourbed.DepartmentService;
 import de.wirvsvirus.trackyourbed.HospitalService;
-import de.wirvsvirus.trackyourbed.dto.request.CreateNewDepartment;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewHospital;
-import de.wirvsvirus.trackyourbed.dto.request.UpdateDepartment;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateHospital;
-import de.wirvsvirus.trackyourbed.dto.response.DepartmentDto;
+import de.wirvsvirus.trackyourbed.dto.response.HospitalCapacityDto;
 import de.wirvsvirus.trackyourbed.dto.response.HospitalDto;
 import java.net.URI;
 import java.util.Collection;
@@ -142,6 +139,29 @@ class HospitalResourceTest {
       assertEquals(expected,actual);
 
     }
+  }
+
+  @Nested
+  @DisplayName("Test calls to getCapacity")
+  class GetCapacityTest{
+    @Test
+    @DisplayName("Should return a ResponseEntity containing a HospitalCapacityDto with Status OK" +
+        "when called with an Id")
+    void shouldReturnResponseEntityContainingHospitalCapacityDtoWithStatusOkWhenCalledWithId(){
+      //GIVEN
+      final HospitalService hospitalService = mock(HospitalService.class);
+      final HospitalCapacityDto hospitalCapacityDto = mock(HospitalCapacityDto.class);
+      final UUID id = UUID.randomUUID();
+      when(hospitalService.calculateCapacity(id)).thenReturn(hospitalCapacityDto);
+      final ResponseEntity<HospitalCapacityDto> expected = ResponseEntity.ok(hospitalCapacityDto);
+
+      //WHEN
+      final ResponseEntity<HospitalCapacityDto> actual = new HospitalResource(hospitalService).getCapacity(id);
+
+      //THEN
+      assertEquals(expected,actual);
+    }
 
   }
+
 }
