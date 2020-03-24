@@ -3,6 +3,8 @@ import * as React from "react";
 /**
  * NOTE:
  * This is still work in progress.
+ * - get rid of all the "any" typescript declarations
+ * - once auth-backend is known and online, refine the process in this file
  */
 
 const TOKEN_NAME = "tyb-jwt";
