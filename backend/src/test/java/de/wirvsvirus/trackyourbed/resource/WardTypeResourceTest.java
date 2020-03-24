@@ -2,7 +2,9 @@ package de.wirvsvirus.trackyourbed.resource;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
@@ -71,7 +73,7 @@ class WardTypeResourceTest {
       final WardTypeService wardTypeService = mock(WardTypeService.class);
       final WardTypeDto wardTypeDto = new WardTypeDto();
       wardTypeDto.setName(name);
-      when(wardTypeService.getWardTypeByName(name)).thenReturn(wardTypeDto);
+      when(wardTypeService.getWardTypeByName(anyString())).thenReturn(wardTypeDto); //Optional.of()
 
       final ResponseEntity<WardTypeDto> expected = ResponseEntity.ok(wardTypeDto);
 
@@ -81,6 +83,8 @@ class WardTypeResourceTest {
       //THEN
 
       assertEquals(actual,expected);
+
+      verify(wardTypeService).getWardTypeByName(eq(name));
 
     }
 
