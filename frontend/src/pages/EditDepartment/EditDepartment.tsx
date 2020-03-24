@@ -4,10 +4,6 @@ import Form from "react-bootstrap/Form";
 import { useParams, useHistory } from "react-router-dom";
 import FormControl, { FormControlProps } from "react-bootstrap/FormControl";
 
-const divStyle = {
-  margin: "50px"
-};
-
 const departmentTypes = [
   //  {label: 'Kardiologie', value: 'Kardiologie'},
   //  {label: 'Urologie', value: 'Urologie'},
@@ -109,7 +105,7 @@ const EditDepartment: React.FunctionComponent = () => {
   }
 
   return (
-    <div style={divStyle}>
+    <div>
       <h1>Fachabteilung hinzufügen</h1>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formDapartmentType">

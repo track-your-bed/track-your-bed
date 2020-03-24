@@ -6,11 +6,6 @@ import Form from 'react-bootstrap/Form';
 import { useParams, useHistory } from "react-router-dom";
 import { Bedtypes } from "../../datatypes/enums"
 
-const divStyle = {
-  margin: '50px'
-};
-
-
 const beds = [
     {label: 'Standardbett', value: Bedtypes.normal},
     {label: 'IMC', value: Bedtypes.imc},
@@ -50,7 +45,7 @@ const EditBed: React.FunctionComponent= () => {
   }
 
   return (
-    <div style={divStyle}>
+    <div>
       <h1>Bett hinzufügen</h1>
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="formBedType">

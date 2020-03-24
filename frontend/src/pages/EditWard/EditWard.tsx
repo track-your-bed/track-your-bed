@@ -4,10 +4,6 @@ import Form from "react-bootstrap/Form";
 import { useParams, useHistory } from "react-router-dom";
 import { Wardtypes } from "../../datatypes/enums";
 
-const divStyle = {
-  margin: "50px"
-};
-
 const wards = [
   { label: "Normalstation", value: Wardtypes.normal },
   { label: "IMC", value: Wardtypes.imc },
@@ -31,7 +27,7 @@ const EditWard: React.FunctionComponent = () => {
 
   const { hospitalId, departmentId, wardId } = useParams();
   return (
-    <div style={divStyle}>
+    <div>
       <h1>Station hinzufügen</h1>
       <Form onSubmit={onSubmitForm}>
         <Form.Group controlId="formWardType">
