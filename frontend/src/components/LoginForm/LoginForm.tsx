@@ -10,8 +10,6 @@ import { UserContext } from "../../contexts/UserContext";
 
 // Style
 import "./LoginForm.scss";
-import PasswordRecovery from "../PasswordRecovery/PasswordRecovery";
-import * as API from "../../Services/APIService";
 
 const Login: React.FunctionComponent = () => {
   const [username, setUsername] = React.useState("");
@@ -21,7 +19,6 @@ const Login: React.FunctionComponent = () => {
     <UserContext.Consumer>
       {user => (
         <div className="login-box">
-          <p>{user && user.user.name}</p>
           <p className="login-box__headline">Login</p>
           <span className="p-float-label" style={{ marginBottom: "10px" }}>
             <InputText
@@ -45,6 +42,11 @@ const Login: React.FunctionComponent = () => {
               className="p-button-info"
               label="Login"
               onClick={() => (user as any).login(username)}
+            />
+            <Button
+              id="resetButton"
+              className="p-button-info"
+              label="Reset Password"
             />
           </div>
         </div>

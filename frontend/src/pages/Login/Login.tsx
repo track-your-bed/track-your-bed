@@ -16,12 +16,6 @@ const Login: React.FunctionComponent = () => (
     {user => (
       <div className="BackgroundImg">
         <LoginForm />
-
-        <Button
-          id="resetPasswordButton"
-          text="Reset Password"
-          onClick={() => console.log("reset password")}
-        />
       </div>
     )}
   </UserContext.Consumer>

@@ -1,5 +1,12 @@
 import * as React from "react";
 
+/**
+ * NOTE:
+ * This is still work in progress.
+ */
+
+const TOKEN_NAME = "tyb-jwt";
+
 interface UserContextProvider {
   children: React.ReactChild;
 }
@@ -16,7 +23,7 @@ export const UserContext = React.createContext(initialState);
 const reducer = (state: any, action: any): any => {
   switch (action.type) {
     case "loginUser":
-      localStorage.setItem("jwt", "true");
+      localStorage.setItem(TOKEN_NAME, "true");
       return {
         ...state,
         user: {
@@ -24,6 +31,17 @@ const reducer = (state: any, action: any): any => {
         },
         isAuthenticated: true
       };
+
+    case "logoutUser":
+      localStorage.removeItem(TOKEN_NAME);
+      return {
+        ...state,
+        user: {
+          name: ""
+        },
+        isAuthenticated: false
+      };
+
     default:
       return state;
   }
@@ -37,8 +55,9 @@ const UserContextProvider: React.FunctionComponent<UserContextProvider> = ({
   const login = (name: string) =>
     dispatch({ type: "loginUser", payload: { name } });
 
+  const logout = () => dispatch({ type: "logoutUser" });
+
   React.useEffect(() => {
-    console.log("hi");
     if (localStorage.getItem("jwt") && !state.user.isAuthenticated) {
       login("defaultUser");
     }
@@ -48,7 +67,8 @@ const UserContextProvider: React.FunctionComponent<UserContextProvider> = ({
     <UserContext.Provider
       value={{
         ...state,
-        login
+        login,
+        logout
       }}
     >
       {children}

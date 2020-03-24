@@ -1,18 +1,8 @@
-.button{
-    float: left;
-    margin-right: 10px;
-}
-
-.login_headline{
-    font-size: 22px;
-    font-weight: bold;
-}
-
-.login_box{
-    width:400px;
-    margin-top: 30px;
-    //margin-left: 30px;
-    margin: 0 auto;
-    background-color: white;
-    padding: 5px 20px 50px 20px;
+.login-box {
+  width: 400px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px 30px;
+  margin-top: 100px;
+  box-shadow: 1px 1px 10px 1px rgba(0, 0, 0, 0.2);
 }
