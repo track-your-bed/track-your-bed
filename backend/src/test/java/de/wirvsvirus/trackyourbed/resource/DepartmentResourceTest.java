@@ -1,22 +1,21 @@
 package de.wirvsvirus.trackyourbed.resource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-import de.wirvsvirus.trackyourbed.BedService;
 import de.wirvsvirus.trackyourbed.DepartmentService;
-import de.wirvsvirus.trackyourbed.dto.request.UpdateBed;
+import de.wirvsvirus.trackyourbed.dto.request.CreateNewDepartment;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateDepartment;
-import de.wirvsvirus.trackyourbed.dto.response.BedDto;
 import de.wirvsvirus.trackyourbed.dto.response.DepartmentDto;
+import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
 @DisplayName("Tests for DepartmentResource")
@@ -25,11 +24,28 @@ class DepartmentResourceTest {
   @Nested
   @DisplayName("Test calls to createDepartment")
   class CreateDepartmentTest {
-    final DepartmentService departmentService = mock(DepartmentService.class);
 
     @Test
-    void Something(){
+    @DisplayName("Should return a response entity containing the created link and departmentDto" +
+        "when called with createNewDepartment")
+    void ShouldReturnResponseEntityWithCreatedLinkAndDepartmentDtoWhenCalledWithCreateNewDepartment() {
+      //GIVEN
+      final DepartmentService departmentService = mock(DepartmentService.class);
+      final CreateNewDepartment createNewDepartment = mock(CreateNewDepartment.class);
+      final UUID id = UUID.randomUUID();
+      final String createdLink = String.format("/api/hospitals/%s",id);
+      final DepartmentDto departmentDto = new DepartmentDto();
+      departmentDto.setId(id);
+      when(departmentService.createDepartment(createNewDepartment)).thenReturn(departmentDto);
+      final ResponseEntity<DepartmentDto> expected = ResponseEntity
+          .created(URI.create(createdLink))
+          .body(departmentDto);
 
+      //WHEN
+      final ResponseEntity<DepartmentDto> actual = new DepartmentResource(departmentService).createDepartment(createNewDepartment);
+
+      //THEN
+      assertEquals(expected,actual);
     }
   }
 
