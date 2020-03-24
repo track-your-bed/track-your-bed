@@ -9,6 +9,8 @@ import de.wirvsvirus.trackyourbed.DepartmentService;
 import de.wirvsvirus.trackyourbed.WardService;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewDepartment;
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewWard;
+import de.wirvsvirus.trackyourbed.dto.request.UpdateDepartment;
+import de.wirvsvirus.trackyourbed.dto.request.UpdateWard;
 import de.wirvsvirus.trackyourbed.dto.response.DepartmentDto;
 import de.wirvsvirus.trackyourbed.dto.response.WardDto;
 import java.net.URI;
@@ -100,6 +102,28 @@ class WardResourceTest {
       //verify....
 
 
+    }
+
+  }
+
+  @Nested
+  @DisplayName("Test calls to patchWard")
+  class PatchWardTest {
+    @Test
+    @DisplayName("Should return a ResponseEntity containing the updated wardDto" +
+        "with Status set to OK when called with a UUID and an UpdateWard")
+    void shouldReturnResponseEntityContainingWardDtoWithStatusOkWhenCalledWithUuidAndUpdateWard() {
+      //GIVEN
+      final WardService wardService = mock(WardService.class);
+      final WardDto wardDto = new WardDto();
+      final UpdateWard updateWard = new UpdateWard();
+      final UUID id = UUID.randomUUID();
+      when(wardService.updateWard(id, updateWard)).thenReturn(wardDto);
+      final ResponseEntity<WardDto> expected = ResponseEntity.ok(wardDto);
+      //WHEN
+      final ResponseEntity<WardDto> actual = new WardResource(wardService).patchWard(id, updateWard);
+      //THEN
+      assertEquals(expected, actual);
     }
 
   }
