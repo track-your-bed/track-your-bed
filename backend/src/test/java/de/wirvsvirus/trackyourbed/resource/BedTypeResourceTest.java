@@ -1,7 +1,10 @@
 package de.wirvsvirus.trackyourbed.resource;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
@@ -64,20 +67,19 @@ class BedTypeResourceTest {
       final BedTypeDto bedTypeDto = new BedTypeDto();
       bedTypeDto.setName(name);
       final ResponseEntity<BedTypeDto> expected = ResponseEntity.ok(bedTypeDto);
-      when(bedTypeService.getBedTypeByName(name)).thenReturn(bedTypeDto);
+      when(bedTypeService.getBedTypeByName(anyString())).thenReturn(bedTypeDto); //Optional.of()
 
       //WHEN
       final ResponseEntity<BedTypeDto> actual = new BedTypeResource(bedTypeService).getBedTypeByName(name);
 
       //THEN
       assertEquals(actual,expected);
+      verify(bedTypeService).getBedTypeByName(eq(name));
     }
   }
 
 
 
 
-  @Test
-  void getBedTypeByName() {
-  }
+
 }
