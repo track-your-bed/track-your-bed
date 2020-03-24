@@ -1,7 +1,10 @@
 package de.wirvsvirus.trackyourbed.resource;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
@@ -67,7 +70,7 @@ class DepartmentTypeResourceTest {
       final String name = "name";
       final DepartmentTypeDto departmentTypeDto = new DepartmentTypeDto();
       departmentTypeDto.setName(name);
-      when(departmentTypeService.getDepartmentTypeByName(name)).thenReturn(departmentTypeDto);
+      when(departmentTypeService.getDepartmentTypeByName(anyString())).thenReturn(departmentTypeDto); //Optional.of()
 
       final ResponseEntity<DepartmentTypeDto> expected = ResponseEntity.ok(departmentTypeDto);
 
@@ -77,6 +80,8 @@ class DepartmentTypeResourceTest {
       //THEN
 
       assertEquals(actual,expected);
+
+      verify(departmentTypeService).getDepartmentTypeByName(eq(name));
 
     }
   }
