@@ -19,38 +19,35 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
 
-@DisplayName("Tests for BedStateResource")
+@DisplayName("Tests for BedStateResource.")
 class BedStateResourceTest {
 
   @Nested
-  @DisplayName("Test calls to getAllBedStates")
+  @DisplayName("Test calls to getAllBedStates.")
   class getAllBedStatesTest {
 
     @Test
-    @DisplayName("Should return the response entity with Status set to OK " +
-        "and body containing all bed states")
+    @DisplayName("Should return the response entity with Status set to OK and body containing " +
+        "all bed states.")
     void shouldReturnResponseEntityWithAllBedStatesAndStatusSetToOKWhenCalled() {
-
       // GIVEN
-      final BedStateService bedStateService = mock(BedStateService.class);
-
       final String bedStateOneName = "one";
       final String bedStateTwoName = "two";
       final Collection<BedStateDto> allBedStates = List.of(
           new BedStateDto().setName(bedStateOneName),
           new BedStateDto().setName(bedStateTwoName)
       );
+      final BedStateService bedStateService = mock(BedStateService.class);
       when(bedStateService.getAllBedStates()).thenReturn(allBedStates);
+
       final ResponseEntity<Collection<BedStateDto>> expected = ResponseEntity.ok(allBedStates);
 
-
       // WHEN
-      final ResponseEntity<Collection<BedStateDto>> actual = new BedStateResource(bedStateService).getAllBedStates();
-
+      final ResponseEntity<Collection<BedStateDto>> actual =
+          new BedStateResource(bedStateService).getAllBedStates();
 
       // THEN
-      assertEquals(actual,expected);
-
+      assertEquals(expected, actual);
     }
 
   }
@@ -63,15 +60,16 @@ class BedStateResourceTest {
     @DisplayName("To BE COMPLETED")
     void shouldReturnResponseEntityWithCorrectBedStatesAndStatusSetToOKWhenCalled(){
       // GIVEN
-      final BedStateService bedStateService = mock(BedStateService.class);
       final String name = "name";
       final BedStateDto bedStateDto = new BedStateDto().setName(name);
-      final ResponseEntity<BedStateDto> expected = ResponseEntity.ok(bedStateDto);
-
+      final BedStateService bedStateService = mock(BedStateService.class);
       when(bedStateService.getBedStateByName(anyString())).thenReturn(bedStateDto);
 
+      final ResponseEntity<BedStateDto> expected = ResponseEntity.ok(bedStateDto);
+
       // WHEN
-      final ResponseEntity<BedStateDto> actual = new BedStateResource(bedStateService).getBedStateByName(name);
+      final ResponseEntity<BedStateDto> actual =
+          new BedStateResource(bedStateService).getBedStateByName(name);
 
       //THEN
       assertEquals(actual,expected);
@@ -79,9 +77,6 @@ class BedStateResourceTest {
       verify(bedStateService).getBedStateByName(eq(name));
     }
 
-
-
   }
-
 
 }

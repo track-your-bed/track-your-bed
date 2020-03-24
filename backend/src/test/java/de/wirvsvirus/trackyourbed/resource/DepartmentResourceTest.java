@@ -34,7 +34,7 @@ class DepartmentResourceTest {
       final DepartmentService departmentService = mock(DepartmentService.class);
       final CreateNewDepartment createNewDepartment = mock(CreateNewDepartment.class);
       final UUID id = UUID.randomUUID();
-      final String createdLink = String.format("/api/hospitals/%s",id);
+      final String createdLink = String.format("/api/departments/%s",id);
       final DepartmentDto departmentDto = new DepartmentDto();
       departmentDto.setId(id);
       when(departmentService.createDepartment(createNewDepartment)).thenReturn(departmentDto);
@@ -147,7 +147,7 @@ class DepartmentResourceTest {
 
   @Nested
   @DisplayName("Test calls to getCapacity")
-  class GetCapacityTest{
+  class GetCapacityTest {
     @Test
     @DisplayName("Should return a ResponseEntity containing a DepartmentCapacityDto with Status OK" +
         "when called with an Id")
@@ -160,7 +160,8 @@ class DepartmentResourceTest {
       final ResponseEntity<DepartmentCapacityDto> expected = ResponseEntity.ok(departmentCapacityDto);
 
       //WHEN
-      final ResponseEntity<DepartmentCapacityDto> actual = new DepartmentResource(departmentService).getCapacity(id);
+      final ResponseEntity<DepartmentCapacityDto> actual =
+          new DepartmentResource(departmentService).getCapacity(id);
 
       //THEN
       assertEquals(expected,actual);
