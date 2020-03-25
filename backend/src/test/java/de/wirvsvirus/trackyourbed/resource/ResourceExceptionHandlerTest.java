@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 
+import de.wirvsvirus.trackyourbed.excpetion.dependency.BedMissingException;
 import de.wirvsvirus.trackyourbed.excpetion.dependency.DepartmentMissingException;
 import de.wirvsvirus.trackyourbed.excpetion.dependency.HospitalMissingException;
 import de.wirvsvirus.trackyourbed.excpetion.dependency.InvalidBedStateException;
@@ -226,6 +227,24 @@ class ResourceExceptionHandlerTest {
     final HTTPError body = actual.getBody();
     assertNotNull(body);
     assertEquals(ErrorCode.HOSPITAL_NOT_FOUND, body.getErrorCode());
+    assertEquals(e.getMessage(), body.getErrorMessage());
+  }
+
+  @Test
+  @DisplayName("Should map BedMissingExceptions to BadRequestResponses.")
+  void shouldMapBedMissingExceptionToBadRequestResponse() {
+    //GIVEN
+    final BedMissingException e = new BedMissingException(UUID.randomUUID());
+
+    //WHEN
+    final ResponseEntity<HTTPError> actual =
+        new ResourceExceptionHandler().mapBedMissingExceptionToBadRequestResponse(e);
+
+    //THEN
+    assertEquals(HttpStatus.BAD_REQUEST, actual.getStatusCode());
+    final HTTPError body = actual.getBody();
+    assertNotNull(body);
+    assertEquals(ErrorCode.BED_NOT_FOUND, body.getErrorCode());
     assertEquals(e.getMessage(), body.getErrorMessage());
   }
 
