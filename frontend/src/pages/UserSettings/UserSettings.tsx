@@ -1,27 +1,59 @@
 import * as React from "react";
-import {Dialog} from 'primereact/dialog';
-import Label from "../../components/Label/Label";
-import PasswordRecovery from "../../components/PasswordRecovery/PasswordRecovery";
-import LoginForm from "../../components/LoginForm/LoginForm";
-import {Button} from "primereact/button";
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
 
+// Services
+import { getHospital } from "../../Services/HospitalService";
 
-const UserSettings: React.FunctionComponent = () => {
-    const [recoveryMode, setRecoveryMode] = React.useState(false);
+// Context
+import { UserContext } from "../../contexts/UserContext";
 
-    function abort(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        setRecoveryMode(false);
-    }
+const EditDepartment: React.FunctionComponent = () => {
+  const [departments, setDepartments] = React.useState([]);
+  const [userDepartment, setUserDepartment] = React.useState("");
+  const auth = React.useContext(UserContext);
 
-    return (
-        <div>
-            {recoveryMode ? (
-                <PasswordRecovery abortFunction={abort} />
-            ) : (
-                <Button id="setToRecoveryMode" className="p-button-info" label="API-Token zurücksetzen" onClick={() => setRecoveryMode(true)} />
-            )}
-        </div>
-    );
+  React.useEffect(() => {
+    (async () => {
+      const data = await getHospital(auth.hospitalId);
+      setDepartments(data.departments);
+    })();
+  }, []);
+
+  const updateUser = () => {
+    /**
+     * TODO: Add POST to UpdateUser once Usermanagement is available in Backend
+     */
+    console.log(`New User Department: ${userDepartment}`);
+  };
+
+  return (
+    <Container>
+      <Row>
+        <Col>
+          <h1>Mein Profil</h1>
+          <Form className="mt-4">
+            <Form.Group controlId="userDepartment" className="w-25">
+              <Form.Label>Station auswählen</Form.Label>
+              {departments && (
+                <Form.Control
+                  as="select"
+                  custom
+                  onChange={e => setUserDepartment(e.currentTarget.value)}
+                >
+                  {departments.map((department: any) => (
+                    <option key={department.id} value={department.id}>
+                      {department.name}
+                    </option>
+                  ))}
+                </Form.Control>
+              )}
+            </Form.Group>
+            <Button onClick={updateUser}>Speichern</Button>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
+  );
 };
 
-export default UserSettings;
+export default EditDepartment;

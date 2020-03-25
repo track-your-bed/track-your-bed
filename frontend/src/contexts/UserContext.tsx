@@ -17,6 +17,7 @@ const initialState = {
   user: {
     name: ""
   },
+  hospitalId: "35ad5a65-f00a-4eb6-8302-3f170863b15c",
   isAuthenticated: true
 };
 

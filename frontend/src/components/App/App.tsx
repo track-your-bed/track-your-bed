@@ -8,6 +8,7 @@ import Login from "../../pages/Login/Login";
 import EditBed from "../../pages/EditBed/EditBed";
 import EditWard from "../../pages/EditWard/EditWard";
 import EditDepartment from "../../pages/EditDepartment/EditDepartment";
+import WardBedManagementPage from "../../pages/WardBedManagementPage/WardBedManagementPage";
 
 // Components
 import Header from "../Header/Header";
@@ -19,7 +20,6 @@ import UserContextProvider from "../../contexts/UserContext";
 
 // Styles
 import "./App.scss";
-import WardBedManagementPage from "../../pages/WardBedManagementPage/WardBedManagementPage";
 
 const App: React.FunctionComponent = () => {
   return (
