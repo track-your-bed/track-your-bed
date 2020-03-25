@@ -480,7 +480,7 @@ class BedServiceTest {
     }
 
     @Test
-    @DisplayName("Should throw a InvalidBedTypeException when bed type is not found.")
+    @DisplayName("Should throw an InvalidBedTypeException when bed type is not found.")
     void shouldThrowInvalidBedTypeExceptionWhenBedTypeIsNotFound() {
       // GIVEN
       final UUID bedId = UUID.randomUUID();
@@ -524,7 +524,7 @@ class BedServiceTest {
     }
 
     @Test
-    @DisplayName("Should throw a InvalidBedStateException when bed state is not found.")
+    @DisplayName("Should throw an InvalidBedStateException when bed state is not found.")
     void shouldThrowInvalidBedStateExceptionWhenBedStateIsNotFound() {
       // GIVEN
       final UUID bedId = UUID.randomUUID();
