@@ -28,8 +28,8 @@ public class BedStateResource {
 
   @GetMapping("{name}")
   public ResponseEntity<BedStateDto> getBedStateByName(
-    @PathVariable("name") final String name){
+      @PathVariable("name") final String name) {
     return ResponseEntity.ok(bedStateService.getBedStateByName(name));
-  }
+}
 
 }

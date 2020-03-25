@@ -33,7 +33,7 @@ public class DepartmentResource {
   public ResponseEntity<DepartmentDto> createDepartment(
       @RequestBody @Valid final CreateNewDepartment createNewDepartment) {
     final DepartmentDto saved = departmentService.createDepartment(createNewDepartment);
-    final String createdLink = String.format("/api/hospitals/%s", saved.getId());
+    final String createdLink = String.format("/api/departments/%s", saved.getId());
     return ResponseEntity.created(URI.create(createdLink)).body(saved);
   }
 

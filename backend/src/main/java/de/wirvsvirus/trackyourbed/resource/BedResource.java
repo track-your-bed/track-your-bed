@@ -36,7 +36,7 @@ public class BedResource {
   @PostMapping
   public ResponseEntity<BedDto> createBed(@RequestBody @Valid final CreateNewBed createNewBed) {
     final BedDto saved = bedService.createNewBed(createNewBed);
-    final String createdLink = String.format("/api/beds/%s", saved.getName());
+    final String createdLink = String.format("/api/beds/%s", saved.getId());
     // @formatter:off
     return ResponseEntity
         .created(URI.create(createdLink))

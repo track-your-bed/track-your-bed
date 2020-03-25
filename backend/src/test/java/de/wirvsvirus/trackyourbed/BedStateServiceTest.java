@@ -50,7 +50,8 @@ class BedStateServiceTest {
       when(bedStateDtoMapper.entityToDto(any(BedState.class))).thenReturn(expected);
 
       // WHEN
-      final BedStateDto actual = new BedStateService(bedStateRepository, bedStateDtoMapper).getBedStateByName(name);
+      final BedStateDto actual =
+          new BedStateService(bedStateRepository, bedStateDtoMapper).getBedStateByName(name);
 
       // THEN
       assertSame(expected, actual);

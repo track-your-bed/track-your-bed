@@ -18,9 +18,4 @@ public class HTTPError {
     return errorMessage;
   }
 
-  @Override
-  public String toString(){
-    return code + ": " + errorMessage;
-  }
-
 }
