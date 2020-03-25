@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "bed")
-public class Bed extends AbstractBaseEntity {
+public class Bed extends AbstractBaseEntity<Bed> {
 
   @Column(name = "name")
   private String name;
@@ -35,39 +35,44 @@ public class Bed extends AbstractBaseEntity {
     return name;
   }
 
-  public void setName(final String name) {
+  public Bed setName(final String name) {
     this.name = name;
+    return this;
   }
 
   public Ward getWard() {
     return ward;
   }
 
-  public void setWard(final Ward ward) {
+  public Bed setWard(final Ward ward) {
     this.ward = ward;
+    return this;
   }
 
   public BedType getBedType() {
     return bedType;
   }
 
-  public void setBedType(final BedType bedType) {
+  public Bed setBedType(final BedType bedType) {
     this.bedType = bedType;
+    return this;
   }
 
   public BedState getBedState() {
     return bedState;
   }
 
-  public void setBedState(final BedState bedState) {
+  public Bed setBedState(final BedState bedState) {
     this.bedState = bedState;
+    return this;
   }
 
   public Instant getStateLastChanged() {
     return stateLastChanged;
   }
 
-  public void setStateLastChanged(final Instant occupiedLastUpdated) {
+  public Bed setStateLastChanged(final Instant occupiedLastUpdated) {
     this.stateLastChanged = occupiedLastUpdated;
+    return this;
   }
 }

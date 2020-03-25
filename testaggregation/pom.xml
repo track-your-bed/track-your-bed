@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>trackYourBed</artifactId>
+        <groupId>de.wirvsvirus</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>testaggregation</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.wirvsvirus</groupId>
+            <artifactId>backend</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>de.wirvsvirus</groupId>
+            <artifactId>frontend</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>unit-test-coverage</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <executions>
+                            <!-- aggregated unit test coverage report -->
+                            <execution>
+                                <id>aggregate-reports-ut</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>report-aggregate</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.reporting.outputDirectory}/jacoco-aggregate-ut
+                                    </outputDirectory>
+                                    <dataFileExcludes>
+                                        <!-- exclude coverage data of integration tests -->
+                                        <dataFileExclude>**/target/jacoco-it.exec</dataFileExclude>
+                                    </dataFileExcludes>
+                                    <excludes>${jacoco.exclusions}</excludes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <!-- ... (configurations of integration tests and overall coverage report) -->
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

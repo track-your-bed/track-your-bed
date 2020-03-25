@@ -12,7 +12,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -92,7 +91,7 @@ class BedStateServiceTest {
       final BedStateRepository bedStateRepository = mock(BedStateRepository.class);
       final String bedStateOneName = "one";
       final String bedStateTwoName = "two";
-      final Collection<BedState> allBedStates = List.of(
+      final List<BedState> allBedStates = List.of(
           new BedState().setName(bedStateOneName),
           new BedState().setName(bedStateTwoName)
       );
@@ -104,10 +103,7 @@ class BedStateServiceTest {
               .setName(arguments.getArgument(0, BedState.class).getName())
           );
 
-      final List<String> expectedBedStateNames = List.of(
-          bedStateOneName,
-          bedStateTwoName
-      );
+      final List<String> expectedBedStateNames = List.of(bedStateOneName, bedStateTwoName);
       // WHEN
       final Collection<BedStateDto> actual =
           new BedStateService(bedStateRepository, bedStateDtoMapper).getAllBedStates();
@@ -120,9 +116,9 @@ class BedStateServiceTest {
               .collect(Collectors.toList()),
           containsInAnyOrder(expectedBedStateNames.toArray()));
 
-      verify(bedStateDtoMapper, times(1))
+      verify(bedStateDtoMapper)
           .entityToDto(argThat(state -> Objects.equals(bedStateOneName, state.getName())));
-      verify(bedStateDtoMapper, times(1))
+      verify(bedStateDtoMapper)
           .entityToDto(argThat(state -> Objects.equals(bedStateTwoName, state.getName())));
     }
   }

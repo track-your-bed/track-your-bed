@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "bed_state")
-public class BedState extends AbstractBaseEntity {
+public class BedState extends AbstractBaseEntity<BedState> {
 
   @Column(name = "name")
   private String name;

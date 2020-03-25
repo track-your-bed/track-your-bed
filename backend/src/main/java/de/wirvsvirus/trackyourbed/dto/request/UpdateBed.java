@@ -13,32 +13,36 @@ public class UpdateBed {
     return name;
   }
 
-  public void setName(final String name) {
+  public UpdateBed setName(final String name) {
     this.name = name;
+    return this;
   }
 
   public UUID getWardId() {
     return wardId;
   }
 
-  public void setWardId(final UUID wardId) {
+  public UpdateBed setWardId(final UUID wardId) {
     this.wardId = wardId;
+    return this;
   }
 
   public String getBedType() {
     return bedType;
   }
 
-  public void setBedType(final String bedType) {
+  public UpdateBed setBedType(final String bedType) {
     this.bedType = bedType;
+    return this;
   }
 
   public String getBedState() {
     return bedState;
   }
 
-  public void setBedState(final String bedState) {
+  public UpdateBed setBedState(final String bedState) {
     this.bedState = bedState;
+    return this;
   }
 }
 
