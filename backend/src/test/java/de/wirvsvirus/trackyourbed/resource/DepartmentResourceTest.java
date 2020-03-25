@@ -154,6 +154,7 @@ class DepartmentResourceTest {
       //GIVEN
       final DepartmentService departmentService = mock(DepartmentService.class);
       final UUID id = UUID.randomUUID();
+
       final ResponseEntity<Void> expected = ResponseEntity.ok().build();
 
       //WHEN

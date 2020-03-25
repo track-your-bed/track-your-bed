@@ -152,8 +152,9 @@ class BedResourceTest {
     void shouldReturnEmptyResponseEntityWithStatusOkWhenCalledWithId (){
       //GIVEN
       final UUID id = UUID.randomUUID();
-      final ResponseEntity<Void> expected = ResponseEntity.ok().build();
       final BedService bedService = mock(BedService.class);
+
+      final ResponseEntity<Void> expected = ResponseEntity.ok().build();
 
       //WHEN
       final ResponseEntity<Void> actual = new BedResource(bedService).deleteBed(id);
