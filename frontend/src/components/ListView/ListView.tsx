@@ -1,17 +1,12 @@
 import * as React from "react";
 import classNames from "classnames";
-import {
-  Table,
-  Container,
-  Row,
-  ButtonGroup,
-  Dropdown,
-  DropdownButton
-} from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { getHospitalCapacity } from "../../Services/HospitalService";
 
 // Components
 import CaretRight from "../../icons/CaretRight";
+import ListFilter from "../ListFilter/ListFilter";
+import Table from "../Table/Table";
 
 // Types
 import { ListData } from "../../datatypes/ListView.types";
@@ -29,6 +24,7 @@ const ListView: React.FunctionComponent = () => {
   React.useEffect(() => {
     (async () => {
       const data = await getHospitalCapacity(TEMP_HOSPITAL_ID);
+      console.log(data);
       setListData(data);
     })();
   }, []);
@@ -50,6 +46,12 @@ const ListView: React.FunctionComponent = () => {
     { id: "header-covidicu", label: "Covid Intensiv", value: "covidIcu" }
   ];
 
+  const tempDepartments = [
+    { id: "dep1", value: "DepartmentAX", label: "DepartmentAX" },
+    { id: "dep2", value: "Department23", label: "Department23" },
+    { id: "dep3", value: "test-dep-1", label: "test-dep-1" }
+  ];
+
   const toggleRow = (id: string) => {
     if (expandedRows.includes(id)) {
       setExpandedRows(expandedRows.filter(rowId => rowId !== id));
@@ -60,114 +62,20 @@ const ListView: React.FunctionComponent = () => {
 
   return (
     <Container fluid>
-      <Row>
-        <div className="list-view">
-          {listData && (
-            <div>
+      {listData && (
+        <>
+          <Row>
+            <Col>
               <h1>{listData.name}</h1>
-              <h2>
-                {listData.all.freeCapacity} / {listData.all.maxCapacity}
-              </h2>
-              <DropdownButton
-                as={ButtonGroup}
-                id="drop"
-                title="Fachabteilungen"
-                className="my-3 mx-2"
-              >
-                <Dropdown.Item>Fachabteilung 1</Dropdown.Item>
-                <Dropdown.Item>Fachabteilung 2</Dropdown.Item>
-                <Dropdown.Item>Fachabteilung 3</Dropdown.Item>
-                <Dropdown.Item>Fachabteilung 4</Dropdown.Item>
-                <Dropdown.Item>Fachabteilung 5</Dropdown.Item>
-              </DropdownButton>
-              <DropdownButton
-                as={ButtonGroup}
-                id="drop2"
-                title="Stationen"
-                className="my-3 mx-2"
-              >
-                <Dropdown.Item>Station 1</Dropdown.Item>
-                <Dropdown.Item>Station 2</Dropdown.Item>
-                <Dropdown.Item>Station 3</Dropdown.Item>
-                <Dropdown.Item>Station 4</Dropdown.Item>
-                <Dropdown.Item>Station 5</Dropdown.Item>
-              </DropdownButton>
-              <DropdownButton
-                as={ButtonGroup}
-                id="drop3"
-                title="Bettentypen"
-                className="my-3 mx-2"
-              >
-                <Dropdown.Item>Typ 1</Dropdown.Item>
-                <Dropdown.Item>Typ 2</Dropdown.Item>
-                <Dropdown.Item>Typ 3</Dropdown.Item>
-                <Dropdown.Item>Typ 4</Dropdown.Item>
-                <Dropdown.Item>Typ 5</Dropdown.Item>
-              </DropdownButton>
-              <Table className="list-view__table" hover>
-                <thead>
-                  <tr>
-                    <th>-</th>
-                    <th>Fachabteilungen</th>
-                    {headers.map((header: Headers) => (
-                      <th key={`headings-${header.id}`}>{header.label}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {listData.departmentCapacities.map((department: any) => {
-                    const expanded = expandedRows.includes(
-                      `list-${department.name}`
-                    );
-
-                    const trClass = classNames("list-view__table__row", {
-                      "--expanded": expanded
-                    });
-
-                    return (
-                      <React.Fragment key={department.id}>
-                        <tr
-                          className={trClass}
-                          onClick={() => toggleRow(`list-${department.name}`)}
-                        >
-                          <td>
-                            <CaretRight color="#000" />
-                          </td>
-                          <td>{department.name}</td>
-                          {headers.map((header: Headers) => (
-                            <td key={`header-${header.id}-${department.id}`}>
-                              {`${department[header.value].freeCapacity} / ${
-                                department[header.value].maxCapacity
-                              }`}
-                            </td>
-                          ))}
-                        </tr>
-                        {expanded &&
-                          department.wardCapacities.map((ward: any) => (
-                            <tr
-                              key={ward.id}
-                              className="list-view__table__row --sub"
-                            >
-                              <td>o</td>
-                              <td>{ward.name}</td>
-                              {headers.map((header): any => (
-                                <td key={`inner-${header.id}-${ward.id}`}>
-                                  {`${ward[header.value].freeCapacity} / ${
-                                    ward[header.value].maxCapacity
-                                  }`}
-                                </td>
-                              ))}
-                            </tr>
-                          ))}
-                      </React.Fragment>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            </div>
-          )}
-        </div>
-      </Row>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="list-view">
+              <Table rawData={listData.departmentCapacities} />
+            </Col>
+          </Row>
+        </>
+      )}
     </Container>
   );
 };

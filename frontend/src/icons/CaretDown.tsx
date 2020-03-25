@@ -1,8 +1,7 @@
 import * as React from "react";
-
 import Icon from "../datatypes/Icon.types";
 
-const ChevronRight: React.FC<Icon> = ({ size = 24, color = "#000" }: Icon) => (
+const CaretDown: React.FC<Icon> = ({ size = 24, color = "#000" }: Icon) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -14,7 +13,7 @@ const ChevronRight: React.FC<Icon> = ({ size = 24, color = "#000" }: Icon) => (
     strokeLinecap="round"
     strokeLinejoin="round"
   >
-    <path d="M9 18l6-6-6-6" />
+    <path d="M6 9l6 6 6-6" />
   </svg>
 );
-export default ChevronRight;
+export default CaretDown;

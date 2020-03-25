@@ -1,6 +1,6 @@
 .list-view {
-  &__search {
-    margin: 15px 0;
+  &__filter-container {
+    display: flex;
   }
 
   &__table {
