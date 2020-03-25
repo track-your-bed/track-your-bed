@@ -92,6 +92,18 @@ const ListView: React.FunctionComponent = () => {
                 <Dropdown.Item>Station 4</Dropdown.Item>
                 <Dropdown.Item>Station 5</Dropdown.Item>
               </DropdownButton>
+              <DropdownButton
+                as={ButtonGroup}
+                id="drop3"
+                title="Bettentypen"
+                className="my-3 mx-2"
+              >
+                <Dropdown.Item>Typ 1</Dropdown.Item>
+                <Dropdown.Item>Typ 2</Dropdown.Item>
+                <Dropdown.Item>Typ 3</Dropdown.Item>
+                <Dropdown.Item>Typ 4</Dropdown.Item>
+                <Dropdown.Item>Typ 5</Dropdown.Item>
+              </DropdownButton>
               <Table className="list-view__table" hover>
                 <thead>
                   <tr>
