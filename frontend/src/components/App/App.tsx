@@ -1,5 +1,6 @@
 import * as React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { Container } from "react-bootstrap";
 
 // Pages
 import Dashboard from "../../pages/Dashboard/Dashboard";
@@ -27,32 +28,34 @@ const App: React.FunctionComponent = () => {
       <div className="app-container">
         <Router>
           <Header title="Title" />
-          <Switch>
-            <ProtectedRoute path="/" exact>
-              <Dashboard />
-            </ProtectedRoute>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <ProtectedRoute path="/list" exact>
-              <ListView />
-            </ProtectedRoute>
-            <ProtectedRoute path="/settings" exact>
-              <UserSettings />
-            </ProtectedRoute>
-            <ProtectedRoute path="/wardBedManagement/:wardId">
-              <WardBedManagementPage />
-            </ProtectedRoute>
-            <ProtectedRoute path="/hospital/:hospitalId/:departmentId/:wardId/:bedId/edit">
-              <EditBed />
-            </ProtectedRoute>
-            <ProtectedRoute path="/hospital/:hospitalId/:departmendId/:wardId/edit">
-              <EditWard />
-            </ProtectedRoute>
-            <ProtectedRoute path="/hospital/:hospitalId/:departmentId/edit">
-              <EditDepartment />
-            </ProtectedRoute>
-          </Switch>
+          <Container>
+            <Switch>
+              <ProtectedRoute path="/" exact>
+                <Dashboard />
+              </ProtectedRoute>
+              <Route path="/login">
+                <Login />
+              </Route>
+              <ProtectedRoute path="/list" exact>
+                <ListView />
+              </ProtectedRoute>
+              <ProtectedRoute path="/settings" exact>
+                <UserSettings />
+              </ProtectedRoute>
+              <ProtectedRoute path="/wardBedManagement/:wardId">
+                <WardBedManagementPage />
+              </ProtectedRoute>
+              <ProtectedRoute path="/hospital/:hospitalId/:departmentId/:wardId/:bedId/edit">
+                <EditBed />
+              </ProtectedRoute>
+              <ProtectedRoute path="/hospital/:hospitalId/:departmendId/:wardId/edit">
+                <EditWard />
+              </ProtectedRoute>
+              <ProtectedRoute path="/hospital/:hospitalId/:departmentId/edit">
+                <EditDepartment />
+              </ProtectedRoute>
+            </Switch>
+          </Container>
         </Router>
       </div>
     </UserContextProvider>
