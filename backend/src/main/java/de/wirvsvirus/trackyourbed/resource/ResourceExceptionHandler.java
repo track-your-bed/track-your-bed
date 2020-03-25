@@ -1,5 +1,6 @@
 package de.wirvsvirus.trackyourbed.resource;
 
+import de.wirvsvirus.trackyourbed.excpetion.dependency.BedMissingException;
 import de.wirvsvirus.trackyourbed.excpetion.dependency.DepartmentMissingException;
 import de.wirvsvirus.trackyourbed.excpetion.dependency.HospitalMissingException;
 import de.wirvsvirus.trackyourbed.excpetion.dependency.InvalidBedStateException;
@@ -98,6 +99,13 @@ public class ResourceExceptionHandler {
   public ResponseEntity<HTTPError> mapHospitalMissingExceptionToBadRequestResponse(
       final HospitalMissingException e) {
     final HTTPError httpError = new HTTPError(ErrorCode.HOSPITAL_NOT_FOUND, e.getMessage());
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(httpError);
+  }
+
+  @ExceptionHandler(BedMissingException.class)
+  public ResponseEntity<HTTPError> mapBedMissingExceptionToBadRequestResponse(
+      final BedMissingException e){
+    final HTTPError httpError = new HTTPError(ErrorCode.BED_NOT_FOUND, e.getMessage());
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(httpError);
   }
 
