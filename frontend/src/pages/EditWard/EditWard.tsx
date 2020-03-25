@@ -5,9 +5,9 @@ import { Button } from "primereact/button";
 import { useParams, useHistory } from "react-router-dom";
 import { Wardtypes } from "../../datatypes/enums.types";
 import {
-  fetchWard,
-  updateBedStateOnServer
-} from "../../Services/WardBedManagementService";
+  getBedsForWard,
+  updateBedState
+} from "../../Services/BedManagementService";
 import "primereact/resources/themes/nova-light/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";

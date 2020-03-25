@@ -40,6 +40,9 @@ const App: React.FunctionComponent = () => {
             <ProtectedRoute path="/settings" exact>
               <UserSettings />
             </ProtectedRoute>
+            <ProtectedRoute path="/wardBedManagement/:wardId">
+              <WardBedManagementPage />
+            </ProtectedRoute>
             <ProtectedRoute path="/hospital/:hospitalId/:departmentId/:wardId/:bedId/edit">
               <EditBed />
             </ProtectedRoute>
@@ -48,9 +51,6 @@ const App: React.FunctionComponent = () => {
             </ProtectedRoute>
             <ProtectedRoute path="/hospital/:hospitalId/:departmentId/edit">
               <EditDepartment />
-            </ProtectedRoute>
-            <ProtectedRoute path="/wardBedManagement/:wardId">
-              <WardBedManagementPage />
             </ProtectedRoute>
           </Switch>
         </Router>

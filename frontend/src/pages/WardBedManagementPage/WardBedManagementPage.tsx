@@ -1,12 +1,12 @@
 import * as React from "react";
 
 // Components
-import WardBedManagementTbl from "../../components/WardBedManagmentTbl/WardBedManagementTbl";
+import BedManagement from "../../components/BedManagement/BedManagement";
 
 const WardBedManagementPage: React.FunctionComponent = () => {
   return (
     <div>
-      <WardBedManagementTbl />
+      <BedManagement />
     </div>
   );
 };

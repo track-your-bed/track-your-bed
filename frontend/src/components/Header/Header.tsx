@@ -21,7 +21,10 @@ const Header: React.FunctionComponent<Header> = ({ title }: Header) => (
           <Nav.Link as={Link} to="/list">
             Stammdaten
           </Nav.Link>
-          <Nav.Link as={Link} to="/wardBedManagement">
+          <Nav.Link
+            as={Link}
+            to="/wardBedManagement/989b78c4-1ae9-42d6-9408-686437dfc457"
+          >
             Bettenmanagement
           </Nav.Link>
           <Nav.Link as={Link} to="/settings">

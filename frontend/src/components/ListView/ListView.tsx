@@ -2,15 +2,13 @@ import * as React from "react";
 import classNames from "classnames";
 import {
   Table,
-  FormControl,
   Container,
   Row,
-  InputGroup,
   ButtonGroup,
-  Button,
   Dropdown,
   DropdownButton
 } from "react-bootstrap";
+import { getHospitalCapacity } from "../../Services/HospitalService";
 
 // Components
 import CaretRight from "../../icons/CaretRight";
@@ -21,7 +19,7 @@ import { ListData } from "../../datatypes/ListView.types";
 // Styles
 import "./ListView.scss";
 
-import CapacityData from "../SampleData/ListView.json";
+const TEMP_HOSPITAL_ID = "35ad5a65-f00a-4eb6-8302-3f170863b15c";
 
 const ListView: React.FunctionComponent = () => {
   const [listData, setListData] = React.useState<any | null>(null);
@@ -29,19 +27,20 @@ const ListView: React.FunctionComponent = () => {
   const [dataFilter, setDataFilter] = React.useState("");
 
   React.useEffect(() => {
-    fetch(`http://localhost:8080/api/bedTypes`).then(response => {
-      console.log(response);
-    });
-    /**
-     * TODO: Add API Call once Backend is available
-     */
-    // console.log(CapacityData);
-    setListData(CapacityData);
+    (async () => {
+      const data = await getHospitalCapacity(TEMP_HOSPITAL_ID);
+      setListData(data);
+    })();
   }, []);
 
   /**
    * TODO: Get Header Items from DB to allow variability
    */
+  interface Headers {
+    id: string;
+    label: string;
+    value: string;
+  }
   const headers = [
     { id: "header-all", label: "Freie Betten", value: "all" },
     { id: "header-normal", label: "Standard", value: "normal" },
@@ -98,7 +97,7 @@ const ListView: React.FunctionComponent = () => {
                   <tr>
                     <th>-</th>
                     <th>Fachabteilungen</th>
-                    {headers.map((header): any => (
+                    {headers.map((header: Headers) => (
                       <th key={`headings-${header.id}`}>{header.label}</th>
                     ))}
                   </tr>
@@ -123,7 +122,7 @@ const ListView: React.FunctionComponent = () => {
                             <CaretRight color="#000" />
                           </td>
                           <td>{department.name}</td>
-                          {headers.map((header): any => (
+                          {headers.map((header: Headers) => (
                             <td key={`header-${header.id}-${department.id}`}>
                               {`${department[header.value].freeCapacity} / ${
                                 department[header.value].maxCapacity

@@ -16,7 +16,7 @@ export enum BedType {
   covidIcu
 }
 
-export enum WardTypes {
+export enum WardType {
   normal,
   imc,
   icu,
@@ -34,8 +34,9 @@ export interface Bed {
 export interface Ward {
   id: string;
   name: string;
-  wardType: WardTypes;
-  bed: Bed[];
+  wardType: WardType;
+  departmentId: string;
+  beds: Bed[];
 }
 
 export interface Department {
