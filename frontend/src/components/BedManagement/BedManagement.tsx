@@ -10,9 +10,6 @@ import {
 import { Ward, Bed, BedState } from "../../datatypes/ListView.types";
 
 // Styles
-import "primereact/resources/themes/nova-light/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
 import "./BedManagement.scss";
 
 const BedManagement: React.FunctionComponent = () => {
