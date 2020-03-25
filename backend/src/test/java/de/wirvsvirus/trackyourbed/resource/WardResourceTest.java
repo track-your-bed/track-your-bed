@@ -35,8 +35,9 @@ class WardResourceTest {
         "called with createNewWard.")
     void ShouldReturnResponseEntityWithCreatedLinkAndWardDtoWhenCalledWithCreateNewWard() {
       //GIVEN
-      final CreateNewWard createNewWard = mock(CreateNewWard.class);
+      final CreateNewWard createNewWard = new CreateNewWard();
       final UUID id = UUID.randomUUID();
+      // TODO: refactor to chaining setters after merge
       final WardDto wardDto = new WardDto();
       wardDto.setId(id);
       final WardService wardService = mock(WardService.class);
@@ -63,21 +64,19 @@ class WardResourceTest {
   class GetAllWardsTest{
 
     @Test
-    @DisplayName("Should return a ResponseEntity containing a collection of all wards with status " +
-        "set to ok when called.")
+    @DisplayName("Should return a ResponseEntity containing a collection of all wards with " +
+        "status set to ok when called.")
     void shouldReturnResponseEntityContainingCollectionOfAllWardsWithStatusOkWhenCalled() {
       //GIVEN
-      final WardDto wardOne = mock(WardDto.class);
-      final WardDto wardTwo = mock(WardDto.class);
-      final Collection<WardDto> allWards = List.of(
-          wardOne,
-          wardTwo
-      );
+      final WardDto wardOne = new WardDto();
+      final WardDto wardTwo = new WardDto();
+      final Collection<WardDto> allWards = List.of(wardOne, wardTwo);
       final WardService wardService = mock(WardService.class);
       when(wardService.getAllWards()).thenReturn(allWards);
 
       //WHEN
-      final ResponseEntity<Collection<WardDto>> actual = new WardResource(wardService).getAllWards();
+      final ResponseEntity<Collection<WardDto>> actual =
+          new WardResource(wardService).getAllWards();
 
       //THEN
       assertEquals(HttpStatus.OK, actual.getStatusCode());
@@ -91,12 +90,13 @@ class WardResourceTest {
   class GetWardByIdTest {
 
     @Test
-    @DisplayName("Should return a ResponseEntity containing the correct WardDto with Status set to " +
-        "OK when called with  UUID id.")
+    @DisplayName("Should return a ResponseEntity containing the correct WardDto with Status set" +
+        "to OK when called with  UUID id.")
     void shouldReturnResponseEntityWithWardDtoAndStatusOkWhenCalledWithId() {
       //GIVEN
-      final WardDto wardDto = new WardDto();
       final UUID id = UUID.randomUUID();
+      // TODO: refactor to chaining setters after merge
+      final WardDto wardDto = new WardDto();
       wardDto.setId(id);
       final WardService wardService = mock(WardService.class);
       when(wardService.getWardById(any(UUID.class))).thenReturn(wardDto);
@@ -118,8 +118,8 @@ class WardResourceTest {
   class PatchWardTest {
 
     @Test
-    @DisplayName("Should return a ResponseEntity containing the updated wardDto with Status set to " +
-        "OK when called with a UUID and an UpdateWard.")
+    @DisplayName("Should return a ResponseEntity containing the updated wardDto with Status set " +
+        "to OK when called with a UUID and an UpdateWard.")
     void shouldReturnResponseEntityContainingWardDtoWithStatusOkWhenCalledWithUuidAndUpdateWard() {
       //GIVEN
       final WardDto wardDto = new WardDto();
@@ -129,7 +129,8 @@ class WardResourceTest {
       when(wardService.updateWard(any(UUID.class), any(UpdateWard.class))).thenReturn(wardDto);
 
       //WHEN
-      final ResponseEntity<WardDto> actual = new WardResource(wardService).patchWard(id, updateWard);
+      final ResponseEntity<WardDto> actual =
+          new WardResource(wardService).patchWard(id, updateWard);
 
       //THEN
       assertEquals(HttpStatus.OK, actual.getStatusCode());
@@ -145,20 +146,17 @@ class WardResourceTest {
   class DeleteWardTest {
 
     @Test
-    @DisplayName("Should return a ResponseEntity with empty body and status set to OK when called " +
-        "with Id.")
+    @DisplayName("Should return a ResponseEntity with empty body and status set to OK when " +
+        "called with Id.")
     void shouldReturnEmptyResponseEntityWithStatusOkWhenCalledWithId (){
       //GIVEN
       final WardService wardService = mock(WardService.class);
       final UUID id = UUID.randomUUID();
 
-      final ResponseEntity<Void> expected = ResponseEntity.ok().build();
-
       //WHEN
       final ResponseEntity<Void> actual = new WardResource(wardService).deleteWard(id);
 
       //THEN
-      assertEquals(expected, actual);
       assertEquals(HttpStatus.OK, actual.getStatusCode());
 
       verify(wardService).deleteWardById(eq(id));
@@ -171,12 +169,12 @@ class WardResourceTest {
   class GetCapacityTest{
 
     @Test
-    @DisplayName("Should return a ResponseEntity containing a WardCapacityDto with Status OK when " +
-        "called with an Id.")
+    @DisplayName("Should return a ResponseEntity containing a WardCapacityDto with Status OK " +
+        "when called with an Id.")
     void shouldReturnResponseEntityContainingWardCapacityDtoWithStatusOkWhenCalledWithId(){
       //GIVEN
-      final WardCapacityDto wardCapacityDto = mock(WardCapacityDto.class);
       final UUID id = UUID.randomUUID();
+      final WardCapacityDto wardCapacityDto = new WardCapacityDto();
       final WardService wardService = mock(WardService.class);
       when(wardService.calculateCapacity(any(UUID.class))).thenReturn(wardCapacityDto);
 

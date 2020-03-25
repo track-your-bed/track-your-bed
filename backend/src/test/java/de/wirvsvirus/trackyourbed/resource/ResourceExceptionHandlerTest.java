@@ -33,8 +33,7 @@ class ResourceExceptionHandlerTest {
   @DisplayName("Should map NoSuchBedExceptions to NotFoundResponses.")
   void shouldMapNoSuchBedExceptionToNotFoundResponse() {
     // GIVEN
-    final UUID bedId = UUID.randomUUID();
-    final NoSuchBedException e = new NoSuchBedException(bedId);
+    final NoSuchBedException e = new NoSuchBedException(UUID.randomUUID());
 
     // WHEN
     final ResponseEntity<HTTPError> actual =
@@ -52,8 +51,7 @@ class ResourceExceptionHandlerTest {
   @DisplayName("Should map NoSuchBedStateExceptions to NotFoundResponses.")
   void shouldMapNoSuchBedStateExceptionsToNotFoundResponse(){
     //GIVEN
-    final String bedName = "name";
-    final NoSuchBedStateException e = new NoSuchBedStateException(bedName);
+    final NoSuchBedStateException e = new NoSuchBedStateException("name");
 
     //WHEN
     final ResponseEntity<HTTPError> actual =
@@ -90,16 +88,15 @@ class ResourceExceptionHandlerTest {
   @DisplayName("Should map NoSuchDepartmentExceptions to NotFoundResponses.")
   void shouldMapNoSuchDepartmentExceptionToNotFoundResponse() {
     //GIVEN
-    final UUID id = UUID.randomUUID();
-    final NoSuchDepartmentException e = new NoSuchDepartmentException(id);
+    final NoSuchDepartmentException e = new NoSuchDepartmentException(UUID.randomUUID());
 
     //WHEN
-    ResponseEntity<HTTPError> actual =
+    final ResponseEntity<HTTPError> actual =
         new ResourceExceptionHandler().mapNoSuchDepartmentExceptionToNotFoundResponse(e);
 
     //THEN
     assertEquals(HttpStatus.NOT_FOUND, actual.getStatusCode());
-    HTTPError body = actual.getBody();
+    final HTTPError body = actual.getBody();
     assertNotNull(body);
     assertEquals(ErrorCode.DEPARTMENT_NOT_FOUND, body.getErrorCode());
     assertEquals(e.getMessage(), body.getErrorMessage());
@@ -109,17 +106,16 @@ class ResourceExceptionHandlerTest {
   @DisplayName("Should map NoSuchDepartmentTypeExceptions to NotFoundResponses.")
   void shouldMapNoSuchDepartmentTypeExceptionToNotFoundResponse() {
     //GIVEN
-    final String name = "name";
     final NoSuchDepartmentTypeException e =
-        new NoSuchDepartmentTypeException(name);
+        new NoSuchDepartmentTypeException("name");
 
     //WHEN
-    ResponseEntity<HTTPError> actual =
+    final ResponseEntity<HTTPError> actual =
         new ResourceExceptionHandler().mapNoSuchDepartmentTypeExceptionToNotFoundResponse(e);
 
     //THEN
     assertEquals(HttpStatus.NOT_FOUND, actual.getStatusCode());
-    HTTPError body = actual.getBody();
+    final HTTPError body = actual.getBody();
     assertNotNull(body);
     assertEquals(ErrorCode.DEPARTMENT_TYPE_NOT_FOUND, body.getErrorCode());
     assertEquals(e.getMessage(), body.getErrorMessage());
@@ -129,16 +125,15 @@ class ResourceExceptionHandlerTest {
   @DisplayName("Should map NoSuchHospitalExceptions to NotFoundResponses.")
   void shouldMapNoSuchHospitalExceptionToNotFoundResponse() {
     //GIVEN
-    final UUID id = UUID.randomUUID();
-    final NoSuchHospitalException e = new NoSuchHospitalException(id);
+    final NoSuchHospitalException e = new NoSuchHospitalException(UUID.randomUUID());
 
     //WHEN
-    ResponseEntity<HTTPError> actual =
+    final ResponseEntity<HTTPError> actual =
         new ResourceExceptionHandler().mapNoSuchHospitalExceptionToNotFoundResponse(e);
 
     //THEN
     assertEquals(HttpStatus.NOT_FOUND, actual.getStatusCode());
-    HTTPError body = actual.getBody();
+    final HTTPError body = actual.getBody();
     assertNotNull(body);
     assertEquals(ErrorCode.HOSPITAL_NOT_FOUND, body.getErrorCode());
     assertEquals(e.getMessage(), body.getErrorMessage());
@@ -148,8 +143,7 @@ class ResourceExceptionHandlerTest {
   @DisplayName("Should map NoSuchWardExceptions to NotFoundResponses.")
   void shouldMapNoSuchWardExceptionToNotFoundResponse() {
     //GIVEN
-    final UUID id = UUID.randomUUID();
-    final NoSuchWardException e = new NoSuchWardException(id);
+    final NoSuchWardException e = new NoSuchWardException(UUID.randomUUID());
 
     //WHEN
     final ResponseEntity<HTTPError> actual =
@@ -157,7 +151,7 @@ class ResourceExceptionHandlerTest {
 
     //THEN
     assertEquals(HttpStatus.NOT_FOUND, actual.getStatusCode());
-    HTTPError body = actual.getBody();
+    final HTTPError body = actual.getBody();
     assertNotNull(body);
     assertEquals(ErrorCode.WARD_NOT_FOUND, body.getErrorCode());
     assertEquals(e.getMessage(), body.getErrorMessage());
@@ -167,8 +161,7 @@ class ResourceExceptionHandlerTest {
   @DisplayName("Should map NoSuchWardTypeExceptions to NotFoundResponses.")
   void shouldMapNoSuchWardTypeExceptionToNotFoundResponse() {
     //GIVEN
-    final String name = "name";
-    final NoSuchWardTypeException e = new NoSuchWardTypeException(name);
+    final NoSuchWardTypeException e = new NoSuchWardTypeException("name");
 
     //WHEN
     final ResponseEntity<HTTPError> actual =
@@ -176,7 +169,7 @@ class ResourceExceptionHandlerTest {
 
     //THEN
     assertEquals(HttpStatus.NOT_FOUND, actual.getStatusCode());
-    HTTPError body = actual.getBody();
+    final HTTPError body = actual.getBody();
     assertNotNull(body);
     assertEquals(ErrorCode.WARD_TYPE_NOT_FOUND, body.getErrorCode());
     assertEquals(e.getMessage(), body.getErrorMessage());
@@ -186,16 +179,15 @@ class ResourceExceptionHandlerTest {
   @DisplayName("Should map DepartmentMissingExceptions to BadRequestResponses.")
   void shouldMapDepartmentMissingExceptionToBadRequestResponse() {
     //GIVEN
-    final UUID id = UUID.randomUUID();
-    final DepartmentMissingException e = new DepartmentMissingException(id);
+    final DepartmentMissingException e = new DepartmentMissingException(UUID.randomUUID());
 
     //WHEN
-    ResponseEntity<HTTPError> actual =
+    final ResponseEntity<HTTPError> actual =
         new ResourceExceptionHandler().mapDepartmentMissingExceptionToBadRequestResponse(e);
 
     //THEN
     assertEquals(HttpStatus.BAD_REQUEST, actual.getStatusCode());
-    HTTPError body = actual.getBody();
+    final HTTPError body = actual.getBody();
     assertNotNull(body);
     assertEquals(ErrorCode.DEPARTMENT_NOT_FOUND, body.getErrorCode());
     assertEquals(e.getMessage(), body.getErrorMessage());
@@ -205,16 +197,15 @@ class ResourceExceptionHandlerTest {
   @DisplayName("Should map InvalidDepartmentTypeExceptions to BadRequestResponses.")
   void shouldMapInvalidDepartmentTypeExceptionToBadResponse() {
     //GIVEN
-    final String name = "name";
-    final InvalidDepartmentTypeException e = new InvalidDepartmentTypeException(name);
+    final InvalidDepartmentTypeException e = new InvalidDepartmentTypeException("name");
 
     //WHEN
-    ResponseEntity<HTTPError> actual =
+    final ResponseEntity<HTTPError> actual =
         new ResourceExceptionHandler().mapInvalidDepartmentTypeExceptionToBadRequestResponse(e);
 
     //THEN
     assertEquals(HttpStatus.BAD_REQUEST, actual.getStatusCode());
-    HTTPError body = actual.getBody();
+    final HTTPError body = actual.getBody();
     assertNotNull(body);
     assertEquals(ErrorCode.DEPARTMENT_TYPE_NOT_FOUND, body.getErrorCode());
     assertEquals(e.getMessage(), body.getErrorMessage());
@@ -224,8 +215,7 @@ class ResourceExceptionHandlerTest {
   @DisplayName("Should map HospitalMissingExceptions to BadRequestResponses.")
   void shouldMapHospitalMissingExceptionToBadRequestResponse() {
     //GIVEN
-    final UUID id = UUID.randomUUID();
-    final HospitalMissingException e = new HospitalMissingException(id);
+    final HospitalMissingException e = new HospitalMissingException(UUID.randomUUID());
 
     //WHEN
     final ResponseEntity<HTTPError> actual =
@@ -233,7 +223,7 @@ class ResourceExceptionHandlerTest {
 
     //THEN
     assertEquals(HttpStatus.BAD_REQUEST, actual.getStatusCode());
-    HTTPError body = actual.getBody();
+    final HTTPError body = actual.getBody();
     assertNotNull(body);
     assertEquals(ErrorCode.HOSPITAL_NOT_FOUND, body.getErrorCode());
     assertEquals(e.getMessage(), body.getErrorMessage());
@@ -243,8 +233,7 @@ class ResourceExceptionHandlerTest {
   @DisplayName("Should map InvalidBedStateExceptions to BadRequestResponses.")
   void shouldMapInvalidBedStateExceptionsToBadRequestResponses() {
     //GIVEN
-    final String name = "name";
-    final InvalidBedStateException e = new InvalidBedStateException(name);
+    final InvalidBedStateException e = new InvalidBedStateException("name");
 
     //WHEN
     final ResponseEntity<HTTPError> actual =
@@ -252,7 +241,7 @@ class ResourceExceptionHandlerTest {
 
     //THEN
     assertEquals(HttpStatus.BAD_REQUEST, actual.getStatusCode());
-    HTTPError body = actual.getBody();
+    final HTTPError body = actual.getBody();
     assertNotNull(body);
     assertEquals(ErrorCode.BED_STATE_NOT_FOUND, body.getErrorCode());
     assertEquals(e.getMessage(), body.getErrorMessage());
@@ -262,8 +251,7 @@ class ResourceExceptionHandlerTest {
   @DisplayName("Should map InvalidBedTypeExceptions to BadRequestResponses.")
   void shouldMapInvalidBedTypeExceptionToBadRequestResponse() {
     //GIVEN
-    final String name = "name";
-    final InvalidBedTypeException e = new InvalidBedTypeException(name);
+    final InvalidBedTypeException e = new InvalidBedTypeException("name");
 
     //WHEN
     final ResponseEntity<HTTPError> actual =
@@ -271,7 +259,7 @@ class ResourceExceptionHandlerTest {
 
     //THEN
     assertEquals(HttpStatus.BAD_REQUEST, actual.getStatusCode());
-    HTTPError body = actual.getBody();
+    final HTTPError body = actual.getBody();
     assertNotNull(body);
     assertEquals(ErrorCode.BED_TYPE_NOT_FOUND, body.getErrorCode());
     assertEquals(e.getMessage(), body.getErrorMessage());
@@ -281,8 +269,7 @@ class ResourceExceptionHandlerTest {
   @DisplayName("Should map InvalidWardTypeExceptions to BadRequestResponses.")
   void shouldMapInvalidWardTypeExceptionToBadRequestResponse() {
     //GIVEN
-    final String name = "name";
-    final InvalidWardTypeException e = new InvalidWardTypeException(name);
+    final InvalidWardTypeException e = new InvalidWardTypeException("name");
 
     //WHEN
     final ResponseEntity<HTTPError> actual =
@@ -290,7 +277,7 @@ class ResourceExceptionHandlerTest {
 
     //THEN
     assertEquals(HttpStatus.BAD_REQUEST, actual.getStatusCode());
-    HTTPError body = actual.getBody();
+    final HTTPError body = actual.getBody();
     assertNotNull(body);
     assertEquals(ErrorCode.WARD_TYPE_NOT_FOUND, body.getErrorCode());
     assertEquals(e.getMessage(), body.getErrorMessage());
@@ -300,8 +287,7 @@ class ResourceExceptionHandlerTest {
   @DisplayName("Should map WardMissingExceptions to BadRequestResponses.")
   void shouldMapWardMissingExceptionToBadRequestResponse() {
     //GIVEN
-    final UUID id = UUID.randomUUID();
-    final WardMissingException e = new WardMissingException(id);
+    final WardMissingException e = new WardMissingException(UUID.randomUUID());
 
     //WHEN
     final ResponseEntity<HTTPError> actual =
@@ -309,7 +295,7 @@ class ResourceExceptionHandlerTest {
 
     //THEN
     assertEquals(HttpStatus.BAD_REQUEST, actual.getStatusCode());
-    HTTPError body = actual.getBody();
+    final HTTPError body = actual.getBody();
     assertNotNull(body);
     assertEquals(ErrorCode.WARD_NOT_FOUND, body.getErrorCode());
     assertEquals(e.getMessage(), body.getErrorMessage());

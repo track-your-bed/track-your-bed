@@ -27,20 +27,16 @@ class WardTypeResourceTest {
   class GetAllWardTypesTest {
 
     @Test
-    @DisplayName("Should return a response entity containing all ward types with status set to ok " +
-        "when called.")
+    @DisplayName("Should return a response entity containing all ward types with status set to " +
+        "ok when called.")
     void shouldReturnResponseEntityWithAllWardTypesInBodyAndStatusSetToOkWhenCalled () {
       //GIVEN
+      // TODO: refactor to chaining setters after merge
       final WardTypeDto wardOne = new WardTypeDto();
+      wardOne.setName("one");
       final WardTypeDto wardTwo = new WardTypeDto();
-      final String wardNameOne = "one";
-      final String wardNameTwo = "two";
-      wardOne.setName(wardNameOne);
-      wardOne.setName(wardNameTwo);
-      final Collection<WardTypeDto> allWardTypes = List.of(
-          wardOne,
-          wardTwo
-      );
+      wardOne.setName("two");
+      final Collection<WardTypeDto> allWardTypes = List.of(wardOne, wardTwo);
       final WardTypeService wardTypeService = mock(WardTypeService.class);
       when(wardTypeService.getAllWardTypes()).thenReturn(allWardTypes);
 
@@ -60,11 +56,12 @@ class WardTypeResourceTest {
   class GetWardTypeByNameTest {
 
     @Test
-    @DisplayName("Should return response entity with the corresponding WardTypeDto and Status set to" +
-        " Ok when called with name.")
+    @DisplayName("Should return response entity with the corresponding WardTypeDto and Status " +
+        "set to Ok when called with name.")
     void shouldReturnResponseEntityWithCorrectWardTypeAndStatusOkWhenCalledWithName () {
       //GIVEN
       final String name = "name";
+      // TODO: refactor to chaining setters after merge
       final WardTypeDto wardTypeDto = new WardTypeDto();
       wardTypeDto.setName(name);
       final WardTypeService wardTypeService = mock(WardTypeService.class);

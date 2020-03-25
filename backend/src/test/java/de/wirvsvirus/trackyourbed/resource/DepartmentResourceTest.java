@@ -35,12 +35,14 @@ class DepartmentResourceTest {
         " called with createNewDepartment.")
     void ShouldReturnResponseEntityWithCreatedLinkAndDepartmentDtoWhenCalledWithCreateNewDepartment() {
       //GIVEN
-      final CreateNewDepartment createNewDepartment = mock(CreateNewDepartment.class);
+      final CreateNewDepartment createNewDepartment = new CreateNewDepartment();
       final UUID id = UUID.randomUUID();
+      // TODO: refactor to chaining setters after merge
       final DepartmentDto departmentDto = new DepartmentDto();
       departmentDto.setId(id);
       final DepartmentService departmentService = mock(DepartmentService.class);
-      when(departmentService.createDepartment(any(CreateNewDepartment.class))).thenReturn(departmentDto);
+      when(departmentService.createDepartment(any(CreateNewDepartment.class)))
+          .thenReturn(departmentDto);
 
       final List<String> expectedLink = List.of(String.format("/api/departments/%s",id));
 
@@ -66,12 +68,9 @@ class DepartmentResourceTest {
         "status set to Ok when called.")
     void shouldReturnResponseEntityContainingCollectionOfAllDepartmentsWithStatusOkWhenCalled() {
       //GIVEN
-      final DepartmentDto departmentOne = mock(DepartmentDto.class);
-      final DepartmentDto departmentTwo = mock(DepartmentDto.class);
-      final Collection<DepartmentDto> allDepartments = List.of(
-          departmentOne,
-          departmentTwo
-      );
+      final DepartmentDto departmentOne = new DepartmentDto();
+      final DepartmentDto departmentTwo = new DepartmentDto();
+      final Collection<DepartmentDto> allDepartments = List.of(departmentOne, departmentTwo);
       final DepartmentService departmentService = mock(DepartmentService.class);
       when(departmentService.getAllDepartments()).thenReturn(allDepartments);
 
@@ -91,8 +90,8 @@ class DepartmentResourceTest {
  class GetDepartmentByIdTest {
 
    @Test
-   @DisplayName("Should return a ResponseEntity containing the correct DepartmentDto with Status set" +
-       " to OK when called with  UUID id")
+   @DisplayName("Should return a ResponseEntity containing the correct DepartmentDto with Status " +
+       "set to OK when called with  UUID id")
    void shouldReturnResponseEntityWithDepartmentDtoAndStatusOkWhenCalledWithId() {
      //GIVEN
      final DepartmentDto departmentDto = new DepartmentDto();
@@ -119,8 +118,8 @@ class DepartmentResourceTest {
  class PatchDepartmentTest {
 
    @Test
-   @DisplayName("Should return a ResponseEntity containing the updated departmentDto with Status set" +
-       " to OK when called with a UUID and an UpdateDepartment")
+   @DisplayName("Should return a ResponseEntity containing the updated departmentDto with Status" +
+       "set to OK when called with a UUID and an UpdateDepartment")
    void shouldReturnResponseEntityContainingDepartmentDtoWithStatusOkWhenCalledWithUuidAndUpdateDepartment() {
      //GIVEN
      final DepartmentDto departmentDto = new DepartmentDto();
@@ -148,20 +147,17 @@ class DepartmentResourceTest {
   class DeleteDepartmentTest {
 
     @Test
-    @DisplayName("Should return a ResponseEntity with empty body and status set to OK when called " +
-        "with Id.")
+    @DisplayName("Should return a ResponseEntity with empty body and status set to OK when " +
+        "called with Id.")
     void shouldReturnEmptyResponseEntityWithStatusOkWhenCalledWithId (){
       //GIVEN
       final DepartmentService departmentService = mock(DepartmentService.class);
       final UUID id = UUID.randomUUID();
 
-      final ResponseEntity<Void> expected = ResponseEntity.ok().build();
-
       //WHEN
       final ResponseEntity<Void> actual =
           new DepartmentResource(departmentService).deleteDepartment(id);
       //THEN
-      assertEquals(expected, actual);
       assertEquals(HttpStatus.OK, actual.getStatusCode());
 
       verify(departmentService).deleteDepartmentById(eq(id));
@@ -174,13 +170,13 @@ class DepartmentResourceTest {
   class GetCapacityTest {
 
     @Test
-    @DisplayName("Should return a ResponseEntity containing a DepartmentCapacityDto with Status OK" +
-        "when called with an Id.")
+    @DisplayName("Should return a ResponseEntity containing a DepartmentCapacityDto with Status" +
+        "OK when called with an Id.")
     void shouldReturnResponseEntityContainingDepartmentCapacityDtoWithStatusOkWhenCalledWithId(){
       //GIVEN
       final UUID id = UUID.randomUUID();
       final DepartmentService departmentService = mock(DepartmentService.class);
-      final DepartmentCapacityDto departmentCapacityDto = mock(DepartmentCapacityDto.class);
+      final DepartmentCapacityDto departmentCapacityDto = new DepartmentCapacityDto();
       when(departmentService.calculateCapacity(any(UUID.class))).thenReturn(departmentCapacityDto);
 
       //WHEN

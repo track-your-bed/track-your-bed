@@ -27,15 +27,16 @@ class DepartmentTypeResourceTest {
   class GetAllDepartmentTypesTest {
 
     @Test
-    @DisplayName("Should return a response entity containing all department types with status set to" +
-        " ok when called")
+    @DisplayName("Should return a response entity containing all department types with status " +
+        "set to ok when called")
     void shouldReturnResponseEntityWithAllDepartmentTypesInBodyAndStatusSetToOkWhenCalled (){
       // GIVEN
-      final DepartmentTypeDto departmentTypeOne = new DepartmentTypeDto();
-      final DepartmentTypeDto departmentTypeTwo = new DepartmentTypeDto();
       final String departmentNameOne = "one";
       final String departmentNameTwo = "two";
+      // TODO: refactor to chaining setters after merge
+      final DepartmentTypeDto departmentTypeOne = new DepartmentTypeDto();
       departmentTypeOne.setName(departmentNameOne);
+      final DepartmentTypeDto departmentTypeTwo = new DepartmentTypeDto();
       departmentTypeTwo.setName(departmentNameTwo);
       final Collection<DepartmentTypeDto> allDepartmentTypes = List.of(
           departmentTypeOne,
@@ -60,11 +61,12 @@ class DepartmentTypeResourceTest {
   class getDepartmentTypeByNameTest {
 
     @Test
-    @DisplayName("Should return response entity containing the corresponding DepartmentTypeDto and" +
-        " status set to Ok when called with name.")
+    @DisplayName("Should return response entity containing the corresponding DepartmentTypeDto" +
+        "and status set to Ok when called with name.")
     void shouldReturnResponseEntityWithCorrectDepartmentTypeAndStatusOkWhenCalledWithName (){
       //GIVEN
       final String name = "name";
+      // TODO: refactor to chaining setters after merge
       final DepartmentTypeDto departmentTypeDto = new DepartmentTypeDto();
       departmentTypeDto.setName(name);
       final DepartmentTypeService departmentTypeService = mock(DepartmentTypeService.class);

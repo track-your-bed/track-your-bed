@@ -31,11 +31,11 @@ class HospitalResourceTest {
   class CreateHospitalTest {
 
     @Test
-    @DisplayName("Should return a response entity containing the created link and hospitalDto when " +
-        "called with createNewHospital.")
+    @DisplayName("Should return a response entity containing the created link and hospitalDto " +
+        "when called with createNewHospital.")
     void ShouldReturnResponseEntityWithCreatedLinkAndHospitalDtoWhenCalledWithCreateNewHospital() {
       //GIVEN
-      final CreateNewHospital createNewHospital = mock(CreateNewHospital.class);
+      final CreateNewHospital createNewHospital = new CreateNewHospital();
       final UUID id = UUID.randomUUID();
       final HospitalDto hospitalDto = new HospitalDto();
       hospitalDto.setId(id);
@@ -67,12 +67,9 @@ class HospitalResourceTest {
         "status set to ok when called.")
     void shouldReturnResponseEntityContainingCollectionOfAllHospitalsWithStatusOkWhenCalled() {
       //GIVEN
-      final HospitalDto hospitalOne = mock(HospitalDto.class);
-      final HospitalDto hospitalTwo = mock(HospitalDto.class);
-      final Collection<HospitalDto> allHospitals = List.of(
-          hospitalOne,
-          hospitalTwo
-      );
+      final HospitalDto hospitalOne = new HospitalDto();
+      final HospitalDto hospitalTwo = new HospitalDto();
+      final Collection<HospitalDto> allHospitals = List.of(hospitalOne, hospitalTwo);
       final HospitalService hospitalService = mock(HospitalService.class);
       when(hospitalService.getAllHospitals()).thenReturn(allHospitals);
 
@@ -92,12 +89,13 @@ class HospitalResourceTest {
   class GetHospitalTest {
 
     @Test
-    @DisplayName("Should return a ResponseEntity containing the correct HospitalDto with Status set " +
-        "to OK when called with  UUID id.")
+    @DisplayName("Should return a ResponseEntity containing the correct HospitalDto with Status " +
+        "set to OK when called with  UUID id.")
     void shouldReturnResponseEntityWithHospitalDtoAndStatusOkWhenCalledWithId() {
       //GIVEN
-      final HospitalDto hospitalDto = new HospitalDto();
       final UUID id = UUID.randomUUID();
+      // TODO: refactor to chaining setters after merge
+      final HospitalDto hospitalDto = new HospitalDto();
       hospitalDto.setId(id);
       final HospitalService hospitalService = mock(HospitalService.class);
       when(hospitalService.getHospitalById(any(UUID.class))).thenReturn(hospitalDto);
@@ -120,12 +118,13 @@ class HospitalResourceTest {
   class PatchHospitalTest {
 
     @Test
-    @DisplayName("Should return a ResponseEntity containing the updated hospitalDto with Status set " +
-        "to OK when called with a UUID and an UpdateHospital.")
+    @DisplayName("Should return a ResponseEntity containing the updated hospitalDto with Status " +
+        "set to OK when called with a UUID and an UpdateHospital.")
     void shouldReturnResponseEntityContainingHospitalDtoWithStatusOkWhenCalledWithUuidAndUpdateHospital() {
       //GIVEN
       final HospitalDto hospitalDto = new HospitalDto();
       final UpdateHospital updateHospital = new UpdateHospital();
+
       final UUID id = UUID.randomUUID();
       final HospitalService hospitalService = mock(HospitalService.class);
       when(hospitalService.updateHospital(any(UUID.class), any(UpdateHospital.class))).
@@ -149,21 +148,18 @@ class HospitalResourceTest {
   class DeleteHospitalTest {
 
     @Test
-    @DisplayName("Should return a ResponseEntity with empty body and status set to OK when called " +
-        "with Id.")
+    @DisplayName("Should return a ResponseEntity with empty body and status set to OK when " +
+        "called with Id.")
     void shouldReturnEmptyResponseEntityWithStatusOkWhenCalledWithId (){
       //GIVEN
       final HospitalService hospitalService = mock(HospitalService.class);
       final UUID id = UUID.randomUUID();
-
-      final ResponseEntity<Void> expected = ResponseEntity.ok().build();
 
       //WHEN
       final ResponseEntity<Void> actual =
           new HospitalResource(hospitalService).deleteHospital(id);
 
       //THEN
-      assertEquals(expected, actual);
       assertEquals(HttpStatus.OK, actual.getStatusCode());
 
       verify(hospitalService).deleteHospitalById(eq(id));
@@ -179,7 +175,7 @@ class HospitalResourceTest {
         "when called with an Id.")
     void shouldReturnResponseEntityContainingHospitalCapacityDtoWithStatusOkWhenCalledWithId(){
       //GIVEN
-      final HospitalCapacityDto hospitalCapacityDto = mock(HospitalCapacityDto.class);
+      final HospitalCapacityDto hospitalCapacityDto = new HospitalCapacityDto();
       final UUID id = UUID.randomUUID();
       final HospitalService hospitalService = mock(HospitalService.class);
       when(hospitalService.calculateCapacity(any(UUID.class))).thenReturn(hospitalCapacityDto);

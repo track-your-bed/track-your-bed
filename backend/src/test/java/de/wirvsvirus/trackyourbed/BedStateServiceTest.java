@@ -51,7 +51,8 @@ class BedStateServiceTest {
       when(bedStateDtoMapper.entityToDto(any(BedState.class))).thenReturn(expected);
 
       // WHEN
-      final BedStateDto actual = new BedStateService(bedStateRepository, bedStateDtoMapper).getBedStateByName(name);
+      final BedStateDto actual =
+          new BedStateService(bedStateRepository, bedStateDtoMapper).getBedStateByName(name);
 
       // THEN
       assertSame(expected, actual);
@@ -104,10 +105,7 @@ class BedStateServiceTest {
               .setName(arguments.getArgument(0, BedState.class).getName())
           );
 
-      final List<String> expectedBedStateNames = List.of(
-          bedStateOneName,
-          bedStateTwoName
-      );
+      final List<String> expectedBedStateNames = List.of(bedStateOneName, bedStateTwoName);
       // WHEN
       final Collection<BedStateDto> actual =
           new BedStateService(bedStateRepository, bedStateDtoMapper).getAllBedStates();

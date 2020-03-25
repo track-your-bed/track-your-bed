@@ -27,20 +27,18 @@ class BedTypeResourceTest {
   class GetAllBedTypes {
 
     @Test
-    @DisplayName("Should return a response entity containing all bed types in its body with status" +
-        " set to ok.")
+    @DisplayName("Should return a response entity containing all bed types in its body with "
+        + "status set to ok.")
     void shouldReturnResponseEntityWithAllBedTypesInBodyAndStatusSetToOkWhenCalled() {
       //GIVEN
       final String bedTypeOneName = "one";
       final String bedTypeTwoName = "two";
-      final BedTypeDto  bedOne = new BedTypeDto();
-      final BedTypeDto  bedTwo = new BedTypeDto();
+      // TODO: refactor to chaining setters after merge
+      final BedTypeDto bedOne = new BedTypeDto();
       bedOne.setName(bedTypeOneName);
+      final BedTypeDto bedTwo = new BedTypeDto();
       bedTwo.setName(bedTypeTwoName);
-      final Collection<BedTypeDto> allBedTypes = List.of(
-          bedOne,
-          bedTwo
-      );
+      final Collection<BedTypeDto> allBedTypes = List.of(bedOne, bedTwo);
       final BedTypeService bedStateService = mock(BedTypeService.class);
       when(bedStateService.getAllBedTypes()).thenReturn(allBedTypes);
 
@@ -60,10 +58,12 @@ class BedTypeResourceTest {
   class GetBedTypeNameTest {
 
     @Test
-    @DisplayName("Should return a response entity containing the correct name with status set to ok.")
+    @DisplayName("Should return a response entity containing the correct name with status set to " +
+        "ok.")
     void shouldReturnResponseEntityWithCorrectBedTypeAndStatusSetToOkWhenCalledWithName (){
       //GIVEN
       final String name = "name";
+      // TODO: refactor to chaining setters after merge
       final BedTypeDto bedTypeDto = new BedTypeDto();
       bedTypeDto.setName(name);
       final BedTypeService bedTypeService = mock(BedTypeService.class);
