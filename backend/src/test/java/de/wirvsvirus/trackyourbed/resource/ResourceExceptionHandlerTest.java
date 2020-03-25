@@ -23,6 +23,7 @@ import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchWardTypeException;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -49,7 +50,7 @@ class ResourceExceptionHandlerTest {
 
   @Test
   @DisplayName("Should map NoSuchBedStateExceptions to NotFoundResponses.")
-  void mapNoSuchBedStateExceptionsToNotFoundResponse(){
+  void shouldMapNoSuchBedStateExceptionsToNotFoundResponse(){
     //GIVEN
     final String bedName = "name";
     final NoSuchBedStateException e = new NoSuchBedStateException(bedName);
@@ -87,7 +88,7 @@ class ResourceExceptionHandlerTest {
 
   @Test
   @DisplayName("Should map NoSuchDepartmentExceptions to NotFoundResponses.")
-  void shouldMapNoSuchDepartmentExceptionToNotFoundResponses() {
+  void shouldMapNoSuchDepartmentExceptionToNotFoundResponse() {
     //GIVEN
     final UUID id = UUID.randomUUID();
     final NoSuchDepartmentException e = new NoSuchDepartmentException(id);
@@ -105,7 +106,7 @@ class ResourceExceptionHandlerTest {
   }
 
   @Test
-  @DisplayName("Should map NoSuchDepartmentTypeException to NotFoundResponses.")
+  @DisplayName("Should map NoSuchDepartmentTypeExceptions to NotFoundResponses.")
   void shouldMapNoSuchDepartmentTypeExceptionToNotFoundResponse() {
     //GIVEN
     final String name = "name";
@@ -126,7 +127,7 @@ class ResourceExceptionHandlerTest {
 
   @Test
   @DisplayName("Should map NoSuchHospitalExceptions to NotFoundResponses.")
-  void shouldMapNoSuchHospitalExceptionsToNotFoundResponses() {
+  void shouldMapNoSuchHospitalExceptionToNotFoundResponse() {
     //GIVEN
     final UUID id = UUID.randomUUID();
     final NoSuchHospitalException e = new NoSuchHospitalException(id);
@@ -201,7 +202,7 @@ class ResourceExceptionHandlerTest {
   }
 
   @Test
-  @DisplayName("Should map InvalidDepartmentTypeExpections to BadRequestResponses.")
+  @DisplayName("Should map InvalidDepartmentTypeExceptions to BadRequestResponses.")
   void shouldMapInvalidDepartmentTypeExceptionToBadResponse() {
     //GIVEN
     final String name = "name";
@@ -278,7 +279,7 @@ class ResourceExceptionHandlerTest {
 
   @Test
   @DisplayName("Should map InvalidWardTypeExceptions to BadRequestResponses.")
-  void shouldMapInvalidWardTypeExceptionToBadRequestReponse() {
+  void shouldMapInvalidWardTypeExceptionToBadRequestResponse() {
     //GIVEN
     final String name = "name";
     final InvalidWardTypeException e = new InvalidWardTypeException(name);
@@ -314,5 +315,19 @@ class ResourceExceptionHandlerTest {
     assertEquals(e.getMessage(), body.getErrorMessage());
   }
 
+  @Test
+  @DisplayName("Should map EmptyResultDataAccessExceptions to NotFoundResponses.")
+  void shouldMapEmptyResultDataAccessExceptionToNotFoundResponse() {
+    //GIVEN
+    final int expectedSize = 0;
+    final EmptyResultDataAccessException e = new EmptyResultDataAccessException(expectedSize);
+
+    //WHEN
+    final ResponseEntity<String> actual =
+        new ResourceExceptionHandler().mapEmptyResultDataAccessExceptionToNotFoundResponse(e);
+
+    //THEN
+    assertEquals(HttpStatus.NOT_FOUND, actual.getStatusCode());
+  }
 
 }
