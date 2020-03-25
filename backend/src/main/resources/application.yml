@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: trackYourBed
+  datasource:
+    url: 'jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:betten}'
+    username: '${DB_USERNAME:betten}'
+    password: '${DB_PASSWORD:betten}'
+    hikari:
+      connection-timeout: 5000
+      validation-timeout: 3000
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true # Workaround for silly warning message regarding CLOB creation
