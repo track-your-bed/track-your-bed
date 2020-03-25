@@ -12,5 +12,6 @@ public interface BedDtoMapper {
   @Mapping(source = "bedType.name", target = "bedType")
   @Mapping(source = "bedState.name", target = "bedState")
   BedDto entityToDto(final Bed bed);
+  // TODO: add mapping method for collection
 
 }

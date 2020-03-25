@@ -6,5 +6,8 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface DepartmentTypeDtoMapper {
+
   DepartmentTypeDto entityToDto(final DepartmentType departmentType);
+  // TODO: add mapping method for collection
+
 }

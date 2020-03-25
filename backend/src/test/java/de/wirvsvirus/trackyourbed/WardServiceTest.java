@@ -1,22 +1,20 @@
 package de.wirvsvirus.trackyourbed;
 
-import static java.lang.String.format;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.matches;
 import static org.mockito.ArgumentMatchers.refEq;
+import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockingDetails;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
 
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewWard;
 import de.wirvsvirus.trackyourbed.dto.request.mapper.CreateNewWardMapper;
@@ -33,24 +31,17 @@ import de.wirvsvirus.trackyourbed.persistence.DepartmentRepository;
 import de.wirvsvirus.trackyourbed.persistence.WardRepository;
 import de.wirvsvirus.trackyourbed.persistence.WardTypeRepository;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
-import org.aspectj.lang.annotation.Before;
-import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
-import org.mockito.Mockito;
 
-@DisplayName("Test WardService")
+@DisplayName("Test WardService.")
 class WardServiceTest {
   WardRepository wardRepository;
   DepartmentRepository departmentRepository;
@@ -80,7 +71,7 @@ class WardServiceTest {
   }
 
   @Nested
-  @DisplayName("Test calls to getWardByName")
+  @DisplayName("Test calls to getWardByName.")
   class GetWardByNameTest {
 
 
@@ -110,10 +101,11 @@ class WardServiceTest {
       final UUID wardId = UUID.randomUUID();
       final WardRepository wardRepository = mock(WardRepository.class);
       when(wardRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
-      final String expectedMessage = format(NoSuchWardException.MESSAGE_TEMPLATE, wardId);
+      final String expectedMessage = String.format(NoSuchWardException.MESSAGE_TEMPLATE, wardId);
 
       // WHEN
-      final NoSuchWardException e = assertThrows(NoSuchWardException.class,
+      final NoSuchWardException e = assertThrows(
+          NoSuchWardException.class,
           () -> wardService.getWardById(wardId));
 
       // THEN
@@ -123,56 +115,69 @@ class WardServiceTest {
   }
 
   @Nested
-  @DisplayName("Test Calls to createNewWard")
+  @DisplayName("Test Calls to createNewWard.")
   class CreateNewWardTest {
     @Test
+    @DisplayName("Should Add ward to repository and return the saved entity.")
     void shouldAddWardToRepositoryAndReturnSavedEntity() {
       //GIVEN
-      final CreateNewWard request = new CreateNewWard();
       final UUID departmentId = UUID.randomUUID();
-      final String wardTypeName = "somename";
-      final Department department = new Department();
-      final WardType wardType = new WardType();
-      final Ward wardFromChangeRequest = mock(Ward.class);
-      final Ward persistedWard = mock(Ward.class);
-      final WardDto expected = new WardDto();
+      final String wardTypeName = "wardType";
 
+      // TODO: change to chaining Setter after merge
+      final CreateNewWard request = new CreateNewWard();
       request.setDepartmentId(departmentId);
       request.setWardType(wardTypeName);
+      final Ward toUpdate = new Ward();
+      when(createNewWardMapper.dtoToEntity(any(CreateNewWard.class))).thenReturn(toUpdate);
+      final WardType wardType = new WardType();
+      when(wardTypeRepository.findByName(anyString())).thenReturn(Optional.of(wardType));
 
-      when(createNewWardMapper.dtoToEntity(request)).thenReturn(wardFromChangeRequest);
+      final Department department = new Department();
       when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(department));
-      when(wardTypeRepository.findByName(wardTypeName)).thenReturn(Optional.of(wardType));
-      when(wardRepository.save(refEq(wardFromChangeRequest))).thenReturn(persistedWard);
-      when(wardDtoMapper.entityToDto(persistedWard)).thenReturn(expected);
+
+      final Ward updated = mock(Ward.class);
+      when(wardRepository.save(any(Ward.class))).thenReturn(updated);
+
+      final WardDto expected = new WardDto();
+      when(wardDtoMapper.entityToDto(any(Ward.class))).thenReturn(expected);
 
       //WHEN
       final WardDto actual = wardService.createNewWard(request);
 
       //THEN
       assertEquals(expected, actual);
-      verify(createNewWardMapper).dtoToEntity(request);
-      verify(departmentRepository).findById(departmentId);
-      verify(wardTypeRepository).findByName(wardTypeName);
-      verify(wardFromChangeRequest).setDepartment(department);
-      verify(wardFromChangeRequest).setWardType(wardType);
-      verify(wardRepository).save(wardFromChangeRequest);
-      verify(wardDtoMapper).entityToDto(persistedWard);
+      verify(createNewWardMapper).dtoToEntity(same(request));
+      verify(departmentRepository).findById(eq(departmentId));
+      verify(wardTypeRepository).findByName(eq(wardTypeName));
+      verify(wardRepository).save(argThat(w -> {
+        assertSame(wardType, w.getWardType());
+        assertSame(department, w.getDepartment());
+        return true;
+      }));
+      verify(wardDtoMapper).entityToDto(updated);
 
     }
 
     @Test
-    void shouldThrowInvalidWardTypeExceptionOnWardTypeNotFoundInRepository() {
+    @DisplayName("Should throw an InvalidWardException when ward type is not found.")
+    void shouldThrowInvalidWardTypeExceptionWhenWardTypeNotFound() {
       //GIVEN
+      final String wardTypeName = "wardTypeName";
+      // TODO: change to chaining Setter after merge
       final CreateNewWard request = new CreateNewWard();
-      final String wardTypeName = "somename";
       request.setWardType(wardTypeName);
-      when(departmentRepository.findById(any())).thenReturn(Optional.of(new Department()));
-      when(wardTypeRepository.findByName(wardTypeName)).thenReturn(Optional.empty());
-      final String expectedMessage = format(InvalidWardTypeException.MESSAGE_TEMPLATE, wardTypeName);
+      request.setDepartmentId(UUID.randomUUID());
+      final Department department = new Department();
+      when(departmentRepository.findById(any(UUID.class)))
+          .thenReturn(Optional.of(department));
+      when(wardTypeRepository.findByName(anyString())).thenReturn(Optional.empty());
+      final String expectedMessage =
+          String.format(InvalidWardTypeException.MESSAGE_TEMPLATE, wardTypeName);
 
       //WHEN
-      final InvalidWardTypeException actual = assertThrows(InvalidWardTypeException.class,
+      final InvalidWardTypeException actual = assertThrows(
+          InvalidWardTypeException.class,
           () -> wardService.createNewWard(request)
       );
 
@@ -183,14 +188,17 @@ class WardServiceTest {
     }
 
     @Test
-    void shouldThrowDepartmantMissingExceptionOnWDepartmentNotFoundInRepository() {
+    @DisplayName("Should throw a DepartmentMissingException when department is not found.")
+    void shouldThrowDepartmentMissingExceptionWhenDepartmentNotFound() {
       //GIVEN
-      final CreateNewWard request = new CreateNewWard();
       final UUID departmentId = UUID.randomUUID();
+      // TODO: change to chaining Setter after merge
+      final CreateNewWard request = new CreateNewWard();
       request.setDepartmentId(departmentId);
-      when(departmentRepository.findById(departmentId)).thenReturn(Optional.empty());
-      when(wardTypeRepository.findByName(any())).thenReturn(Optional.of(new WardType()));
-      final String expectedMessage = format(DepartmentMissingException.MESSAGE_TEMPLATE, departmentId);
+      when(departmentRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+      when(wardTypeRepository.findByName(anyString())).thenReturn(Optional.of(new WardType()));
+      final String expectedMessage =
+          String.format(DepartmentMissingException.MESSAGE_TEMPLATE, departmentId);
 
       //WHEN
       final DepartmentMissingException actual = assertThrows(DepartmentMissingException.class,
@@ -205,41 +213,31 @@ class WardServiceTest {
 
   }
 
-
-
   @Nested
-  @DisplayName("Test calls to getAllWards")
+  @DisplayName("Test calls to getAllWards.")
   class GetAllWardsTest {
     @Test
-    void shouldFetchAllWardsFromRepository() {
+    @DisplayName("Should fetch all wards.")
+    void shouldFetchAllWards() {
       // GIVEN
       final List<Ward> wards = new ArrayList<>();
       final List<WardDto> expected = new ArrayList<>();
 
-      for (int i = 0 ; i < 2 ; ++i) {
-        final Ward ward = new Ward();
-        ward.setId(UUID.randomUUID());
-        final WardDto wardDto = new WardDto();
-        when(wardDtoMapper.entityToDto(ward)).thenReturn(wardDto);
-        wards.add(ward);
-        expected.add(wardDto);
-      }
-
       when(wardRepository.findAll()).thenReturn(wards);
+      when(wardDtoMapper.entitiesToDtos(anyList())).thenReturn(expected);
 
       //WHEN
       final Collection<WardDto> actual = wardService.getAllWards();
 
       //THEN
-      assertThat(actual, Matchers.containsInAnyOrder(expected.toArray()));
-      verify(wardRepository).findAll();
-      for (final Ward ward : wards) {
-        verify(wardDtoMapper).entityToDto(refEq(ward));
-      }
+      assertEquals(expected, actual);
 
+      verify(wardRepository).findAll();
+      verify(wardDtoMapper).entitiesToDtos(same(wards));
     }
 
     @Test
+    @DisplayName("Should fail on empty repository.")
     void shouldNotFailOnEmptyRepository() {
       // GIVEN
       when(wardRepository.findAll()).thenReturn(new ArrayList<>());
@@ -249,8 +247,6 @@ class WardServiceTest {
 
       //THEN
       assertThat(actual, Matchers.empty());
-      verify(wardRepository).findAll();
-
     }
 
   }

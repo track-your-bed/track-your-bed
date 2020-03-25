@@ -8,5 +8,6 @@ import org.mapstruct.Mapper;
 public interface CapacityDtoMapper {
 
   CapacityDto entityToDto(final Capacity capacity);
+  // TODO: add mapping method for collection
 
 }

@@ -10,4 +10,6 @@ public interface DepartmentDtoMapper {
 
   @Mapping(source = "hospital.id", target = "hospitalId")
   DepartmentDto entityToDto(final Department department);
+  // TODO: add mapping method for collection
+
 }

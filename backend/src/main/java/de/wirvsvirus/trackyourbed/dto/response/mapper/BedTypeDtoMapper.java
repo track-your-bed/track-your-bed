@@ -6,5 +6,8 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface BedTypeDtoMapper {
+
   BedTypeDto entityToDto(final BedType bedType);
+  // TODO: add mapping method for collection
+
 }
