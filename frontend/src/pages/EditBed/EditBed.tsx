@@ -1,25 +1,9 @@
 import * as React from "react";
-import { Dropdown } from "primereact/dropdown";
-import { InputText } from "primereact/inputtext";
-import { Button } from "primereact/button";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
-import "primereact/resources/themes/nova-light/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
 import { useParams, useHistory } from "react-router-dom";
 import { Bedtypes } from "../../datatypes/enums.types";
-
-const divStyle = {
-  margin: "50px"
-};
-
-const btnStyle = {
-  margin: "20px"
-};
-
-const fieldStyle = {
-  width: "250px"
-};
 
 const beds = [
   { label: "Standardbett", value: Bedtypes.normal },
@@ -38,37 +22,53 @@ interface IEditBed {
 const EditBed: React.FunctionComponent = () => {
   const [bed, setBed] = React.useState(null);
 
-  const history = useHistory();
+  const [bedType, setBedType] = React.useState(
+    null
+  )
 
-  const { hospitalId, departmentId, wardId, bedId } = useParams();
+  const history = useHistory()
+
+  const {hospitalId, departmentId, wardId, bedId}=useParams();
+
+  function handleSubmit(event: any) {
+    let json = {
+      name: bed,
+      departmentTypeId: bedType,
+    };
+    console.log(
+      `JSON: Name: ${json.name} Type ID: ${json.departmentTypeId}`
+    );
+  }
+
   return (
-    <div style={divStyle}>
+    <div>
       <h1>Bett hinzufügen</h1>
-      <form>
-        <Dropdown
-          style={fieldStyle}
-          options={beds}
-          placeholder="Bettart"
-          value={bed}
-          onChange={event => setBed(event.target.value)}
-        />
-        <br />
-        <br />
-        <span className="p-float-label">
-          <InputText id="in" style={fieldStyle} />
-          <label htmlFor="in">Bettname</label>
-        </span>
-        <div>
-          <Button label="Hinzufügen" />
-          <Button
-            style={btnStyle}
-            label="Abbrechen"
-            onClick={() => {
-              history.goBack();
-            }}
-          />
-        </div>
-      </form>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="formBedType">
+          <Form.Label>Bett Typ</Form.Label>
+          <Form.Control as="select">
+            {beds.map(bed => <option value={bed.value}>{bed.label}</option>)}
+          </Form.Control>
+          <Form.Text className="text-muted">
+            Welchen Bett Typen möchten Sie anlegen?
+          </Form.Text>
+        </Form.Group>
+        <Form.Group controlId="formBedName">
+          <Form.Label>Bett Name</Form.Label>
+          <Form.Control as="input" placeholder="Kennzeichnung"/>
+          <Form.Text className="text-muted">
+            Geben Sie die Individuelle Kennzeichnung des Bettes an
+          </Form.Text>
+        </Form.Group>
+        <Form.Row>
+          <Button variant="primary" type="submit">
+            Hinzufügen
+          </Button>
+          <Button variant="secondary" onClick={() => {history.goBack()}}>
+            Abbrechen
+          </Button>
+        </Form.Row>
+      </Form>
     </div>
   );
 };

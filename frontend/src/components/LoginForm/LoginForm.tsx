@@ -1,8 +1,8 @@
 import * as React from "react";
 
 // Components
-import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import Label from "../Label/Label";
 
 // Context
@@ -20,35 +20,24 @@ const Login: React.FunctionComponent = () => {
       {user => (
         <div className="login-box">
           <p className="login-box__headline">Login</p>
-          <span className="p-float-label" style={{ marginBottom: "10px" }}>
-            <InputText
-              id="username"
-              value={username}
-              onChange={e => setUsername(e.currentTarget.value)}
-            />
-            <Label id="username" label="Benutzername" />
-          </span>
-          <span className="p-float-label" style={{ marginBottom: "10px" }}>
-            <InputText
-              id="password"
-              value={password}
-              onChange={e => setPassword(e.currentTarget.value)}
-            />
-            <Label id="password" label="Passwort" />
-          </span>
-          <div className="buttons">
-            <Button
-              id="loginButton"
-              className="p-button-info"
-              label="Login"
-              onClick={() => (user as any).login(username)}
-            />
-            <Button
-              id="resetButton"
-              className="p-button-info"
-              label="Reset Password"
-            />
-          </div>
+          <Form onSubmit={() => (user as any).login(username)}>
+            <Form.Group controlId="formRecoveryEmail">
+              <Form.Label srOnly>Benutzername</Form.Label>
+              <Form.Control as="input" value={username} onChange={e => setUsername(e.currentTarget.value)} placeholder="Benutzername"/>
+            </Form.Group>
+            <Form.Group controlId="formRecoveryEmail">
+              <Form.Label srOnly>Passwort</Form.Label>
+              <Form.Control as="input" type="password" value={password} onChange={e => setPassword(e.currentTarget.value)} placeholder="Passwort"/>
+            </Form.Group>
+            <Form.Row>
+              <Button variant="primary" type="submit">
+                Login
+              </Button>
+              <Button variant="secondary">
+                Reset Password
+              </Button>
+            </Form.Row>
+          </Form>
         </div>
       )}
     </UserContext.Consumer>

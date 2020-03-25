@@ -1,24 +1,8 @@
 import * as React from "react";
-import { Dropdown } from "primereact/dropdown";
-import { InputText } from "primereact/inputtext";
-import { Button } from "primereact/button";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import { useParams, useHistory } from "react-router-dom";
-
-import "primereact/resources/themes/nova-light/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
-
-const divStyle = {
-  margin: "50px"
-};
-
-const btnStyle = {
-  margin: "20px"
-};
-
-const fieldStyle = {
-  width: "250px"
-};
+import FormControl, { FormControlProps } from "react-bootstrap/FormControl";
 
 const departmentTypes = [
   //  {label: 'Kardiologie', value: 'Kardiologie'},
@@ -102,15 +86,15 @@ const departmentTypes = [
 ];
 
 const EditDepartment: React.FunctionComponent = () => {
-  const [departmentType, setDepartmentType] = React.useState(null);
+  const [departmentType, setDepartmentType] = React.useState("");
   const [departmentName, setDepartmentName] = React.useState("");
 
   const history = useHistory();
 
   const { hospitalId, departmentId } = useParams();
 
-  function handleClickSubmit(event: any) {
-    let json = {
+  function handleSubmit(event: any) {
+    const json = {
       name: departmentName,
       departmentTypeId: departmentType,
       hospitalID: hospitalId
@@ -120,42 +104,58 @@ const EditDepartment: React.FunctionComponent = () => {
     );
   }
 
-  function handleClickCancle(event: any) {}
-
   return (
-    <div style={divStyle}>
+    <div>
       <h1>Fachabteilung hinzufügen</h1>
-      <form>
-        <Dropdown
-          style={fieldStyle}
-          options={departmentTypes}
-          placeholder="Wählen Sie eine Fachabteilung"
-          value={departmentType}
-          onChange={event => setDepartmentType(event.target.value)}
-        />
-        <br />
-        <br />
-        <span className="p-float-label">
-          <InputText
-            id="in"
-            style={fieldStyle}
-            name="departmentName"
-            value={departmentName}
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="formDapartmentType">
+          <Form.Label>Fachabteilung Typ</Form.Label>
+          <Form.Control
+            as="select"
+            onChange={event => setDepartmentType(event.currentTarget.value)}
+          >
+            {departmentTypes.map(departmentTypeItem => (
+              // FIXME:
+              // Key parameter needs to be unique! ideally we get a unique ID with the departmenTypes Array
+              // which we can reference here to guarante uniqueness. Math.random() etc. shouldnt be used
+              // because the Key would change on each rerender thus impacting performance and leading to bugs.
+              <option
+                key={departmentTypeItem.value}
+                value={departmentTypeItem.value}
+              >
+                {departmentTypeItem.label}
+              </option>
+            ))}
+          </Form.Control>
+          <Form.Text className="text-muted">
+            Welche Fachabteilung wollen Sie anlegen?
+          </Form.Text>
+        </Form.Group>
+        <Form.Group controlId="formDepartmentName">
+          <Form.Label>Name der Fachabteilung</Form.Label>
+          <Form.Control
+            as="input"
+            placeholder="Kennzeichnung"
             onChange={event => setDepartmentName(event.currentTarget.value)}
           />
-          <label htmlFor="in">Name der Abteilung</label>
-        </span>
-        <div>
-          <Button label="Hinzufügen" onClick={handleClickSubmit} />
+          <Form.Text className="text-muted">
+            Geben Sie die Individuelle Kennzeichnung der Fachabteilung an
+          </Form.Text>
+        </Form.Group>
+        <Form.Row>
+          <Button variant="primary" type="submit">
+            Hinzufügen
+          </Button>
           <Button
-            style={btnStyle}
-            label="Abbrechen"
+            variant="secondary"
             onClick={() => {
               history.goBack();
             }}
-          />
-        </div>
-      </form>
+          >
+            Abbrechen
+          </Button>
+        </Form.Row>
+      </Form>
     </div>
   );
 };

@@ -1,12 +1,6 @@
 import * as React from "react";
-import {Button} from "primereact/button";
-import {InputText} from "primereact/inputtext";
-
-import 'primereact/resources/themes/nova-light/theme.css';
-import 'primereact/resources/primereact.min.css';
-
-import Label from "../Label/Label";
-import InputField from "../InputField/InputField";
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 
 interface PasswordRecovery {
@@ -22,7 +16,7 @@ const PasswordRecovery: React.FunctionComponent<PasswordRecovery> = ({
 
     const alertMessage = `E-Mail Address: ${emailAddress}`;
 
-    function handleClick(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    function handleSubmit() {
         console.log("Clicked");
 
         alert(alertMessage);
@@ -30,21 +24,20 @@ const PasswordRecovery: React.FunctionComponent<PasswordRecovery> = ({
 
     return (
         <div>
-            <span className="p-float-label" style={{marginBottom: '10px'}}>
-                <InputText id="in" value={emailAddress} onChange={(e) => setEmailAddress(e.currentTarget.value)}/>
-                <Label id="in" label="E-Mail Adresse" />
-            </span>
-
-            <div className="buttons">
-                <Button
-                    id="resetRecovery"
-                    label="Passwort zurücksetzen"
-                    className="p-button-warning button"
-                    onClick={handleClick}
-                    style={{marginRight:'10px'}}
-                />
-                <Button id="changeToLogin" label="Abbrechen" className="button p-button-secondary" onClick={abortFunction} />
-            </div>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group controlId="formRecoveryEmail">
+                    <Form.Label>E-Mail Adresse</Form.Label>
+                    <Form.Control as="input" value={emailAddress} onChange={(e) => setEmailAddress(e.currentTarget.value)} placeholder="E-Mail Adresse"/>
+                </Form.Group>
+                <Form.Row>
+                    <Button variant="primary" type="submit">
+                        Passwort zurücksetzen
+                    </Button>
+                    <Button variant="secondary" onClick={abortFunction}>
+                        Abbrechen
+                    </Button>
+                </Form.Row>
+            </Form>
         </div>
     );
 };

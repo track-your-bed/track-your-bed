@@ -1,28 +1,8 @@
 import * as React from "react";
-import { Dropdown } from "primereact/dropdown";
-import { InputText } from "primereact/inputtext";
-import { Button } from "primereact/button";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 import { useParams, useHistory } from "react-router-dom";
 import { Wardtypes } from "../../datatypes/enums.types";
-import {
-  getBedsForWard,
-  updateBedState
-} from "../../Services/BedManagementService";
-import "primereact/resources/themes/nova-light/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
-
-const divStyle = {
-  margin: "50px"
-};
-
-const btnStyle = {
-  margin: "20px"
-};
-
-const fieldStyle = {
-  width: "250px"
-};
 
 const wards = [
   { label: "Normalstation", value: Wardtypes.normal },
@@ -30,10 +10,9 @@ const wards = [
   { label: "ICU", value: Wardtypes.icu },
   { label: "Covid-Station", value: Wardtypes.covid }
 ];
-let wardName: string;
 
 const EditWard: React.FunctionComponent = () => {
-  const [ward, setWard] = React.useState(null);
+  const [ward, setWard] = React.useState("");
 
   const [wardName, setWardName] = React.useState("");
 
@@ -49,40 +28,49 @@ const EditWard: React.FunctionComponent = () => {
   const { hospitalId, departmentId, wardId } = useParams();
   return (
     <div>
-      <div style={divStyle}>
-        <h1>Station hinzufügen</h1>
-        <form onSubmit={onSubmitForm}>
-          <Dropdown
-            style={fieldStyle}
-            options={wards}
-            placeholder="Wählen Sie einen Stationstyp"
-            value={ward}
-            onChange={event => setWard(event.target.value)}
+      <h1>Station hinzufügen</h1>
+      <Form onSubmit={onSubmitForm}>
+        <Form.Group controlId="formWardType">
+          <Form.Label>Stations Typ</Form.Label>
+          <Form.Control
+            as="select"
+            onChange={event => setWard(event.currentTarget.value)}
+          >
+            {wards.map(wardItem => (
+              <option key={`wardItem-${wardItem.value}`} value={wardItem.value}>
+                {wardItem.label}
+              </option>
+            ))}
+          </Form.Control>
+          <Form.Text className="text-muted">
+            Welche Fachabteilung wollen Sie anlegen?
+          </Form.Text>
+        </Form.Group>
+        <Form.Group controlId="formWardName">
+          <Form.Label>Name der Station</Form.Label>
+          <Form.Control
+            as="input"
+            placeholder="Kennzeichnung"
+            onChange={event => setWardName(event.currentTarget.value)}
           />
-          <br />
-          <br />
-          <span className="p-float-label">
-            <InputText
-              id="in"
-              style={fieldStyle}
-              name="wardName"
-              value={wardName}
-              onChange={event => setWardName(event.currentTarget.value)}
-            />
-            <label htmlFor="in">Name der Station</label>
-          </span>
-          <div>
-            <Button label="Hinzufügen" type="submit" />
-            <Button
-              style={btnStyle}
-              label="Abbrechen"
-              onClick={() => {
-                history.goBack();
-              }}
-            />
-          </div>
-        </form>
-      </div>
+          <Form.Text className="text-muted">
+            Geben Sie die Individuelle Kennzeichnung der Station an
+          </Form.Text>
+        </Form.Group>
+        <Form.Row>
+          <Button variant="primary" type="submit">
+            Hinzufügen
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              history.goBack();
+            }}
+          >
+            Abbrechen
+          </Button>
+        </Form.Row>
+      </Form>
     </div>
   );
 };
