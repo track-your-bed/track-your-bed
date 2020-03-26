@@ -44,7 +44,7 @@ export interface Department {
   name: string;
   hospitalId: string;
   departmentType?: string;
-  ward?: Ward[];
+  wards: Ward[];
 }
 
 export interface ListData {

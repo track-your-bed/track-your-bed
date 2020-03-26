@@ -40,6 +40,6 @@ export const APIDELETE = async (url: string, data?: any) => {
   const response = await fetch(url, {
     method: "DELETE"
   });
-  // const json = await response.json();
-  return response.status;
+
+  return { status: response.status, statusText: response.statusText };
 };

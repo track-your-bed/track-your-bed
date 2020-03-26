@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useParams } from "react-router-dom";
-import { Container, Row, Col, Form, Card, Button } from "react-bootstrap";
+import { Container, Row, Col, Form, Card, Button, Spinner } from "react-bootstrap";
 
 // Services
 import { getHospital } from "../../Services/HospitalService";
@@ -15,8 +15,8 @@ import { Department } from "../../datatypes/ListView.types";
 
 const EditHospital: React.FC = () => {
   const { hospitalId } = useParams();
-  const [departmentName, setDepartmentName] = React.useState<any | string>(null);
-  const [departmentType, setDepartmentType] = React.useState<undefined | string>(undefined);
+  const [departmentName, setDepartmentName] = React.useState("");
+  const [departmentType, setDepartmentType] = React.useState("");
   const [hospitalData, setHospitalData] = React.useState<any | null>(null);
   const [departmentTypesList, setDepartmentTypesList] = React.useState<any | null>(null);
 
@@ -33,32 +33,61 @@ const EditHospital: React.FC = () => {
   }, []);
 
   const handleFormSubmit = async () => {
-    const response = await addDepartment({
-      name: departmentName,
-      hospitalId: hospitalData.id,
-      departmentType
-    });
+    if (departmentName && departmentName.length > 0 && hospitalData.id && departmentType) {
+      const response = await addDepartment({
+        name: departmentName,
+        hospitalId: hospitalData.id,
+        wards: [],
+        departmentType
+      });
 
-    console.log(response);
+      const newDepartmentData = [...hospitalData.departments, response];
+
+      setHospitalData({
+        ...hospitalData,
+        departments: newDepartmentData
+      });
+      setDepartmentName("");
+    } else {
+      console.error("Missing POST-Body Data");
+    }
   };
 
   const handleDelete = async (departmentId: string) => {
-    console.log(`delete ${departmentId}`);
     const response = await deleteDepartment(departmentId);
-    console.log(response);
+
+    if (response.status === 200) {
+      // Remove deleted Department from State-Data on successfull DELETE
+      const newDepartmentData = hospitalData.departments.filter(
+        (dep: Department) => dep.id !== departmentId
+      );
+
+      setHospitalData({
+        ...hospitalData,
+        departments: newDepartmentData
+      });
+    }
   };
 
   return (
     <Container>
-      <Row>
-        <Col>
-          {hospitalData && (
-            <div>
-              <h3>{hospitalData.name} editieren</h3>
+      {hospitalData ? (
+        <>
+          <Row className="mb-4">
+            <Col>
+              <h3>{hospitalData.name}</h3>
+              <h4 className="text-muted">Stationen editieren</h4>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
               {hospitalData.departments.map((department: Department) => (
-                <Card key={department.id} className="my-3">
+                <Card key={department.id} className="mb-3">
                   <Card.Body>
                     <Card.Title>{department.name}</Card.Title>
+                    <Card.Subtitle className="mb-3 text-muted">
+                      Stationen: {department.wards.length || 0}
+                    </Card.Subtitle>
                     <Card.Link
                       as={Button}
                       variant="light"
@@ -69,7 +98,8 @@ const EditHospital: React.FC = () => {
                   </Card.Body>
                 </Card>
               ))}
-              <hr className="my-4" />
+            </Col>
+            <Col>
               <Card>
                 <Card.Body>
                   <Card.Title>Neue Station hinzufügen</Card.Title>
@@ -77,6 +107,7 @@ const EditHospital: React.FC = () => {
                     <Form.Group>
                       <Form.Label>Name</Form.Label>
                       <Form.Control
+                        value={departmentName}
                         onChange={(e: React.FormEvent<HTMLInputElement>) =>
                           setDepartmentName(e.currentTarget.value)
                         }
@@ -91,8 +122,8 @@ const EditHospital: React.FC = () => {
                           value={departmentType}
                           onChange={e => setDepartmentType(e.currentTarget.value)}
                         >
-                          {departmentTypesList.map((departmentType: any) => (
-                            <option key={Math.random() * 999}>{departmentType.name}</option>
+                          {departmentTypesList.map((departmentTypeItem: any) => (
+                            <option key={Math.random() * 999}>{departmentTypeItem.name}</option>
                           ))}
                         </Form.Control>
                       )}
@@ -107,10 +138,12 @@ const EditHospital: React.FC = () => {
                   </Form>
                 </Card.Body>
               </Card>
-            </div>
-          )}
-        </Col>
-      </Row>
+            </Col>
+          </Row>
+        </>
+      ) : (
+        <Spinner animation="border" />
+      )}
     </Container>
   );
 };
