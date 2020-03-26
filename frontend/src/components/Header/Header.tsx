@@ -34,6 +34,12 @@ const Header: React.FunctionComponent<Header> = ({ title }: Header) => {
               Mein Profil
             </Nav.Link>
             <Nav.Link
+              as={Link}
+              to="/hospital/35ad5a65-f00a-4eb6-8302-3f170863b15c/edit"
+            >
+              KH Edit
+            </Nav.Link>
+            <Nav.Link
               as={Button}
               variant="light"
               onClick={(auth as any).logout}

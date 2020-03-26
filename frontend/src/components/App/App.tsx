@@ -5,9 +5,10 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Dashboard from "../../pages/Dashboard/Dashboard";
 import UserSettings from "../../pages/UserSettings/UserSettings";
 import Login from "../../pages/Login/Login";
-import EditBed from "../../pages/EditBed/EditBed";
-import EditWard from "../../pages/EditWard/EditWard";
+import EditHospital from "../../pages/EditHospital/EditHospital";
 import EditDepartment from "../../pages/EditDepartment/EditDepartment";
+import EditWard from "../../pages/EditWard/EditWard";
+import EditBed from "../../pages/EditBed/EditBed";
 import WardBedManagementPage from "../../pages/WardBedManagementPage/WardBedManagementPage";
 
 // Components
@@ -51,6 +52,9 @@ const App: React.FunctionComponent = () => {
             </ProtectedRoute>
             <ProtectedRoute path="/hospital/:hospitalId/:departmentId/edit">
               <EditDepartment />
+            </ProtectedRoute>
+            <ProtectedRoute path="/hospital/:hospitalId/edit">
+              <EditHospital />
             </ProtectedRoute>
           </Switch>
         </Router>

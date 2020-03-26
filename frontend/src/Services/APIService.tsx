@@ -7,9 +7,15 @@ export const APIGET = async (url: string) => {
 };
 
 export const APIPOST = async (url: string, data: any) => {
-  const object = await axios.post(url, data);
-  const response = await object;
-  return response;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+  const json = await response.json();
+  return json;
 };
 
 export const APIPUT = async (url: string, data: any) => {
@@ -31,7 +37,9 @@ export const APIPATCH = async (url: string, data: any) => {
 };
 
 export const APIDELETE = async (url: string, data?: any) => {
-  const object = await axios.delete(url, data);
-  const response = await object;
-  return response;
+  const response = await fetch(url, {
+    method: "DELETE"
+  });
+  // const json = await response.json();
+  return response.status;
 };

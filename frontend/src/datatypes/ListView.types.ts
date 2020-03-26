@@ -40,9 +40,11 @@ export interface Ward {
 }
 
 export interface Department {
-  id: string;
+  id?: string;
   name: string;
-  ward: Ward[];
+  hospitalId: string;
+  departmentType?: string;
+  ward?: Ward[];
 }
 
 export interface ListData {

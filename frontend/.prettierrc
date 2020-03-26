@@ -1,3 +1,4 @@
 {
-  "singleqoute": true
+  "singleqoute": true,
+  "printWidth": 100
 }
