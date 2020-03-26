@@ -1,162 +1,161 @@
 import * as React from "react";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { useParams, useHistory } from "react-router-dom";
-import FormControl, { FormControlProps } from "react-bootstrap/FormControl";
 
-const departmentTypes = [
-  //  {label: 'Kardiologie', value: 'Kardiologie'},
-  //  {label: 'Urologie', value: 'Urologie'},
-  //  {label: 'Radiologie', value: 'Radiologie'}
-  {
-    label: "Akutgeriatrie/Remobilisation ",
-    value: "Akutgeriatrie/Remobilisation"
-  },
-  { label: "Allergologie", value: "Allergologie" },
-  { label: "Anästhesiologie", value: "Anästhesiologie" },
-  { label: "Angiologie", value: "Angiologie" },
-  { label: "Augenheilkunde", value: "Augenheilkunde" },
-  { label: "Chirurgie", value: "Chirurgie" },
-  { label: "--Allgemeine Chirurgie", value: "Allgemeine Chirurgie" },
-  { label: "--Gefäßchirurgie", value: "Gefäßchirurgie" },
-  { label: "--Herzchirurgie", value: "Herzchirurgie" },
-  { label: "--Kinderchirurgie", value: "Kinderchirurgie" },
-  {
-    label: "Mund-, Kiefer- und Gesichtschirurgie",
-    value: "Mund-, Kiefer- und Gesichtschirurgie"
-  },
-  { label: "Orthopädische Chirurgie", value: "Orthopädische Chirurgie" },
-  { label: "--Unfallchirurgie", value: "Unfallchirurgie" },
-  {
-    label: "Plastische, rekonstruktive, ästhetische Chirurgie",
-    value: "Plastische, rekonstruktive, ästhetische Chirurgie"
-  },
-  { label: "Thoraxchirurgie", value: "Thoraxchirurgie" },
-  { label: "Viszeralchirurgie", value: "Viszeralchirurgie" },
-  { label: "Dermatologie", value: "Dermatologie" },
-  { label: "Endokrinologie", value: "Endokrinologie" },
-  { label: "Gastroenterologie ", value: "Gastroenterologie" },
-  {
-    label: "Gynäkologie und Geburtshilfe",
-    value: "Gynäkologie und Geburtshilfe"
-  },
-  {
-    label: "Hals-, Nasen- und Ohrenheilkunde",
-    value: "Hals-, Nasen- und Ohrenheilkunde"
-  },
-  { label: "Hämatologie", value: "Hämatologie" },
-  { label: "Infektionsepidemiologie", value: "Infektionsepidemiologie" },
-  { label: "Intensivmedizin ", value: "Intensivmedizin" },
-  { label: "Kardiologie", value: "Kardiologie" },
-  {
-    label: "Kinder- und Jugendchirurgie",
-    value: "Kinder- und Jugendchirurgie"
-  },
-  {
-    label: "Kinder- und Jugendheilkunde",
-    value: "Kinder- und Jugendheilkunde"
-  },
-  {
-    label: "Kinder- und Jugendpsychiatrie",
-    value: "Kinder- und Jugendpsychiatrie"
-  },
-  { label: "Nephrologie", value: "Nephrologie" },
-  { label: "Neurochirurgie ", value: "Neurochirurgie" },
-  { label: "Neurologie", value: "Neurologie" },
-  { label: "Notfallambulanz", value: "Notfallambulanz" },
-  { label: "Nuklearmedizin ", value: "Nuklearmedizin" },
-  { label: "Onkologie", value: "Onkologie" },
-  { label: "Orthopädie", value: "Orthopädie" },
-  { label: "Palliativmedizin ", value: "Palliativmedizin" },
-  { label: "Pneumologie", value: "Pneumologie" },
-  { label: "Psychosomatik ", value: "Psychosomatik" },
-  { label: "Psychiatrie", value: "Psychiatrie" },
-  { label: "Rheumatologie", value: "Rheumatologie" },
-  {
-    label: "Strahlentherapie-Radioonkologie",
-    value: "Strahlentherapie-Radioonkologie"
-  },
-  { label: "Unfallchirurgie", value: "Unfallchirurgie" },
-  { label: "Urologie ", value: "Urologie" },
-  { label: "Virologie", value: "Virologie" },
-  {
-    label: "Zahn-, Mund- und Kieferheilkunde",
-    value: "Zahn-, Mund- und Kieferheilkunde"
-  }
-];
+import { useParams } from "react-router-dom";
+import { Container, Row, Col, Breadcrumb, Form, Button, Card, Alert } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
+
+// Services
+import { getHospital } from "../../Services/HospitalService";
+import { getDepartment } from "../../Services/DepartmentService";
+import { getWardTypes, addWard, deleteWard } from "../../Services/WardService";
+
+// Types
+import { Ward, WardType } from "../../datatypes/ListView.types";
+
+// Components
+import CardData from "../../components/CardData/CardData";
 
 const EditDepartment: React.FunctionComponent = () => {
-  const [departmentType, setDepartmentType] = React.useState("");
-  const [departmentName, setDepartmentName] = React.useState("");
-
-  const history = useHistory();
+  const [hospitalData, setHospitalData] = React.useState<any | null>(null);
+  const [departmentData, setDepartmentData] = React.useState<any | null>(null);
+  const [wardTypesList, setWardTypesList] = React.useState<any | null>(null);
+  const [wardName, setWardName] = React.useState("");
+  const [wardType, setWardType] = React.useState<WardType>();
 
   const { hospitalId, departmentId } = useParams();
 
-  function handleSubmit(event: any) {
-    const json = {
-      name: departmentName,
-      departmentTypeId: departmentType,
-      hospitalID: hospitalId
-    };
-    console.log(
-      `JSON: Name: ${json.name} Type ID: ${json.departmentTypeId} HospitalID: ${json.hospitalID}`
-    );
-  }
+  React.useEffect(() => {
+    if (hospitalId && departmentId) {
+      (async () => {
+        const hospitalResponse = await getHospital(hospitalId);
+        const departmentResponse = await getDepartment(departmentId);
+        const wardTypesResponse = await getWardTypes();
+
+        setHospitalData(hospitalResponse);
+        setDepartmentData(departmentResponse);
+        setWardTypesList(wardTypesResponse);
+        setWardType(wardTypesResponse[0].name as WardType);
+      })();
+    }
+  }, []);
+
+  const handleFormSubmit = async () => {
+    if (wardName && wardName.length > 0 && departmentData.id && wardType) {
+      const response = await addWard({
+        name: wardName,
+        departmentId: departmentData.id,
+        beds: [],
+        wardType
+      });
+
+      const newWardData = [response, ...departmentData.wards];
+
+      setDepartmentData({
+        ...departmentData,
+        wards: newWardData
+      });
+    } else {
+      console.error("Missing POST-Body Data");
+    }
+  };
+
+  const handleDelete = async (wardId: string) => {
+    const response = await deleteWard(wardId);
+
+    if (response.status === 200) {
+      // Remove deleted Department from State-Data on successfull DELETE
+      const newWardData = departmentData.wards.filter((ward: Ward) => ward.id !== wardId);
+
+      setDepartmentData({
+        ...departmentData,
+        wards: newWardData
+      });
+    }
+  };
 
   return (
-    <div>
-      <h1>Fachabteilung hinzufügen</h1>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formDapartmentType">
-          <Form.Label>Fachabteilung Typ</Form.Label>
-          <Form.Control
-            as="select"
-            onChange={event => setDepartmentType(event.currentTarget.value)}
-          >
-            {departmentTypes.map(departmentTypeItem => (
-              // FIXME:
-              // Key parameter needs to be unique! ideally we get a unique ID with the departmenTypes Array
-              // which we can reference here to guarante uniqueness. Math.random() etc. shouldnt be used
-              // because the Key would change on each rerender thus impacting performance and leading to bugs.
-              <option
-                key={departmentTypeItem.value}
-                value={departmentTypeItem.value}
-              >
-                {departmentTypeItem.label}
-              </option>
-            ))}
-          </Form.Control>
-          <Form.Text className="text-muted">
-            Welche Fachabteilung wollen Sie anlegen?
-          </Form.Text>
-        </Form.Group>
-        <Form.Group controlId="formDepartmentName">
-          <Form.Label>Name der Fachabteilung</Form.Label>
-          <Form.Control
-            as="input"
-            placeholder="Kennzeichnung"
-            onChange={event => setDepartmentName(event.currentTarget.value)}
-          />
-          <Form.Text className="text-muted">
-            Geben Sie die Individuelle Kennzeichnung der Fachabteilung an
-          </Form.Text>
-        </Form.Group>
-        <Form.Row>
-          <Button variant="primary" type="submit">
-            Hinzufügen
-          </Button>
-          <Button
-            variant="secondary"
-            onClick={() => {
-              history.goBack();
-            }}
-          >
-            Abbrechen
-          </Button>
-        </Form.Row>
-      </Form>
-    </div>
+    <Container>
+      {hospitalData && departmentData && (
+        <>
+          <Row>
+            <Col>
+              <Breadcrumb>
+                <LinkContainer to={`/hospital/${hospitalId}/edit`}>
+                  <Breadcrumb.Item>{hospitalData.name}</Breadcrumb.Item>
+                </LinkContainer>
+                <Breadcrumb.Item active>{departmentData.name}</Breadcrumb.Item>
+              </Breadcrumb>
+            </Col>
+          </Row>
+          <Row className="mb-4">
+            <Col>
+              <h3>Stationen editieren</h3>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              {departmentData.wards.length > 0 ? (
+                departmentData.wards.map((ward: Ward) => (
+                  <CardData
+                    key={ward.id}
+                    title={ward.name}
+                    subTitle={`Beds: ${ward.beds ? ward.beds.length : 0}`}
+                    mainId={departmentData.id}
+                    subId={ward.id}
+                    editLink={`/hospital/${hospitalData.id}/${departmentData.id}/${ward.id}/edit`}
+                    deleteFunc={() => handleDelete(ward.id)}
+                  />
+                ))
+              ) : (
+                <p className="text-muted">Keine Stationen angelegt</p>
+              )}
+            </Col>
+            <Col>
+              <Card>
+                <Card.Body>
+                  <Card.Title>Neue Station hinzufügen</Card.Title>
+                  <Form>
+                    <Form.Group>
+                      <Form.Label>Name</Form.Label>
+                      <Form.Control
+                        value={wardName}
+                        onChange={(e: React.FormEvent<HTMLInputElement>) =>
+                          setWardName(e.currentTarget.value)
+                        }
+                      />
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>Typ</Form.Label>
+                      {wardTypesList && (
+                        <Form.Control
+                          as="select"
+                          custom
+                          value={wardType}
+                          onChange={e => setWardType(e.currentTarget.value as WardType)}
+                        >
+                          {wardTypesList.map((wardTypeItem: any) => (
+                            <option key={Math.random() * 999} value={wardTypeItem.name}>
+                              {wardTypeItem.name}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      )}
+                    </Form.Group>
+                    <Form.Group>
+                      <Form.Label>
+                        Department ID <code>(Dev only)</code>
+                      </Form.Label>
+                      <Form.Control value={departmentData.id} disabled />
+                    </Form.Group>
+                    <Button onClick={handleFormSubmit}>Station hinzufügen</Button>
+                  </Form>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
+        </>
+      )}
+    </Container>
   );
 };
 
