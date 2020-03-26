@@ -11,23 +11,26 @@ public class UpdateWard {
     return name;
   }
 
-  public void setName(final String name) {
+  public UpdateWard setName(final String name) {
     this.name = name;
+    return this;
   }
 
   public UUID getDepartmentId() {
     return departmentId;
   }
 
-  public void setDepartmentId(final UUID departmentId) {
+  public UpdateWard setDepartmentId(final UUID departmentId) {
     this.departmentId = departmentId;
+    return this;
   }
 
   public String getWardType() {
     return wardType;
   }
 
-  public void setWardType(final String wardTypeName) {
+  public UpdateWard setWardType(final String wardTypeName) {
     this.wardType = wardTypeName;
+    return this;
   }
 }

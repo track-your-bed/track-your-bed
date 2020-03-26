@@ -13,10 +13,13 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.refEq;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewWard;
+import de.wirvsvirus.trackyourbed.dto.request.UpdateWard;
 import de.wirvsvirus.trackyourbed.dto.request.mapper.CreateNewWardMapper;
 import de.wirvsvirus.trackyourbed.dto.response.WardDto;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.FlatCapacityDtoMapper;
@@ -40,6 +43,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.verification.VerificationMode;
 
 @DisplayName("Test WardService.")
 class WardServiceTest {
@@ -71,8 +75,8 @@ class WardServiceTest {
   }
 
   @Nested
-  @DisplayName("Test calls to getWardByName.")
-  class GetWardByNameTest {
+  @DisplayName("Test calls to getWardByID.")
+  class GetWardByIdTest {
 
 
     @Test
@@ -214,6 +218,103 @@ class WardServiceTest {
   }
 
   @Nested
+  @DisplayName("Test Calls to deleteWardById")
+  class DeleteWardByIdTest {
+    @Test
+    @DisplayName("Shoul call delete on repository")
+    void shouldDeleteWardById() {
+      //GIVEN
+      final UUID wardId = UUID.randomUUID();
+
+      //WHEN
+      wardService.deleteWardById(wardId);
+
+      //THEN
+      verify(wardRepository).deleteById(wardId);
+    }
+  }
+
+  @Nested
+  @DisplayName("Test calls to updateWard")
+  class UpdateWardTest {
+    private final UUID wardId = UUID.randomUUID();
+    private Ward wardToUpdate;
+    private WardDto returnValueFromDtoMapper = new WardDto();
+
+    @BeforeEach
+    void initializeMocks() {
+      wardToUpdate = mock(Ward.class);
+      when(wardRepository.findById(wardId)).thenReturn(Optional.of(wardToUpdate));
+      when(wardDtoMapper.entityToDto(any(Ward.class))).thenReturn(returnValueFromDtoMapper);
+    }
+
+    @Test
+    @DisplayName("Should update ward name if set")
+    void shouldUpdateWardNameIfSet() {
+      //GIVEN
+      final String wardName = "name";
+      final UpdateWard updateWardRequest = new UpdateWard().setName(wardName);
+
+      //WHEN
+      WardDto actual = wardService.updateWard(wardId, updateWardRequest);
+
+      //THEN
+      assertEquals(returnValueFromDtoMapper, actual);
+      verify(wardToUpdate, times(1)).setName(wardName);
+      verify(wardToUpdate, never()).setWardType(any());
+      verify(wardToUpdate, never()).setDepartment(any());
+      verify(wardToUpdate, never()).setBeds(any());
+      verify(wardToUpdate, never()).setId(any());
+
+    }
+
+    @Test
+    @DisplayName("Should update ward type if set")
+    void shouldUpdateWardTypeIfSet() {
+      //GIVEN
+      final String wardTypeName = "name";
+      final WardType wardType = new WardType().setName(wardTypeName);
+      final UpdateWard updateWardRequest = new UpdateWard().setWardType(wardTypeName);
+      when(wardTypeRepository.findByName(wardTypeName)).thenReturn(Optional.of(wardType));
+
+      //WHEN
+      WardDto actual = wardService.updateWard(wardId, updateWardRequest);
+
+      //THEN
+      assertEquals(returnValueFromDtoMapper, actual);
+      verify(wardToUpdate, never()).setName(any());
+      verify(wardToUpdate, times(1)).setWardType(wardType);
+      verify(wardToUpdate, never()).setDepartment(any());
+      verify(wardToUpdate, never()).setBeds(any());
+      verify(wardToUpdate, never()).setId(any());
+
+    }
+
+    @Test
+    @DisplayName("Should update department if set")
+    void shouldUpdateDepartmentIfSet() {
+      //GIVEN
+      final UUID departmentId = UUID.randomUUID();
+      final Department department = new Department().setId(departmentId);
+      final UpdateWard updateWardRequest = new UpdateWard().setDepartmentId(departmentId);
+      when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(department));
+
+      //WHEN
+      WardDto actual = wardService.updateWard(wardId, updateWardRequest);
+
+      //THEN
+      assertEquals(returnValueFromDtoMapper, actual);
+      verify(wardToUpdate, never()).setName(any());
+      verify(wardToUpdate, never()).setWardType(any());
+      verify(wardToUpdate, times(1)).setDepartment(department);
+      verify(wardToUpdate, never()).setBeds(any());
+      verify(wardToUpdate, never()).setId(any());
+
+    }
+
+  }
+
+  @Nested
   @DisplayName("Test calls to getAllWards.")
   class GetAllWardsTest {
     @Test
@@ -237,7 +338,7 @@ class WardServiceTest {
     }
 
     @Test
-    @DisplayName("Should fail on empty repository.")
+    @DisplayName("Should not fail on empty repository.")
     void shouldNotFailOnEmptyRepository() {
       // GIVEN
       when(wardRepository.findAll()).thenReturn(new ArrayList<>());
