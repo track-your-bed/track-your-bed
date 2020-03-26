@@ -1,6 +1,10 @@
 import * as React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 import { Container, Row, Col, Form, Card, Button, Spinner } from "react-bootstrap";
+
+// Components
+import CardData from "../../components/CardData/CardData";
 
 // Services
 import { getHospital } from "../../Services/HospitalService";
@@ -25,6 +29,7 @@ const EditHospital: React.FC = () => {
       (async () => {
         const hospitalResponse = await getHospital(hospitalId);
         const departmentResponse = await getDepartmentTypes();
+
         setHospitalData(hospitalResponse);
         setDepartmentTypesList(departmentResponse);
         setDepartmentType(departmentResponse[0].name);
@@ -41,7 +46,7 @@ const EditHospital: React.FC = () => {
         departmentType
       });
 
-      const newDepartmentData = [...hospitalData.departments, response];
+      const newDepartmentData = [response, ...hospitalData.departments];
 
       setHospitalData({
         ...hospitalData,
@@ -76,33 +81,31 @@ const EditHospital: React.FC = () => {
           <Row className="mb-4">
             <Col>
               <h3>{hospitalData.name}</h3>
-              <h4 className="text-muted">Stationen editieren</h4>
+              <h4 className="text-muted">Fachbereiche editieren</h4>
             </Col>
           </Row>
           <Row>
             <Col>
-              {hospitalData.departments.map((department: Department) => (
-                <Card key={department.id} className="mb-3">
-                  <Card.Body>
-                    <Card.Title>{department.name}</Card.Title>
-                    <Card.Subtitle className="mb-3 text-muted">
-                      Stationen: {department.wards.length || 0}
-                    </Card.Subtitle>
-                    <Card.Link
-                      as={Button}
-                      variant="light"
-                      onClick={() => handleDelete(department.id as string)}
-                    >
-                      Remove
-                    </Card.Link>
-                  </Card.Body>
-                </Card>
-              ))}
+              {hospitalData.departments.length > 0 ? (
+                hospitalData.departments.map((department: Department) => (
+                  <CardData
+                    key={department.id}
+                    title={department.name}
+                    editLink={`/hospital/${hospitalData.id}/${department.id}/edit`}
+                    subTitle={`Stationen: ${department.wards ? department.wards.length : 0}`}
+                    deleteFunc={handleDelete}
+                    mainId={hospitalData.id}
+                    subId={department.id}
+                  />
+                ))
+              ) : (
+                <p className="text-muted">Keine Fachabteilungen angelegt</p>
+              )}
             </Col>
             <Col>
               <Card>
                 <Card.Body>
-                  <Card.Title>Neue Station hinzufügen</Card.Title>
+                  <Card.Title>Neuen Fachbereich hinzufügen</Card.Title>
                   <Form>
                     <Form.Group>
                       <Form.Label>Name</Form.Label>
@@ -134,7 +137,7 @@ const EditHospital: React.FC = () => {
                       </Form.Label>
                       <Form.Control value={hospitalData.id} disabled />
                     </Form.Group>
-                    <Button onClick={handleFormSubmit}>Station hinzufügen</Button>
+                    <Button onClick={handleFormSubmit}>Fachbereich hinzufügen</Button>
                   </Form>
                 </Card.Body>
               </Card>
