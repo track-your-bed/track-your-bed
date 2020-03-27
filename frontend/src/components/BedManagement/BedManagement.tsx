@@ -1,10 +1,8 @@
 import * as React from "react";
 import { useParams } from "react-router-dom";
 import { Table, Button } from "react-bootstrap";
-import {
-  getBedsForWard,
-  updateBedState
-} from "../../Services/BedManagementService";
+import update from "immutability-helper";
+import { getBedsForWard, updateBedState } from "../../Services/BedManagementService";
 
 // Types
 import { Ward, Bed, BedState } from "../../datatypes/ListView.types";
@@ -26,13 +24,30 @@ const BedManagement: React.FunctionComponent = () => {
     })();
   }, []);
 
-  function updateBedStateHelper(bedId: string, bedIsFree: boolean) {
-    if (bedIsFree) {
+  const updateBedStateHelper = (bedId: string, bedStateIsFree: boolean) => {
+    const bedIndex: number = (wardData as Ward).beds.map(bed => bed.id).indexOf(bedId);
+    let updatedBedState: any;
+
+    if (bedStateIsFree) {
+      updatedBedState = BedState[BedState.occupied];
       updateBedState(bedId, BedState.occupied);
     } else {
+      updatedBedState = BedState[BedState.free];
       updateBedState(bedId, BedState.free);
     }
-  }
+
+    const newState = update(wardData, {
+      beds: {
+        [bedIndex]: {
+          bedState: {
+            $set: updatedBedState
+          }
+        }
+      }
+    });
+
+    setWardData(newState);
+  };
 
   return (
     <div>
@@ -50,8 +65,7 @@ const BedManagement: React.FunctionComponent = () => {
             </thead>
             <tbody>
               {wardData.beds.map((bed: Bed) => {
-                const bedIsFree =
-                  (bed.bedState as any) === BedState[BedState.free];
+                const bedStateIsFree = (bed.bedState as any) === BedState[BedState.free];
 
                 return (
                   <tr key={bed.id} className={`--${bed.bedState}`}>
@@ -59,10 +73,10 @@ const BedManagement: React.FunctionComponent = () => {
                     <td>{bed.bedType}</td>
                     <td>
                       <Button
-                        onClick={() => updateBedStateHelper(bed.id, bedIsFree)}
-                        variant={bedIsFree ? "success" : "danger"}
+                        onClick={() => updateBedStateHelper(bed.id, bedStateIsFree)}
+                        variant={bedStateIsFree ? "success" : "danger"}
                       >
-                        {bedIsFree ? "Belegen" : "Freigeben"}
+                        {bedStateIsFree ? "Belegen" : "Freigeben"}
                       </Button>
                     </td>
                   </tr>

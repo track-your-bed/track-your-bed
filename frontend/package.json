@@ -16,6 +16,7 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
+    "immutability-helper": "^3.0.1",
     "mx-react-components": "^8.0.0",
     "node-sass": "^4.13.1",
     "primeicons": "^2.0.0",
