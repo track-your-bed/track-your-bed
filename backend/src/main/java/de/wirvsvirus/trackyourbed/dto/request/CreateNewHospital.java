@@ -21,31 +21,35 @@ public class CreateNewHospital {
     return name;
   }
 
-  public void setName(final String name) {
+  public CreateNewHospital setName(final String name) {
     this.name = name;
+    return this;
   }
 
   public int getMaxCapacity() {
     return maxCapacity;
   }
 
-  public void setMaxCapacity(final int maxCapacity) {
+  public CreateNewHospital setMaxCapacity(final int maxCapacity) {
     this.maxCapacity = maxCapacity;
+    return this;
   }
 
   public String getLat() {
     return lat;
   }
 
-  public void setLat(final String lat) {
+  public CreateNewHospital setLat(final String lat) {
     this.lat = lat;
+    return this;
   }
 
   public String getLon() {
     return lon;
   }
 
-  public void setLon(final String lon) {
+  public CreateNewHospital setLon(final String lon) {
     this.lon = lon;
+    return this;
   }
 }
