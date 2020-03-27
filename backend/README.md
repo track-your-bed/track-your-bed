@@ -1,7 +1,7 @@
 # TrackYourBedBackend
 
 ### Build docker image
-Run `package.sh` to create docker image called "trackyourbed", which runs the service. Consult *src/main/resources/application.yml* for the environment variables that need to be passed to the container to configure the database connection.
+Run `package.sh <image_name>` to create docker image called *<image_name>*, which runs the service. Consult *src/main/resources/application.yml* for the environment variables that need to be passed to the container to configure the database connection.
 
 ### Initial setup of database
 As a superuser on the database instance, run
