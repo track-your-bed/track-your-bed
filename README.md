@@ -4,6 +4,6 @@ add readme here
 
 ## setup development environment
 
-*Database*:
+*Backend and database*
 
-Postgres can run in a Docker container. Make sure the docker daemon is running. Execute  `docker-compose up`
+In *backend/local_deployment* (TODO: change location) we define a setup to run the service and a database locally. You need to have docker running on your machine. Run *run_service_locally* to spin everything up.
