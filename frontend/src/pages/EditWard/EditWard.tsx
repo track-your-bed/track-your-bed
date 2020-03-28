@@ -2,13 +2,13 @@ import * as React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useParams, useHistory } from "react-router-dom";
-import { Wardtypes } from "../../datatypes/enums.types";
+import { WardType } from "../../datatypes/ListView.types";
 
 const wards = [
-  { label: "Normalstation", value: Wardtypes.normal },
-  { label: "IMC", value: Wardtypes.imc },
-  { label: "ICU", value: Wardtypes.icu },
-  { label: "Covid-Station", value: Wardtypes.covid }
+  { label: "Normalstation", value: WardType.normal },
+  { label: "IMC", value: WardType.imc },
+  { label: "ICU", value: WardType.icu },
+  { label: "Covid-Station", value: WardType.covid }
 ];
 
 const EditWard: React.FunctionComponent = () => {
@@ -32,19 +32,14 @@ const EditWard: React.FunctionComponent = () => {
       <Form onSubmit={onSubmitForm}>
         <Form.Group controlId="formWardType">
           <Form.Label>Stations Typ</Form.Label>
-          <Form.Control
-            as="select"
-            onChange={event => setWard(event.currentTarget.value)}
-          >
+          <Form.Control as="select" onChange={event => setWard(event.currentTarget.value)}>
             {wards.map(wardItem => (
               <option key={`wardItem-${wardItem.value}`} value={wardItem.value}>
                 {wardItem.label}
               </option>
             ))}
           </Form.Control>
-          <Form.Text className="text-muted">
-            Welche Fachabteilung wollen Sie anlegen?
-          </Form.Text>
+          <Form.Text className="text-muted">Welche Fachabteilung wollen Sie anlegen?</Form.Text>
         </Form.Group>
         <Form.Group controlId="formWardName">
           <Form.Label>Name der Station</Form.Label>
