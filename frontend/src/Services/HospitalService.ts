@@ -1,23 +1,26 @@
 import * as API from "./APIService";
 
-export const postHospital = async (id: string, dto: any) => {
-  const data = await API.APIPOST(`/api/hospitals/${id}`, dto);
+const API_STRING_HOSPITALS = "/api/hospitals/";
+
+export const postHospital = async (hospitalId: string, dto: any) => {
+  const data = await API.APIPOST(API_STRING_HOSPITALS + hospitalId, dto);
   return data;
 };
 
-export const getAllHospitals = async () => API.APIGET("/api/hospitals");
+export const getAllHospitals = async () => API.APIGET(API_STRING_HOSPITALS);
 
 export const getHospitalCapacity = async (hospitalId: string) =>
-  API.APIGET(`/api/hospitals/${hospitalId}/capacity`);
+  API.APIGET(`${API_STRING_HOSPITALS}${hospitalId}/capacity`);
 
-export const getHospital = async (hospitalId: string) => API.APIGET(`/api/hospitals/${hospitalId}`);
+export const getHospital = async (hospitalId: string) =>
+  API.APIGET(API_STRING_HOSPITALS + hospitalId);
 
-export const patchHospital = async (id: string, dto: any) => {
-  const data = await API.APIPATCH(`/api/hospitals/${id}`, dto);
+export const patchHospital = async (hospitalId: string, dto: any) => {
+  const data = await API.APIPATCH(API_STRING_HOSPITALS + hospitalId, dto);
   return data;
 };
 
-export const deleteHospital = async (id: string, dto?: any) => {
-  const data = await API.APIDELETE(`/api/hospitals/${id}`, dto);
+export const deleteHospital = async (hospitalId: string, dto?: any) => {
+  const data = await API.APIDELETE(API_STRING_HOSPITALS + hospitalId, dto);
   return data;
 };
