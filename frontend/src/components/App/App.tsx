@@ -47,7 +47,7 @@ const App: React.FunctionComponent = () => {
             <ProtectedRoute path="/hospital/:hospitalId/:departmentId/:wardId/:bedId/edit">
               <EditBed />
             </ProtectedRoute>
-            <ProtectedRoute path="/hospital/:hospitalId/:departmendId/:wardId/edit">
+            <ProtectedRoute path="/hospital/:hospitalId/:departmentId/:wardId/edit">
               <EditWard />
             </ProtectedRoute>
             <ProtectedRoute path="/hospital/:hospitalId/:departmentId/edit">
