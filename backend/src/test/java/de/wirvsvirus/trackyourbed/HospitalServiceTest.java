@@ -4,11 +4,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewHospital;
@@ -33,34 +35,33 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.Mockito;
 
 @DisplayName("Tests for HospitalService")
-@ExtendWith(MockitoExtension.class)
 class HospitalServiceTest {
 
-  @Mock
   private CreateNewHospitalMapper createNewHospitalMapper;
 
-  @Mock
   private HospitalRepository hospitalRepository;
 
-  @Mock
   private HospitalDtoMapper hospitalDtoMapper;
 
-  @Mock
   private CapacityService capacityService;
 
-  @Mock
   private HospitalCapacityDtoMapper hospitalCapacityDtoMapper;
 
   private HospitalService hospitalService;
 
   @BeforeEach
   private void setUp() {
+    this.createNewHospitalMapper = Mockito.mock(CreateNewHospitalMapper.class);
+    this.hospitalRepository = Mockito.mock(HospitalRepository.class);
+    this.hospitalDtoMapper = Mockito.mock(HospitalDtoMapper.class);
+    this.capacityService = Mockito.mock(CapacityService.class);
+    this.hospitalCapacityDtoMapper = Mockito.mock(HospitalCapacityDtoMapper.class);
+
     this.hospitalService = new HospitalService(
         hospitalRepository,
         createNewHospitalMapper,
@@ -69,250 +70,280 @@ class HospitalServiceTest {
         hospitalCapacityDtoMapper);
   }
 
-  @Test
-  @DisplayName("Should call dependencies and return expected result when called.")
-  void shouldCreateNewHospital() {
-    // GIVEN
-    final String name = "hospital";
-    final int maxCapacity = 23;
-    final String lon = "11.11";
-    final String lan = "12.11";
-    final CreateNewHospital request = new CreateNewHospital()
-        .setMaxCapacity(maxCapacity)
-        .setLon(lon)
-        .setLat(lan)
-        .setName(name);
-    final Hospital hospital = new Hospital();
-    final HospitalDto expected = new HospitalDto();
+  @Nested
+  @DisplayName("Test calls to createNewHospital")
+  class createNewHospitalTest {
 
-    when(createNewHospitalMapper.dtoToEntity(request)).thenReturn(hospital);
-    when(hospitalRepository.save(any(Hospital.class))).thenReturn(hospital);
-    when(hospitalDtoMapper.entityToDto(any(Hospital.class))).thenReturn(expected);
+    @Test
+    @DisplayName("Should call dependencies and return expected result when called.")
+    void shouldCreateNewHospital() {
+      // GIVEN
+      final CreateNewHospital request = new CreateNewHospital();
+      final Hospital hospital = new Hospital();
+      final HospitalDto expected = new HospitalDto();
 
-    // WHEN
-    final HospitalDto actual = hospitalService.createHospital(request);
+      when(createNewHospitalMapper.dtoToEntity(request)).thenReturn(hospital);
+      when(hospitalRepository.save(any(Hospital.class))).thenReturn(hospital);
+      when(hospitalDtoMapper.entityToDto(any(Hospital.class))).thenReturn(expected);
 
-    // THEN
-    assertSame(expected, actual);
-    verify(createNewHospitalMapper).dtoToEntity(argThat(r -> {
-      assertSame(request, r);
-      return true;
-    }));
-    verify(hospitalRepository).save(argThat(b -> {
-      assertSame(hospital, b);
-      return true;
-    }));
-    verify(hospitalDtoMapper).entityToDto(argThat(b -> {
-      assertSame(hospital, b);
-      return true;
-    }));
+      // WHEN
+      final HospitalDto actual = hospitalService.createHospital(request);
+
+      // THEN
+      assertSame(expected, actual);
+      verify(createNewHospitalMapper).dtoToEntity(argThat(r -> {
+        assertSame(request, r);
+        return true;
+      }));
+      verify(hospitalRepository).save(argThat(b -> {
+        assertSame(hospital, b);
+        return true;
+      }));
+      verify(hospitalDtoMapper).entityToDto(argThat(b -> {
+        assertSame(hospital, b);
+        return true;
+      }));
+    }
   }
 
-  @Test
-  void shouldDeleteHospital() {
-    //Given
-    doNothing().when(hospitalRepository).deleteById(any(UUID.class));
+  @Nested
+  @DisplayName("Test calls to deleteHospital")
+  class deleteHospitalTest {
 
-    //When
-    hospitalService.deleteHospital(UUID.randomUUID());
+    @Test
+    @DisplayName("Should delete hospital")
+    void shouldDeleteHospital() {
+      //Given
+      final UUID hospitalId = UUID.randomUUID();
 
-    //then
-    verify(hospitalRepository, times(1)).deleteById(any(UUID.class));
+      //When
+      hospitalService.deleteHospital(hospitalId);
+
+      //then
+      verify(hospitalRepository).deleteById(hospitalId);
+    }
   }
 
-  @Test
-  void shouldGetHospitalById() {
-    //Given
-    final Hospital hospital = getMockHospital();
-    final HospitalDto expected = new HospitalDto();
-    UUID hospitalId = UUID.randomUUID();
+  @Nested
+  @DisplayName("Test calls to getHospitalById")
+  class GetHospitalByIdTest {
 
-    when(hospitalRepository.findById(hospitalId)).thenReturn(Optional.of(hospital));
-    when(hospitalDtoMapper.entityToDto(hospital)).thenReturn(expected);
+    @Test
+    void shouldGetHospitalById() {
+      //Given
+      final Hospital hospital = new Hospital();
+      final HospitalDto expected = new HospitalDto();
+      final UUID hospitalId = UUID.randomUUID();
 
-    //When
-    HospitalDto actual = hospitalService.getHospitalById(hospitalId);
+      when(hospitalRepository.findById(hospitalId)).thenReturn(Optional.of(hospital));
+      when(hospitalDtoMapper.entityToDto(hospital)).thenReturn(expected);
 
-    //then
-    assertSame(expected, actual);
-    verify(hospitalRepository, times(1)).findById(hospitalId);
-    verify(hospitalDtoMapper, times(1)).entityToDto(hospital);
-  }
+      //When
+      HospitalDto actual = hospitalService.getHospitalById(hospitalId);
 
-  @Test
-  void shouldThrowNoSuchHospitalExceptionWhenGetHospitalById() {
-    //Given
-    final Hospital hospital = getMockHospital();
-    UUID hospitalId = UUID.randomUUID();
-
-    when(hospitalRepository.findById(hospitalId)).thenReturn(Optional.empty());
-
-    //When
-    try {
-      hospitalService.getHospitalById(hospitalId);
-    } catch (NoSuchHospitalException ex) {
-      assertEquals("Could not find hospital with ID " + hospitalId, ex.getMessage());
+      //then
+      assertSame(expected, actual);
+      verify(hospitalRepository, times(1)).findById(hospitalId);
+      verify(hospitalDtoMapper, times(1)).entityToDto(hospital);
     }
 
-    //then
-    verify(hospitalRepository, times(1)).findById(hospitalId);
-    verify(hospitalDtoMapper, times(0)).entityToDto(hospital);
+    @Test
+    @DisplayName("Should throw exception when no hospital found by id")
+    void shouldThrowNoSuchHospitalExceptionWhenGetHospitalById() {
+      //Given
+      final UUID hospitalId = UUID.randomUUID();
+
+      when(hospitalRepository.findById(hospitalId)).thenReturn(Optional.empty());
+
+      //When
+      NoSuchHospitalException e = assertThrows(
+          NoSuchHospitalException.class,
+          () -> hospitalService.getHospitalById(hospitalId));
+
+      //then
+      assertEquals("Could not find hospital with ID " + hospitalId, e.getMessage());
+      verify(hospitalRepository, times(1)).findById(hospitalId);
+      verifyNoInteractions(hospitalDtoMapper);
+    }
   }
 
-  @Test
-  void shouldGetAllHospitals() {
-    //Given
-    final Hospital hospital1 = new Hospital();
-    hospital1.setName("hos1");
-    hospital1.setMaxCapacity(1);
-    final Hospital hospital2 = new Hospital();
-    hospital2.setName("hos2");
-    hospital2.setMaxCapacity(2);
+  @Nested
+  @DisplayName("Test calls to getAllHospitals")
+  class GetAllHospitalsTest {
 
-    List<Hospital> hospitals = Arrays.asList(hospital1, hospital2);
+    @Test
+    @DisplayName("Should return all hospitals.")
+    void shouldGetAllHospitals() {
+      //Given
+      String hospitalOneName = "hos1";
+      String hospitalTwoName = "hos2";
+      final Hospital hospital1 = new Hospital();
+      hospital1.setName(hospitalOneName);
+      hospital1.setMaxCapacity(1);
+      final Hospital hospital2 = new Hospital();
+      hospital2.setName(hospitalTwoName);
+      hospital2.setMaxCapacity(2);
 
-    when(hospitalRepository.findAll()).thenReturn(hospitals);
-    when(hospitalDtoMapper.entityToDto(any(Hospital.class))).thenAnswer(arguments -> {
-          HospitalDto hospitalDto = new HospitalDto();
-          hospitalDto.setName(arguments.getArgument(0, Hospital.class).getName());
-          return hospitalDto;
-        });
+      List<Hospital> hospitals = Arrays.asList(hospital1, hospital2);
 
-    //when
-    Collection<HospitalDto> actual = hospitalService.getAllHospitals();
+      when(hospitalRepository.findAll()).thenReturn(hospitals);
+      when(hospitalDtoMapper.entityToDto(any(Hospital.class))).thenAnswer(arguments -> {
+        HospitalDto hospitalDto = new HospitalDto();
+        hospitalDto.setName(arguments.getArgument(0, Hospital.class).getName());
+        return hospitalDto;
+      });
+      final List<String> expectedHospitalNames = List.of(hospitalOneName, hospitalTwoName);
 
-    //then
-    assertEquals(2, actual.size());
-    assertThat(
-        actual.stream().map(HospitalDto::getName).collect(Collectors.toList()),
-        containsInAnyOrder("hos1", "hos2")
-    );
+      //when
+      Collection<HospitalDto> actual = hospitalService.getAllHospitals();
 
-    verify(hospitalRepository).findAll();
-    verify(hospitalDtoMapper).entityToDto(argThat(h -> Objects.equals("hos1", h.getName())));
-    verify(hospitalDtoMapper).entityToDto(argThat(h -> Objects.equals("hos2", h.getName())));
+      //then
+      assertEquals(2, actual.size());
+      assertThat(
+          actual.stream().map(HospitalDto::getName).collect(Collectors.toList()),
+          containsInAnyOrder(expectedHospitalNames.toArray())
+      );
+
+      verify(hospitalRepository).findAll();
+      verify(hospitalDtoMapper)
+          .entityToDto(argThat(h -> Objects.equals(hospitalOneName, h.getName())));
+      verify(hospitalDtoMapper)
+          .entityToDto(argThat(h -> Objects.equals(hospitalTwoName, h.getName())));
+    }
   }
 
-  @Test
-  void shouldUpdateHospital() {
-    //Given
-    final UUID uuid = UUID.randomUUID();
-    final UpdateHospital updateHospital = new UpdateHospital();
-    updateHospital.setLat("11.11");
-    updateHospital.setName("newHos");
-    updateHospital.setLon("12.1");
-    updateHospital.setMaxCapacity(12);
-    final Hospital toBeUpdated = getMockHospital();
 
-    HospitalDto expected = new HospitalDto();
-    expected.setName(updateHospital.getName());
-    expected.setLat(updateHospital.getLat());
-    expected.setLon(updateHospital.getLon());
-    expected.setMaxCapacity(updateHospital.getMaxCapacity());
+  @Nested
+  @DisplayName("Test calls to updateHospital")
+  class updateHospitalTest {
 
-    when(hospitalRepository.findById(uuid)).thenReturn(Optional.of(toBeUpdated));
-    when(hospitalDtoMapper.entityToDto(any(Hospital.class))).thenReturn(expected);
+    @Test
+    @DisplayName("Should update a hospital.")
+    void shouldUpdateHospital() {
+      //Given
+      final UUID uuid = UUID.randomUUID();
+      final UpdateHospital updateHospital = new UpdateHospital();
+      updateHospital.setLat("11.11");
+      updateHospital.setName("newHos");
+      updateHospital.setLon("12.1");
+      updateHospital.setMaxCapacity(12);
+      final Hospital toBeUpdated = new Hospital();
 
-    //When
-    HospitalDto actual = hospitalService.updateHospital(uuid, updateHospital);
+      HospitalDto expected = new HospitalDto();
+      expected.setName(updateHospital.getName());
+      expected.setLat(updateHospital.getLat());
+      expected.setLon(updateHospital.getLon());
+      expected.setMaxCapacity(updateHospital.getMaxCapacity());
 
-    //Then
-    assertEquals(expected, actual);
-    verify(hospitalRepository, times(1)).findById(uuid);
-    verify(hospitalDtoMapper, times(1)).entityToDto(any(Hospital.class));
-  }
+      when(hospitalRepository.findById(uuid)).thenReturn(Optional.of(toBeUpdated));
+      when(hospitalDtoMapper.entityToDto(any(Hospital.class))).thenReturn(expected);
 
-  @Test
-  void shouldThrowNoSuchHospitalExceptionWhenUpdateHospital() {
-    //Given
-    final UUID uuid = UUID.randomUUID();
-    final UpdateHospital updateHospital = new UpdateHospital();
-    updateHospital.setLat("11.11");
-    updateHospital.setName("newHos");
-    updateHospital.setLon("12.1");
-    updateHospital.setMaxCapacity(12);
+      //When
+      HospitalDto actual = hospitalService.updateHospital(uuid, updateHospital);
 
-    when(hospitalRepository.findById(uuid)).thenReturn(Optional.empty());
-
-    //When
-    try {
-      hospitalService.updateHospital(uuid, updateHospital);
-    } catch (NoSuchHospitalException ex) {
-      assertEquals("Could not find hospital with ID " + uuid, ex.getMessage());
+      //Then
+      assertEquals(expected, actual);
+      verify(hospitalRepository, times(1)).findById(uuid);
+      verify(hospitalDtoMapper, times(1)).entityToDto(any(Hospital.class));
     }
 
-    //Then
-    verify(hospitalRepository, times(1)).findById(uuid);
-    verify(hospitalDtoMapper, times(0)).entityToDto(any(Hospital.class));
+    @Test
+    @DisplayName("Should throw exception when no hospital found for provided id to update.")
+    void shouldThrowNoSuchHospitalExceptionWhenUpdateHospital() {
+      //Given
+      final UUID uuid = UUID.randomUUID();
+      final UpdateHospital updateHospital = new UpdateHospital();
+      updateHospital.setLat("11.11");
+      updateHospital.setName("newHos");
+      updateHospital.setLon("12.1");
+      updateHospital.setMaxCapacity(12);
+
+      when(hospitalRepository.findById(uuid)).thenReturn(Optional.empty());
+
+      //When
+      NoSuchHospitalException e = assertThrows(
+          NoSuchHospitalException.class,
+          () -> hospitalService.updateHospital(uuid, updateHospital));
+
+      //Then
+      assertEquals("Could not find hospital with ID " + uuid, e.getMessage());
+      verify(hospitalRepository, times(1)).findById(uuid);
+      verify(hospitalDtoMapper, times(0)).entityToDto(any(Hospital.class));
+    }
   }
 
-  @Test
-  void deleteHospitalById() {
-    //Given
-    doNothing().when(hospitalRepository).deleteById(any(UUID.class));
+  @Nested
+  @DisplayName("Test calls to deleteHospitalById")
+  class deleteHospitalByIdTest {
 
-    //When
-    hospitalService.deleteHospitalById(UUID.randomUUID());
+    @Test
+    @DisplayName("Should delete a hospital of given id.")
+    void deleteHospitalById() {
+      //Given
+      final UUID id = UUID.randomUUID();
 
-    //then
-    verify(hospitalRepository, times(1)).deleteById(any(UUID.class));
+      //When
+      hospitalService.deleteHospitalById(id);
+
+      //then
+      verify(hospitalRepository, times(1)).deleteById(id);
+    }
   }
 
-  @Test
-  void shouldCalculateCapacity() {
-    //Given
-    UUID uuid = UUID.randomUUID();
-    final Hospital hospital = getMockHospital();
-    final DepartmentCapacity departmentCapacity = new DepartmentCapacity("general");
-    final HospitalCapacity hospitalCapacity = new HospitalCapacity("hos1");
-    hospitalCapacity.setDepartmentCapacities(Collections.singletonList(departmentCapacity));
-    final HospitalCapacityDto expected = new HospitalCapacityDto();
-    expected.setDepartmentCapacities(Collections.singletonList(departmentCapacity));
+  @Nested
+  @DisplayName("Test calls to calculate hospital capacity")
+  class calculateHospitalCapacityTest {
 
-    when(hospitalRepository.findById(uuid)).thenReturn(Optional.of(hospital));
-    when(capacityService.calculateHospitalCapacity(hospital)).thenReturn(hospitalCapacity);
-    when(hospitalCapacityDtoMapper.entityToDto(hospitalCapacity)).thenReturn(expected);
+    @Test
+    @DisplayName("Should calculate capacity of a hospital.")
+    void shouldCalculateCapacity() {
+      //Given
+      final UUID uuid = UUID.randomUUID();
+      final Hospital hospital = new Hospital();
+      final DepartmentCapacity departmentCapacity = new DepartmentCapacity("general");
+      final HospitalCapacity hospitalCapacity = new HospitalCapacity("hos1");
+      hospitalCapacity.setDepartmentCapacities(Collections.singletonList(departmentCapacity));
+      final HospitalCapacityDto expected = new HospitalCapacityDto();
+      expected.setDepartmentCapacities(Collections.singletonList(departmentCapacity));
 
-    //When
-    HospitalCapacityDto actual = hospitalService.calculateCapacity(uuid);
+      when(hospitalRepository.findById(uuid)).thenReturn(Optional.of(hospital));
+      when(capacityService.calculateHospitalCapacity(hospital)).thenReturn(hospitalCapacity);
+      when(hospitalCapacityDtoMapper.entityToDto(hospitalCapacity)).thenReturn(expected);
 
-    //Then
-    assertEquals(expected, actual);
-    verify(hospitalRepository, times(1)).findById(uuid);
-    verify(capacityService, times(1)).calculateHospitalCapacity(hospital);
-    verify(hospitalCapacityDtoMapper, times(1)).entityToDto(hospitalCapacity);
-  }
+      //When
+      HospitalCapacityDto actual = hospitalService.calculateCapacity(uuid);
 
-  @Test
-  void shouldThrowNoServiceExcpetionWhenCalculateCapacity() {
-    //Given
-    UUID uuid = UUID.randomUUID();
-    final Hospital hospital = getMockHospital();
-    final DepartmentCapacity departmentCapacity = new DepartmentCapacity("general");
-    final HospitalCapacity hospitalCapacity = new HospitalCapacity("hos1");
-    hospitalCapacity.setDepartmentCapacities(Collections.singletonList(departmentCapacity));
-    final HospitalCapacityDto expected = new HospitalCapacityDto();
-    expected.setDepartmentCapacities(Collections.singletonList(departmentCapacity));
-
-    when(hospitalRepository.findById(uuid)).thenReturn(Optional.empty());
-
-    //When
-    try {
-      hospitalService.calculateCapacity(uuid);
-    } catch (NoSuchHospitalException ex) {
-      assertEquals("Could not find hospital with ID " + uuid, ex.getMessage());
+      //Then
+      assertEquals(expected, actual);
+      verify(hospitalRepository, times(1)).findById(uuid);
+      verify(capacityService, times(1)).calculateHospitalCapacity(hospital);
+      verify(hospitalCapacityDtoMapper, times(1)).entityToDto(hospitalCapacity);
     }
 
-    //Then
-    verify(hospitalRepository, times(1)).findById(uuid);
-    verify(capacityService, times(0)).calculateHospitalCapacity(hospital);
-    verify(hospitalCapacityDtoMapper, times(0)).entityToDto(hospitalCapacity);
-  }
+    @Test
+    @DisplayName("Should throw exception when no hospital found for provided id to calculate capacity.")
+    void shouldThrowNoSuchHospitalExceptionWhenCalculateCapacity() {
+      //Given
+      final UUID uuid = UUID.randomUUID();
+      final Hospital hospital = new Hospital();
+      final DepartmentCapacity departmentCapacity = new DepartmentCapacity("general");
+      final HospitalCapacity hospitalCapacity = new HospitalCapacity("hos1");
+      hospitalCapacity.setDepartmentCapacities(Collections.singletonList(departmentCapacity));
+      final HospitalCapacityDto expected = new HospitalCapacityDto();
+      expected.setDepartmentCapacities(Collections.singletonList(departmentCapacity));
 
-  private Hospital getMockHospital() {
-    final Hospital hospital = new Hospital();
-    hospital.setName("12");
-    return hospital;
-  }
+      when(hospitalRepository.findById(uuid)).thenReturn(Optional.empty());
 
+      //When
+      NoSuchHospitalException e = assertThrows(
+          NoSuchHospitalException.class,
+          () -> hospitalService.calculateCapacity(uuid));
+
+      //Then
+      assertEquals("Could not find hospital with ID " + uuid, e.getMessage());
+      verify(hospitalRepository, times(1)).findById(uuid);
+      verify(capacityService, times(0)).calculateHospitalCapacity(hospital);
+      verify(hospitalCapacityDtoMapper, times(0)).entityToDto(hospitalCapacity);
+    }
+  }
 }
