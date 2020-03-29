@@ -248,6 +248,36 @@ class HospitalServiceTest {
     }
 
     @Test
+    @DisplayName("Should not update hospital when null fields.")
+    void shouldNotUpdateHospital() {
+      //Given
+      final UUID uuid = UUID.randomUUID();
+      final UpdateHospital updateHospital = new UpdateHospital();
+      final Hospital toBeUpdated = new Hospital();
+      toBeUpdated.setLat("11.11");
+      toBeUpdated.setName("oldHos");
+      toBeUpdated.setLon("12.1");
+      toBeUpdated.setMaxCapacity(12);
+
+      HospitalDto expected = new HospitalDto();
+      expected.setName(toBeUpdated.getName());
+      expected.setLat(toBeUpdated.getLat());
+      expected.setLon(toBeUpdated.getLon());
+      expected.setMaxCapacity(toBeUpdated.getMaxCapacity());
+
+      when(hospitalRepository.findById(uuid)).thenReturn(Optional.of(toBeUpdated));
+      when(hospitalDtoMapper.entityToDto(any(Hospital.class))).thenReturn(expected);
+
+      //When
+      HospitalDto actual = hospitalService.updateHospital(uuid, updateHospital);
+
+      //Then
+      assertEquals(expected, actual);
+      verify(hospitalRepository, times(1)).findById(uuid);
+      verify(hospitalDtoMapper, times(1)).entityToDto(any(Hospital.class));
+    }
+
+    @Test
     @DisplayName("Should throw exception when no hospital found for provided id to update.")
     void shouldThrowNoSuchHospitalExceptionWhenUpdateHospital() {
       //Given
