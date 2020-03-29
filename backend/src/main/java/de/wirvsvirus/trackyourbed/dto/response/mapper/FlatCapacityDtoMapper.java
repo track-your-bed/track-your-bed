@@ -8,5 +8,6 @@ import org.mapstruct.Mapper;
 public interface FlatCapacityDtoMapper {
 
   WardCapacityDto entityToDto(final WardCapacity flatCapacity);
+  // TODO: add mapping method for collection
 
 }

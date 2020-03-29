@@ -5,7 +5,6 @@ import de.wirvsvirus.trackyourbed.dto.response.mapper.WardTypeDtoMapper;
 import de.wirvsvirus.trackyourbed.entity.WardType;
 import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchWardTypeException;
 import de.wirvsvirus.trackyourbed.persistence.WardTypeRepository;
-import java.util.ArrayList;
 import java.util.Collection;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
@@ -31,9 +30,7 @@ public class WardTypeService {
   }
 
   public Collection<WardTypeDto> getAllWardTypes() {
-    final ArrayList<WardTypeDto> allWardTypes = new ArrayList<>();
-    wardTypeRepository.findAll().forEach(entity -> allWardTypes.add(wardTypeDtoMapper.entityToDto(entity)));
-    return allWardTypes;
+    return wardTypeDtoMapper.entitiesToDtos(wardTypeRepository.findAll());
   }
 
 }

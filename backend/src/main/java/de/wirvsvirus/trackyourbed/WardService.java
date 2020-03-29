@@ -16,7 +16,6 @@ import de.wirvsvirus.trackyourbed.excpetion.resource.NoSuchWardException;
 import de.wirvsvirus.trackyourbed.persistence.DepartmentRepository;
 import de.wirvsvirus.trackyourbed.persistence.WardRepository;
 import de.wirvsvirus.trackyourbed.persistence.WardTypeRepository;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 import javax.inject.Inject;
@@ -75,10 +74,7 @@ public class WardService {
 
   @Transactional
   public Collection<WardDto> getAllWards() {
-    final ArrayList<WardDto> result = new ArrayList<>();
-    wardRepository.findAll()
-        .forEach(ward -> result.add(wardDtoMapper.entityToDto(ward)));
-    return result;
+    return wardDtoMapper.entitiesToDtos(wardRepository.findAll());
   }
 
   @Transactional
