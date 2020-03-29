@@ -18,14 +18,18 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+
 import de.wirvsvirus.trackyourbed.dto.request.CreateNewWard;
 import de.wirvsvirus.trackyourbed.dto.request.UpdateWard;
 import de.wirvsvirus.trackyourbed.dto.request.mapper.CreateNewWardMapper;
+import de.wirvsvirus.trackyourbed.dto.response.CapacityDto;
+import de.wirvsvirus.trackyourbed.dto.response.WardCapacityDto;
 import de.wirvsvirus.trackyourbed.dto.response.WardDto;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.FlatCapacityDtoMapper;
 import de.wirvsvirus.trackyourbed.dto.response.mapper.WardDtoMapper;
 import de.wirvsvirus.trackyourbed.entity.Department;
 import de.wirvsvirus.trackyourbed.entity.Ward;
+import de.wirvsvirus.trackyourbed.entity.WardCapacity;
 import de.wirvsvirus.trackyourbed.entity.WardType;
 import de.wirvsvirus.trackyourbed.excpetion.dependency.DepartmentMissingException;
 import de.wirvsvirus.trackyourbed.excpetion.dependency.InvalidWardTypeException;
@@ -43,6 +47,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.verification.VerificationMode;
 
 @DisplayName("Test WardService.")
@@ -97,13 +102,24 @@ class WardServiceTest {
 
       verify(wardRepository).findById(eq(wardId));
       verify(wardDtoMapper).entityToDto(refEq(ward));
+      verify(wardRepository).findById(argThat(
+          arg -> {
+            assertEquals(wardId, arg);
+            return true;
+          }
+      ));
+      verify(wardDtoMapper).entityToDto(argThat(
+          arg -> {
+            assertEquals(ward, arg);
+            return true;
+          }
+      ));
     }
 
     @Test
     void shouldThrowNoSuchBedExceptionWhenWardDoesNotExist() {
       // GIVEN
       final UUID wardId = UUID.randomUUID();
-      final WardRepository wardRepository = mock(WardRepository.class);
       when(wardRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
       final String expectedMessage = String.format(NoSuchWardException.MESSAGE_TEMPLATE, wardId);
 
@@ -238,33 +254,62 @@ class WardServiceTest {
   @DisplayName("Test calls to updateWard")
   class UpdateWardTest {
     private final UUID wardId = UUID.randomUUID();
+    private final Department unchangedDepartment = new Department();
+    private final String unchangedName = "unchanged";
+    private final WardType unchangedWardType = new WardType().setId(UUID.randomUUID());
+
     private Ward wardToUpdate;
     private WardDto returnValueFromDtoMapper = new WardDto();
 
     @BeforeEach
-    void initializeMocks() {
-      wardToUpdate = mock(Ward.class);
+    void initialize() {
+      wardToUpdate = new Ward().setId(wardId).setName(unchangedName).setDepartment(unchangedDepartment).setWardType(unchangedWardType);
       when(wardRepository.findById(wardId)).thenReturn(Optional.of(wardToUpdate));
       when(wardDtoMapper.entityToDto(any(Ward.class))).thenReturn(returnValueFromDtoMapper);
     }
 
     @Test
-    @DisplayName("Should update ward name if set")
-    void shouldUpdateWardNameIfSet() {
+    @DisplayName("Should change nothing on empty request")
+    void shouldChangeNothingOnEmptyRequest() {
       //GIVEN
-      final String wardName = "name";
-      final UpdateWard updateWardRequest = new UpdateWard().setName(wardName);
+      final UpdateWard updateWardRequest = new UpdateWard();
 
       //WHEN
       WardDto actual = wardService.updateWard(wardId, updateWardRequest);
 
       //THEN
       assertEquals(returnValueFromDtoMapper, actual);
-      verify(wardToUpdate, times(1)).setName(wardName);
-      verify(wardToUpdate, never()).setWardType(any());
-      verify(wardToUpdate, never()).setDepartment(any());
-      verify(wardToUpdate, never()).setBeds(any());
-      verify(wardToUpdate, never()).setId(any());
+      verify(wardDtoMapper).entityToDto(argThat(
+          ward -> {
+            assertEquals(unchangedName, ward.getName());
+            assertEquals(unchangedDepartment, ward.getDepartment());
+            assertEquals(unchangedWardType, ward.getWardType());
+            return true;
+          }
+      ));
+
+    }
+
+    @Test
+    @DisplayName("Should update ward name if set")
+    void shouldUpdateWardNameIfSet() {
+      //GIVEN
+      final String updatedName = "name";
+      final UpdateWard updateWardRequest = new UpdateWard().setName(updatedName);
+
+      //WHEN
+      WardDto actual = wardService.updateWard(wardId, updateWardRequest);
+
+      //THEN
+      assertEquals(returnValueFromDtoMapper, actual);
+      verify(wardDtoMapper).entityToDto(argThat(
+          ward -> {
+            assertEquals(updatedName, ward.getName());
+            assertEquals(unchangedDepartment, ward.getDepartment());
+            assertEquals(unchangedWardType, ward.getWardType());
+            return true;
+          }
+      ));
 
     }
 
@@ -273,20 +318,23 @@ class WardServiceTest {
     void shouldUpdateWardTypeIfSet() {
       //GIVEN
       final String wardTypeName = "name";
-      final WardType wardType = new WardType().setName(wardTypeName);
+      final WardType updatedWardType = new WardType().setName(wardTypeName);
       final UpdateWard updateWardRequest = new UpdateWard().setWardType(wardTypeName);
-      when(wardTypeRepository.findByName(wardTypeName)).thenReturn(Optional.of(wardType));
+      when(wardTypeRepository.findByName(wardTypeName)).thenReturn(Optional.of(updatedWardType));
 
       //WHEN
       WardDto actual = wardService.updateWard(wardId, updateWardRequest);
 
       //THEN
       assertEquals(returnValueFromDtoMapper, actual);
-      verify(wardToUpdate, never()).setName(any());
-      verify(wardToUpdate, times(1)).setWardType(wardType);
-      verify(wardToUpdate, never()).setDepartment(any());
-      verify(wardToUpdate, never()).setBeds(any());
-      verify(wardToUpdate, never()).setId(any());
+      verify(wardDtoMapper).entityToDto(argThat(
+          ward -> {
+            assertEquals(unchangedName, ward.getName());
+            assertEquals(unchangedDepartment, ward.getDepartment());
+            assertEquals(updatedWardType, ward.getWardType());
+            return true;
+          }
+      ));
 
     }
 
@@ -295,21 +343,102 @@ class WardServiceTest {
     void shouldUpdateDepartmentIfSet() {
       //GIVEN
       final UUID departmentId = UUID.randomUUID();
-      final Department department = new Department().setId(departmentId);
+      final Department updatedDepartment = new Department().setId(departmentId);
       final UpdateWard updateWardRequest = new UpdateWard().setDepartmentId(departmentId);
-      when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(department));
+      when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(updatedDepartment));
 
       //WHEN
       WardDto actual = wardService.updateWard(wardId, updateWardRequest);
 
       //THEN
       assertEquals(returnValueFromDtoMapper, actual);
-      verify(wardToUpdate, never()).setName(any());
-      verify(wardToUpdate, never()).setWardType(any());
-      verify(wardToUpdate, times(1)).setDepartment(department);
-      verify(wardToUpdate, never()).setBeds(any());
-      verify(wardToUpdate, never()).setId(any());
+      verify(wardDtoMapper).entityToDto(argThat(
+          ward -> {
+            assertEquals(unchangedName, ward.getName());
+            assertEquals(updatedDepartment ,ward.getDepartment());
+            assertEquals(unchangedWardType, ward.getWardType());
+            return true;
+          }
 
+      ));
+    }
+
+    @Test
+    @DisplayName("Should update all parameters if set")
+    void shouldUpdateAllParametersIfSet() {
+      //GIVEN
+      final String updatedName = "name";
+
+      final String wardTypeName = "name";
+      final WardType updatedWardType = new WardType().setName(wardTypeName);
+      when(wardTypeRepository.findByName(wardTypeName)).thenReturn(Optional.of(updatedWardType));
+
+      final UUID departmentId = UUID.randomUUID();
+      final Department updatedDepartment = new Department().setId(departmentId);
+      when(departmentRepository.findById(departmentId)).thenReturn(Optional.of(updatedDepartment));
+
+      final UpdateWard updateWardRequest = new UpdateWard().setName(updatedName).setDepartmentId(departmentId).setWardType(wardTypeName);
+
+      //WHEN
+      WardDto actual = wardService.updateWard(wardId, updateWardRequest);
+
+      //THEN
+      assertEquals(returnValueFromDtoMapper, actual);
+      verify(wardDtoMapper).entityToDto(argThat(
+          ward -> {
+            assertEquals(updatedName, ward.getName());
+            assertEquals(updatedDepartment, ward.getDepartment());
+            assertEquals(updatedWardType, ward.getWardType());
+            return true;
+          }
+
+      ));
+
+    }
+
+    @Test
+    @DisplayName("Should throw NoSuchWardExceptionOnMissingWard")
+    void shouldThrowNoSuchWardExceptionOnMissingWard() {
+      //GIVEN
+      final UUID missingWardId = UUID.randomUUID();
+      final UpdateWard updateWardRequest = new UpdateWard();
+      final String expectedMessage = String.format(NoSuchWardException.MESSAGE_TEMPLATE, missingWardId);
+
+      //WHEN
+      NoSuchWardException actual = assertThrows(NoSuchWardException.class, () -> wardService.updateWard(missingWardId, updateWardRequest));
+
+      // THEN
+      assertEquals(expectedMessage, actual.getMessage());;
+    }
+
+    @Test
+    @DisplayName("Should throw DeparmentMissingExceptionOnMissingDeparment")
+    void shouldThrowDepartmentMissingExceptionOnMissingDepartment() {
+      //GIVEN
+      final UUID missingDepartmentId = UUID.randomUUID();
+      final UpdateWard updateWardRequest = new UpdateWard().setDepartmentId(missingDepartmentId);
+      final String expectedMessage = String.format(DepartmentMissingException.MESSAGE_TEMPLATE, missingDepartmentId);
+
+      //WHEN
+      DepartmentMissingException actual = assertThrows(DepartmentMissingException.class, () -> wardService.updateWard(wardId, updateWardRequest));
+
+      // THEN
+      assertEquals(expectedMessage, actual.getMessage());;
+    }
+
+    @Test
+    @DisplayName("Should throw InvalidWardTypeExceptionOnMissingWardType")
+    void shouldThrowInvalidWardTypeExceptionOnMissingWardType() {
+      //GIVEN
+      final String invalidWardTypeName = "invalid";
+      final UpdateWard updateWardRequest = new UpdateWard().setWardType(invalidWardTypeName);
+      final String expectedMessage = String.format(InvalidWardTypeException.MESSAGE_TEMPLATE, invalidWardTypeName);
+
+      //WHEN
+      InvalidWardTypeException actual = assertThrows(InvalidWardTypeException.class, () -> wardService.updateWard(wardId, updateWardRequest));
+
+      // THEN
+      assertEquals(expectedMessage, actual.getMessage());;
     }
 
   }
@@ -350,6 +479,67 @@ class WardServiceTest {
       assertThat(actual, Matchers.empty());
     }
 
+  }
+
+  @Nested
+  @DisplayName("Test calls to calculateCapacity.")
+  class CalculateCapacityTest {
+
+
+    @Test
+    void shouldCallCapacityServiceAndReturnExpectedResultWhenCalled() {
+      // GIVEN
+      final UUID wardId = UUID.randomUUID();
+
+      final Ward ward = new Ward();
+      final WardCapacity expectedEntity = new WardCapacity("name");
+      final WardCapacityDto expectedDto = new WardCapacityDto();
+      when(wardRepository.findById(any(UUID.class))).thenReturn(Optional.of(ward));
+      when(capacityService.calculateWardCapacity(any(Ward.class))).thenReturn(expectedEntity);
+      when(flatCapacityDtoMapper.entityToDto(any(WardCapacity.class))).thenReturn(expectedDto);
+
+      // WHEN
+      final WardCapacityDto actual = wardService.calculateCapacity(wardId);
+
+      // THEN
+      assertSame(expectedDto, actual);
+
+      verify(wardRepository).findById(argThat(
+          arg -> {
+            assertEquals(wardId, arg);
+            return true;
+          }
+      ));
+      verify(capacityService).calculateWardCapacity(argThat(
+          arg -> {
+            assertEquals(ward, arg);
+            return true;
+          }
+      ));
+      verify(flatCapacityDtoMapper).entityToDto(argThat(
+          arg -> {
+            assertEquals(expectedEntity, arg);
+            return true;
+          }
+      ));
+    }
+
+    @Test
+    void shouldThrowNoSuchBedExceptionWhenWardDoesNotExist() {
+      // GIVEN
+      final UUID wardId = UUID.randomUUID();
+      when(wardRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
+      final String expectedMessage = String.format(NoSuchWardException.MESSAGE_TEMPLATE, wardId);
+
+      // WHEN
+      final NoSuchWardException e = assertThrows(
+          NoSuchWardException.class,
+          () -> wardService.calculateCapacity(wardId));
+
+      // THEN
+      assertNotNull(e);
+      assertEquals(expectedMessage, e.getMessage());
+    }
   }
 
 }
