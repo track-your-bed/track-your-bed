@@ -17,7 +17,7 @@
         <spring.boot.dependencies.version>2.1.9.RELEASE</spring.boot.dependencies.version>
         <spring.doc.version>1.1.49</spring.doc.version>
         <flyway-plugin.version>6.0.4</flyway-plugin.version>
-        <postgres.driver.version>42.2.8</postgres.driver.version>
+        <postgres.driver.version>42.4.1</postgres.driver.version>
     </properties>
 
     <dependencyManagement>
